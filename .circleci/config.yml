@@ -1,14 +1,18 @@
 version: 2.1
 
 jobs:
-  docs-build:
+  unit-test:
     docker:
       - image: circleci/python:3.8-buster
+
+    environment:
+      CODECOV_TOKEN: "03aa440a-f1d0-4a97-8c86-f8e12c2ff2f0"
+
     steps:
       - checkout
 
       # Also restore pip cache to speed up installations
-      - restore_cache:  # ensure this step occurs *before* installing dependencies
+      - restore_cache: # ensure this step occurs *before* installing dependencies
           keys:
             # when lock file changes, use increasingly general patterns to restore cache
             - pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
@@ -24,26 +28,14 @@ jobs:
             pipenv install --skip-lock --dev
 
       - run:
-          name: Run unit and integration tests
-          command: |
-            pipenv run make check
-
-      - run:
           name: Clone testing data
           command: git clone --depth 1 https://github.com/adam2392/seek-testing-data.git
 
-#      - run:
-#          name: Run snakemake check
-#          command: |
-#            pipenv shell;
-#            export SEEKHOME=$(cwd) && cd workflow/prep_localization/ && pipenv run snakemake --lint --config bids_root='./seek-testing-data' subjects=testsubjects.tsv;
-#            cd $OLDPWD && cd workflow/coregistration/ && pipenv run snakemake --lint --config bids_root='./seek-testing-data' subjects=testsubjects.tsv;
-#            cd $OLDPWD && cd workflow/prep_vizengine/ && pipenv run snakemake --lint --config bids_root='./seek-testing-data' subjects=testsubjects.tsv;
-#            pipenv run export SEEKHOME=$(pwd) && snakemake --config bids_root='./seek-testing-data' subjects=testsubjects.tsv --snakefile ./workflow/recon/Snakefile --forceall --dag | dot -Tpdf > ./recon.pdf;
-#            pipenv run export SEEKHOME=$(pwd) && snakemake --config bids_root='./seek-testing-data' subjects=testsubjects.tsv --snakefile ./workflow/prep_localization/Snakefile --forceall --dag | dot -Tpdf > ./prep_localization.pdf;
-#            pipenv run export SEEKHOME=$(pwd) && snakemake --config bids_root='./seek-testing-data' subjects=testsubjects.tsv --snakefile ./workflow/coregistration/Snakefile --forceall --dag | dot -Tpdf > ./coregistration.pdf;
-#            pipenv run export SEEKHOME=$(pwd) && snakemake --config bids_root='./seek-testing-data' subjects=testsubjects.tsv --snakefile ./workflow/prep_vizengine/Snakefile --forceall --dag | dot -Tpdf > ./prep_viz.pdf;
-#            pipenv run export SEEKHOME=$(pwd) && snakemake --config bids_root='./seek-testing-data' subjects=testsubjects.tsv --snakefile ./workflow/recon/Snakefile -n
+      - run:
+          name: Run unit and integration tests
+          command: |
+            pipenv run make check
+            pipenv run pytest --cov=seek_localize ./tests/ --cov-report=xml --cov-config=setup.cfg --verbose
 
       - save_cache:
           key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
@@ -67,8 +59,8 @@ jobs:
           name: Check links
           command: |
             pipenv run make -C doc clean
-#            pipenv run make -C doc linkcheck
-#            pipenv run make -C doc linkcheck-grep
+  #            pipenv run make -C doc linkcheck
+  #            pipenv run make -C doc linkcheck-grep
 
   docs-deploy:
     # will only be run on master branch
@@ -100,12 +92,12 @@ workflows:
   commit:
     jobs:
       - docs-build
-#      - docs-deploy:
-#          requires:
-#            - docs-build
-#          filters:
-#            branches:
-#              only: master
+      - docs-deploy:
+          requires:
+            - docs-build
+          filters:
+            branches:
+              only: master
 
 #  scheduled:
 #    jobs:

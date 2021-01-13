@@ -14,6 +14,10 @@ SEEK-Localize (Stereotactic ElectroEncephalography Kit)
    :target: https://github.com/ambv/black
    :alt: Code style: black
 
+.. image:: https://codecov.io/gh/adam2392/seek_localize/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/adam2392/seek_localize
+
+
 This repo helps localize iEEG electrodes on CT images.
 
 For ECoG data, we do not explicitly have a process outlined, but these are significantly easier since grids can
