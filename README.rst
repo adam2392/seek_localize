@@ -21,6 +21,8 @@ SEEK-Localize (Stereotactic ElectroEncephalography Kit)
     :target: https://seek-localize.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.4508674.svg
+   :target: https://doi.org/10.5281/zenodo.4508674
 
 SEEK-Localize helps localize iEEG electrodes on MRI/CT images and
 deals with data processing for iEEG-BIDS data.
@@ -111,8 +113,9 @@ human researcher, or clinician.
 How to cite?
 ============
 
-If you want to cite ``seek_localize``, please cite the following paper(s). TBD
+If you want to cite ``seek_localize``, please cite the following paper(s).
 
+Adam Li. (2021, February 5). seek-localize (Version 0.0.1). Zenodo. http://doi.org/10.5281/zenodo.4508674
 
 Acknowledgement
 ===============
