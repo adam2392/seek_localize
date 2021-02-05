@@ -1,19 +1,19 @@
 """
-.. _label_anatomy_channels-example:
+.. _convert_channel_coordframes-example:
 
-===============================
-01. Label Anatomy of Electrodes
-===============================
+===========================================
+02. Convert Coordinate Frames of Electrodes
+===========================================
 
 When working with intracranial electrophysiological data in the
-BIDS format, we usually have
+iEEG-BIDS_ format, we usually have iEEG coordinate data either in
+``voxel``, or real world coordinates space (xyz coordinates).
+Then within xyz coordinates, it can either be ``RAS``, or
+``tkRAS`` if one uses FreeSurfer.
 
-- iEEG (ECoG and SEEG)
-- the anatomical MRI scan of a study participant
-- the CT scan of the study participant with iEEG electrodes implanted
-
-In this tutorial, we show how ``label_elecs_anat`` can be used to
-quickly and easily label anatomy of electrodes.
+In this tutorial, we show how to quickly use the ``Sensors``
+data class and quickly go back and forth between coordinate frames
+using ``convert_elec_coords``.
 
 We assume that you have already localized the electrodes and coregistered
 them over to the T1w image FreeSurfer space.
@@ -29,10 +29,9 @@ them over to the T1w image FreeSurfer space.
 # We are importing everything we need for this example:
 from pathlib import Path
 
-import pandas as pd
-from mne_bids import BIDSPath, print_dir_tree, make_report
+from mne_bids import BIDSPath
 
-from seek_localize import label_elecs_anat, fs_lut_fpath
+from seek_localize import read_dig_bids, convert_elecs_coords
 
 ###############################################################################
 # We will be using the `testing dataset`, which
@@ -40,23 +39,6 @@ from seek_localize import label_elecs_anat, fs_lut_fpath
 # ``seek-localize`` repository.
 
 bids_root = Path("data/")
-
-###############################################################################
-# Explore the dataset contents
-# ----------------------------
-#
-# We can use MNE-BIDS to print a tree of all
-# included files and folders. We pass the ``max_depth`` parameter to
-# `mne_bids.print_dir_tree` to the output to three levels of folders, for
-# better readability in this example.
-
-print_dir_tree(bids_root, max_depth=3)
-
-###############################################################################
-# We can even ask MNE-BIDS to produce a human-readable summary report
-# on the dataset contents.
-
-print(make_report(bids_root))
 
 ###############################################################################
 # Now it's time to get ready for labeling some of the data! First, we need to
@@ -71,7 +53,7 @@ space = "fs"
 suffix = "electrodes"
 extension = ".tsv"
 datatype = "ieeg"
-bids_path = BIDSPath(
+electrodes_fpath = BIDSPath(
     root=bids_root,
     datatype=datatype,
     subject=subject,
@@ -83,7 +65,7 @@ bids_path = BIDSPath(
 )
 
 # the full file path to the electrodes.tsv file
-print(bids_path.fpath)
+print(electrodes_fpath.fpath)
 
 ###############################################################################
 # The necessary iEEG files are the
@@ -93,44 +75,41 @@ print(bids_path.fpath)
 # be present).
 #
 
-coordsystem_fpath = bids_path.copy().update(suffix="coordsystem", extension=".json")
+coordsystem_fpath = electrodes_fpath.copy().update(
+    suffix="coordsystem", extension=".json"
+)
 print(coordsystem_fpath.fpath)
 
 ###############################################################################
-# Let's explore the contents of the current electrodes.tsv file.
-# Note that the current data already has the atlas labels, so we
-# pretend they are not there and only read in the bare minimum columns.
+# Let's load in the electrode coordinates as an instance of the
+# `seek_localize.Sensors` class. Rather then instantiating the class
+# directly, we use `seek_localize.read_dig_bids` to read in the
+# correct data. This will perform extra work, such as figuring
+# out the full path to the ``IntendedFor`` volumetric image. The
+# image corresponds to the coordinate space to interpret the
+# electrode coordinates in (e.g. a T1w image in FreeSurfer space).
 #
 
-elec_df = pd.read_csv(
-    bids_path, sep="\t", index_col=None, usecols=["name", "x", "y", "z"]
-)
-print(elec_df)
+sensors = read_dig_bids(electrodes_fpath, coordsystem_fpath)
+print(sensors)
 
 ###############################################################################
-# The necessary imaging files are the
-# ``sub-la02_ses-presurgery_space-fs_T1w.nii`` file, which the electrode
-# coordinates are assumed to be in.
+# The data already saved was originally written in ``'mm'``, so we can
+# convert to ``voxel`` space.
 #
 
-img_fpath = BIDSPath(
-    subject=subject,
-    session=session,
-    space=space,
-    suffix="T1w",
-    extension=".nii",
-    datatype="anat",
-)
-print(img_fpath.fpath)
+sensors_vox = convert_elecs_coords(sensors, to_coord="voxel")
+print(sensors_vox)
 
 ###############################################################################
-# Now let's label the anatomy!
-# Note: seek_localize.fs_lut_fpath provides the file path to a local
-# ``FreeSurferColorLUT.txt`` file.
+# We could convert it back to ``mm``.
+sensors_mm = convert_elecs_coords(sensors_vox, to_coord="mm")
+print(sensors_mm)
 
-elec_df = label_elecs_anat(bids_path, img_fpath, fs_lut_fpath=fs_lut_fpath)
-
-print(elec_df)
+###############################################################################
+# We could convert it back to ``tkras``.
+sensors_tkras = convert_elecs_coords(sensors_vox, to_coord="tkras")
+print(sensors_tkras)
 
 ###############################################################################
 # .. LINKS

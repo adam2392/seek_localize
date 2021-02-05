@@ -3,7 +3,6 @@ import os
 import platform
 import warnings
 from collections import OrderedDict
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Union, List
 
@@ -13,6 +12,8 @@ from mne_bids import get_entities_from_fname, BIDSPath
 from mne_bids.config import BIDS_COORDINATE_UNITS
 from mne_bids.tsv_handler import _from_tsv
 from mne_bids.utils import _write_json, _write_tsv
+
+from seek_localize import Sensors
 
 
 def _suffix_chop(s, suffix):
@@ -121,7 +122,7 @@ def read_dig_bids(elecs_fname, coordsystem_fname, intended_for: str = None):
 
     Returns
     -------
-    sensors : Sensors
+    sensors : seek_localize.Sensors
         A data class containing the electrode sensors.
     """
     # read in elecs_fname
@@ -185,46 +186,6 @@ def read_dig_bids(elecs_fname, coordsystem_fname, intended_for: str = None):
         intended_for=intended_img_path,
     )
     return sensors
-
-
-@dataclass()
-class Sensors:
-    """Sensor data class."""
-
-    ch_names: List
-    x: List
-    y: List
-    z: List
-    coord_system: str
-    coord_unit: str
-    elecs_fname: str
-    coordsystem_fname: str
-    intended_for: Union[str, Path] = None
-
-    def get_coords(self):
-        """Get coordinates as a N x 3 array."""
-        return np.vstack((self.x, self.y, self.z)).astype(float).T
-
-    def set_coords(self, coords):
-        """Set coordinates from an array, or dictionary."""
-        if isinstance(coords, np.ndarray):
-            self.x = coords[:, 0]
-            self.y = coords[:, 1]
-            self.z = coords[:, 2]
-        else:
-            raise NotImplementedError("not done yet...")
-
-    def as_dict(self):
-        """Return coordinates as a dictionary of name: 3D coord."""
-        data = OrderedDict(
-            [
-                ("name", self.ch_names),
-                ("x", self.x),
-                ("y", self.y),
-                ("z", self.z),
-            ]
-        )
-        return data
 
 
 def bids_validate(bids_root):

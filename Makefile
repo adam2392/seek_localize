@@ -74,6 +74,7 @@ black:
 		echo "Running black"; \
 		black --check seek_localize/; \
 		black seek_localize/; \
+		black tutorials/; \
 	else \
 		echo "black not found, please install it!"; \
 		exit 1; \

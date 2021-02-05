@@ -12,30 +12,6 @@ import nibabel as nb
 import numpy as np
 import pandas as pd
 
-"""
- -patient.apply_xfm
-(xfm_dir='mri/transforms',
-xfm_file='talairach.xfm',
-source_file='elecs/TDT_elecs_all.mat',
-target_file='elecs/
-TDT_elecs_all_2tal.mat',
-file_type='elecs')
-- patient.apply_xfm
-(xfm_dir='mri/transforms',
-xfm_file='talairach.xfm',
-source_file='Meshes/
-rh_pial_trivert.mat',
-target_file='Meshes/
-rh_pial_trivert_2tal.mat',
-file_type='surf')
-- patient.apply_xfm
-(xfm_dir='mri/transforms',
-xfm_file='talairach.xfm',
-source_file='Meshes/
-lh_pial_trivert.mat',
-target_file='Meshes/
-lh_pial_trivert_2tal.mat',file_type='surf')"""
-
 
 def _scale_coordinates(coord, from_unit, to_unit="m"):
     """Scale units to meters (mne-python default)."""
