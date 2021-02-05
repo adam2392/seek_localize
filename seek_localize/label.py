@@ -10,8 +10,8 @@ from mne_bids import BIDSPath
 from nibabel.affines import apply_affine
 
 from seek_localize.bids import read_dig_bids, _match_dig_sidecars
-from seek_localize import Sensors
 from seek_localize.config import MAPPING_COORD_FRAMES, ACCEPTED_IMAGE_VOLUMES
+from seek_localize.electrodes import Sensors
 from seek_localize.utils import _scale_coordinates
 
 

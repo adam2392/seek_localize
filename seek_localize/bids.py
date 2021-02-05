@@ -13,7 +13,7 @@ from mne_bids.config import BIDS_COORDINATE_UNITS
 from mne_bids.tsv_handler import _from_tsv
 from mne_bids.utils import _write_json, _write_tsv
 
-from seek_localize import Sensors
+from seek_localize.electrodes import Sensors
 
 
 def _suffix_chop(s, suffix):
