@@ -125,10 +125,11 @@ def test_anat_labeling(_temp_bids_root, img_fname, atlas_name, expected_anatomy)
     coord_system = _read_coords_json(coordsystem_fpath)
 
     # now attempt to label anat
-    label_elecs_anat(bids_path, img_fname, fs_lut_fpath=fs_lut_fpath, round=False)
+    new_elecs_df = label_elecs_anat(bids_path, img_fname, fs_lut_fpath=fs_lut_fpath, round=False)
+    new_elecs_df.to_csv(bids_path, sep="\t", index=None)
 
     # read in the new elecs file
-    new_elecs_df = pd.read_csv(bids_path, delimiter='\t')
+    # new_elecs_df = pd.read_csv(bids_path, delimiter='\t')
 
     # original dataframe should not change
     for column in elecs_df.columns:

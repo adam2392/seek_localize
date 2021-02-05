@@ -193,6 +193,14 @@ def label_elecs_anat(
     kwargs : dict
         Keyword arguments to be passed to
         :func:`seek_localize.convert_elec_coords`.
+
+    Returns
+    -------
+    elecs_df : pd.DataFrame
+        DataFrame for electrodes.tsv file. If you would like to save it to
+        disc. Suggested code
+
+            elecs_df.to_csv(bids_path, sep='\t', index=None)
     """
     # work with pathlib
     img_fname = Path(img_fname)
@@ -252,9 +260,10 @@ def label_elecs_anat(
     elecs_dict[atlas_name] = anatomy_labels
 
     # update electrodes.tsv file with anatomical labels
-    orig_elecs_tsv = pd.read_csv(elecs_path, delimiter="\t")
-    orig_elecs_tsv[atlas_name] = anatomy_labels
-    orig_elecs_tsv.to_csv(elecs_path, sep="\t", index=None)
+    elecs_df = pd.read_csv(elecs_path, delimiter="\t")
+    elecs_df[atlas_name] = anatomy_labels
+
+    return elecs_df
 
 
 def _label_depth(

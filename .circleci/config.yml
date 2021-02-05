@@ -48,11 +48,11 @@ jobs:
             pipenv run make build-doc
 
       - persist_to_workspace:
-          root: doc/_build
+          root: docs/_build
           paths: html
 
       - store_artifacts:
-          path: doc/_build/html/
+          path: docs/_build/html/
           destination: dev
 
       - run:
