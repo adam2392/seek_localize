@@ -131,3 +131,4 @@ venv.bak/
 # VSCode settings
 .vscode/
 
+junit-results.xml

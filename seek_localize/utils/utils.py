@@ -37,6 +37,13 @@ target_file='Meshes/
 lh_pial_trivert_2tal.mat',file_type='surf')"""
 
 
+def _scale_coordinates(coord, from_unit, to_unit="m"):
+    """Scale units to meters (mne-python default)."""
+    SI = {"mm": 0.001, "cm": 0.01, "m": 1.0}
+    divisor = SI[from_unit] / SI[to_unit]
+    return np.divide(coord, divisor)
+
+
 def apply_xfm_to_elecs(xfm_fpath, electrodes_fname, t1w_fpath):
     # First load the matrix in the xfm file:
     xfm_arr = np.genfromtxt(xfm_fpath, skip_header=5, delimiter=" ", comments=";")
