@@ -1,5 +1,5 @@
 =======================================================
-SEEK-Localize (Stereotactic ElectroEncephalography Kit)
+seek_localize (Stereotactic ElectroEncephalography Kit)
 =======================================================
 
 .. image:: https://circleci.com/gh/adam2392/seek_localize.svg?style=svg
@@ -21,22 +21,22 @@ SEEK-Localize (Stereotactic ElectroEncephalography Kit)
 .. image:: https://codecov.io/gh/adam2392/seek_localize/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/adam2392/seek_localize
 
-.. image:: https://readthedocs.org/projects/seek-localize/badge/?version=latest
-    :target: https://seek-localize.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/seek_localize/badge/?version=latest
+    :target: https://seek_localize.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.4508674.svg
    :target: https://doi.org/10.5281/zenodo.4508674
 
-SEEK-Localize helps localize iEEG electrodes on MRI/CT images and
+seek_localize helps localize iEEG electrodes on MRI/CT images and
 deals with data processing for iEEG-BIDS data.
 
 Documentation
 -------------
 The documentation can be found under the following links:
 
-- for the [stable release](https://seek-localize.readthedocs.io/en/stable/index.html)
-- for the [latest (development) version](https://seek-localize.readthedocs.io/en/latest/index.html)
+- for the [stable release](https://seek_localize.readthedocs.io/en/stable/index.html)
+- for the [latest (development) version](https://seek_localize.readthedocs.io/en/latest/index.html)
 
 To see the ``seek`` documentation, see http://neuroseek.azurewebsites.net/docs/seek/
 
@@ -104,7 +104,7 @@ for more information. We recommend the following BIDS structure with the minimal
 
 Development
 ===========
-Seek-localize was created and is maintained by `Adam Li <https://adam2392.github.io>`_. It is also maintained and contributed by
+seek_localize was created and is maintained by `Adam Li <https://adam2392.github.io>`_. It is also maintained and contributed by
 `Christopher Coogan <https://github.com/TheBrainChain>`_ and other researchers in the NCSL and Crone lab.
 Contributions are more than welcome so feel free to contact me, open an issue or submit a pull request! See the
 `contribution guide <https://github.com/adam2392/seek_localize/blob/master/docs/contributing.rst>`_.
@@ -119,7 +119,7 @@ How to cite?
 
 If you want to cite ``seek_localize``, please cite the following paper(s).
 
-Adam Li. (2021, February 5). seek-localize (Version 0.0.1). Zenodo. http://doi.org/10.5281/zenodo.4508674
+Adam Li. (2021, February 5). seek_localize (Version 0.0.1). Zenodo. http://doi.org/10.5281/zenodo.4508674
 
 Acknowledgement
 ===============
