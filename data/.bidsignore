@@ -1,0 +1,13 @@
+sub-*/**/*CT.nii*
+*proc-robustfov*
+*space-T1w*
+*space-orig*
+*space-ACPC*
+*space-RAS*
+*space-fs*
+
+# output of acpc detect
+*.txt
+*.ppm
+*.png
+*.mat

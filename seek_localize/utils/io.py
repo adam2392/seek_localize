@@ -7,72 +7,42 @@ import numpy as np
 import scipy.io
 
 
-def save_organized_elecdict_asmat(elecdict, outputfilepath):
-    """
-    Save centroids as .mat file with attributes eleclabels, which stores
-    channel name, electrode type, and depth/grid/strip/other and elecmatrix,
-    which stores the centroid coordinates.
+def read_fieldtrip_elecs(elec_fname, verbose: bool = True):
+    """Read fieldtrip localization output matlab structure.
+
+    The FieldTrip output will contain the channel names,
+    and an array of the 3D coordinates in mm space.
 
     Parameters
     ----------
-        elecdict: dict(str: dict(str: np.array))
-            Dictionary of channels grouped by electrode.
-
-        outputfilepath: str
-            Filepath to save .mat file with annotated electrode labels.
-    """
-    eleclabels = []
-    elecmatrix = []
-    # for elec in elecdict.keys():
-    for ch_name, coord in elecdict.items():
-        label = [[ch_name.strip()], "stereo", "depth"]
-        eleclabels.append(label)
-        elecmatrix.append(coord)
-    mat = {"eleclabels": eleclabels, "elecmatrix": elecmatrix}
-    scipy.io.savemat(outputfilepath, mat)
-
-
-def load_elecs_data(elecfile):
-    """
-    Load each brain image scan as a NiBabel image object.
-
-    Parameters
-    ----------
-        elecfile: str
-            Path to space-delimited text file of contact labels and contact
-            coordinates in mm space.
+    elec_fname : str | pathlib.Path
+        The file path to the ``.mat`` file.
+    verbose : bool
+        Verbosity.
 
     Returns
     -------
-        eleccoord_mm: dict(str: ndarray)
-            Dictionary of contact coordinates in mm space. Maps contact labels
-            to contact coordinates, stored as 1x3 numpy arrays.
+    eleccoords_mm : dict
+        The electrode coordinates in mm with channel name (key) and
+        the 3D coordinates (value).
     """
+    if verbose:
+        print(
+            f"Reading fieldtrip localization output matlab structure "
+            f"from {elec_fname}."
+        )
 
     eleccoords_mm = {}
 
-    if elecfile.endswith(".txt"):
-        with open(elecfile) as f:
-            for l in f:
-                row = l.split()
-                if len(row) == 4:
-                    eleccoords_mm[row[0]] = np.array(list(map(float, row[1:])))
-                elif len(row) == 6:
-                    eleccoords_mm[row[1]] = np.array(list(map(float, row[2:5])))
-                else:
-                    raise ValueError("Unrecognized electrode coordinate text format")
-    else:
-        matreader = MatReader()
-        data = matreader.loadmat(elecfile)
+    matreader = MatReader()
+    data = matreader.loadmat(elec_fname)
 
-        eleclabels = data["eleclabels"]
-        elecmatrix = data["elecmatrix"]
-        # print(f"Electrode matrix shape: {elecmatrix.shape}")
+    eleclabels = data["eleclabels"]
+    elecmatrix = data["elecmatrix"]
+    # print(f"Electrode matrix shape: {elecmatrix.shape}")
 
-        for i in range(len(eleclabels)):
-            eleccoords_mm[eleclabels[i][0].strip()] = elecmatrix[i]
-
-    # print(f"Electrode labels: {eleccoords_mm.keys()}")
+    for i in range(len(eleclabels)):
+        eleccoords_mm[eleclabels[i][0].strip()] = elecmatrix[i]
 
     return eleccoords_mm
 

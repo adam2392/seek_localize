@@ -18,7 +18,8 @@ SEEK-Localize (Stereotactic ElectroEncephalography Kit)
    :target: https://codecov.io/gh/adam2392/seek_localize
 
 
-This repo helps localize iEEG electrodes on CT images.
+SEEK-Localize helps localize iEEG electrodes on MRI/CT images and
+deals with data processing for iEEG-BIDS data.
 
 For ECoG data, we do not explicitly have a process outlined, but these are significantly easier since grids can
 be easily interpolated. See `Fieldtrip Toolbox`_.

@@ -1,7 +1,12 @@
 """Neuroimaging Pipeline software for easily generating anatomical interpretations of iEEG data."""
 
-__name__ = "seek"
+import os
+
+__name__ = "seek_localize"
 __version__ = "0.1.0"
 
-from .format import bids_validate, convert_img_to_bids
-from .utils import BidsRoot, FREESURFER_HOME
+from .label import label_elecs_anat
+from .bids import bids_validate, write_coordsystem_json, write_electrodes_tsv
+from .utils import read_fieldtrip_elecs
+
+fs_lut_fpath = os.path.join(__name__, "templates/FreeSurferColorLUT.txt")

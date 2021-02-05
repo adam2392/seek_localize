@@ -3,16 +3,13 @@
 import argparse
 import os
 import os.path
-import sys
 import time
 
 import numpy as np
 
-sys.path.append("../../")
-
-from seek.base.objects.baseneuroimage import RegionIndexMapping
-from seek.base.objects.surface_object import GetSurface
-from seek.base.objects.dataset import StructuralDataset
+from seek_localize.base.tvb_objects.baseneuroimage import RegionIndexMapping
+from seek_localize.base.tvb_objects.dataset import StructuralDataset
+from seek_localize.base.tvb_objects.surface_object import GetSurface
 
 """
 Main creation file

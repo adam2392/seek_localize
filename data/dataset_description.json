@@ -1,0 +1,21 @@
+{
+  "Name": "Test-Dataset",
+  "BIDSVersion": "1.4.0",
+  "DatasetType": "raw",
+  "Authors": [
+    "Adam Li",
+  ],
+  "Funding": [
+    "NIH T32 EB003383",
+    "NSF GRFP (DGE-1746891)",
+    "ARCS Scholarship",
+    "Whitaker Fellowship",
+    "Chateaubriand Fellowship",
+  ],
+  "Acknowledgements": "Maryland Advanced Research Computing Center (MARCC)",
+  "EthicsApprovals": [
+    "IRBs at JHH, UMMC, UMF, NIH"
+  ],
+  "HowToAcknowledge": "Please cite: https://www.biorxiv.org/content/10.1101/862797v3\n\ndoi: https://doi.org/10.1101/862797",
+  "License": "CC0"
+}

@@ -7,6 +7,8 @@ import scipy.io
 
 from seek.utils import BidsRoot
 
+from seek_localize.label import _label_depth
+
 
 def _get_indices_to_exclude(label, indices):
     # These are the indices that won't be used for labeling
@@ -64,74 +66,6 @@ def _label_grid_and_strips(
         elec_labels = np.array(elec_labels_notdepth, dtype=np.object)
 
     return isnotdepth, elec_labels
-
-
-def _label_depth(elecmatrix, aparc_dat, LUT, coordinate_type="mm"):
-    if coordinate_type == "vox":
-        # Define the affine transform to go from surface coordinates to volume coordinates (as CRS, which is
-        # the slice *number* as x,y,z in the 3D volume. That is, if there are 256 x 256 x 256 voxels, the
-        # CRS coordinate will go from 0 to 255.)
-        affine = np.array(
-            [
-                [-1.0, 0.0, 0.0, 128.0],
-                [0.0, 0.0, 1.0, -128.0],
-                [0.0, -1.0, 0.0, 128.0],
-                [0.0, 0.0, 0.0, 1.0],
-            ]
-        )
-    else:
-        affine = np.eye(4)
-
-    # create 4D electrode coordinate array to apply affine transform
-    elecs_depths = elecmatrix
-    intercept = np.ones(len(elecs_depths))
-    elecs_ones = np.column_stack((elecs_depths, intercept))
-
-    # Find voxel CRS
-    VoxCRS = (
-        np.dot(np.linalg.inv(affine), elecs_ones.transpose()).transpose().astype(int)
-    )
-
-    # Make dictionary of labels
-    LUT = [row.split() for row in LUT]
-    lab = {}
-    for row in LUT:
-        if (
-            len(row) > 1 and row[0][0] != "#" and row[0][0] != "\\"
-        ):  # Get rid of the comments
-            lname = row[1]
-            lab[np.int(row[0])] = lname
-
-    # Label the electrodes according to the aseg volume
-    nchans = VoxCRS.shape[0]
-    anatomy_labels = np.empty((nchans,), dtype=np.object)
-    print("Labeling electrodes...")
-    print("Aparc data array has shape: ", aparc_dat.shape)
-    print(
-        "VoxCRS limits in 3D: ",
-        np.max(VoxCRS[:, 0]),
-        np.max(VoxCRS[:, 1]),
-        np.max(VoxCRS[:, 2]),
-    )
-
-    # label each channel
-    for elec in np.arange(nchans):
-        anatomy_labels[elec] = lab[
-            aparc_dat[VoxCRS[elec, 0], VoxCRS[elec, 1], VoxCRS[elec, 2]]
-        ]
-        print(
-            "E%d, Vox CRS: [%d, %d, %d], Label #%d = %s"
-            % (
-                elec,
-                VoxCRS[elec, 0],
-                VoxCRS[elec, 1],
-                VoxCRS[elec, 2],
-                aparc_dat[VoxCRS[elec, 0], VoxCRS[elec, 1], VoxCRS[elec, 2]],
-                anatomy_labels[elec],
-            )
-        )
-
-    return anatomy_labels
 
 
 def _split_surf_depth_electrodes(elecmatrix, elecmontage):

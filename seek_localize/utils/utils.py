@@ -4,19 +4,13 @@ import json
 import logging
 import os
 import re
-import subprocess
-import tempfile
 from datetime import date, datetime
 from functools import reduce
 from typing import List, Optional
 
-import nibabel
 import nibabel as nb
 import numpy as np
 import pandas as pd
-
-from seek.base.objects.baseneuroimage import Hemisphere
-from seek.base.objects.baseneuroimage import RegionIndexMapping
 
 """
  -patient.apply_xfm
@@ -190,74 +184,6 @@ def generate_region_labels(n_regions, labels=[], str=". ", numbering=True):
             return labels
     else:
         return np.array(["%d" % l for l in range(n_regions)])
-
-
-def pial_to_verts_and_triangs(pial_surf) -> (np.ndarray, np.ndarray):
-    """
-    Convert pial surface file to vertices and triangles
-
-    Parameters
-    ----------
-    pial_surf :
-
-    Returns
-    -------
-
-    """
-    tmpdir = tempfile.TemporaryDirectory()
-    pial_asc = os.path.join(tmpdir.name, os.path.basename(pial_surf + ".asc"))
-    subprocess.run(["mris_convert", pial_surf, pial_asc])
-
-    with open(pial_asc, "r") as f:
-        f.readline()
-        nverts, ntriangs = [int(n) for n in f.readline().strip().split(" ")]
-
-    vertices = np.genfromtxt(
-        pial_asc, dtype=float, skip_header=2, skip_footer=ntriangs, usecols=(0, 1, 2)
-    )
-    triangles = np.genfromtxt(
-        pial_asc, dtype=int, skip_header=2 + nverts, usecols=(0, 1, 2)
-    )
-    assert vertices.shape == (nverts, 3)
-    assert triangles.shape == (ntriangs, 3)
-
-    completed_process = subprocess.run(
-        ["mris_info", pial_surf], stdout=subprocess.PIPE, stderr=subprocess.STDOUT
-    )
-    mris_info = completed_process.stdout.decode("ascii")
-    c_ras_list = extract_vector(mris_info, "c_(ras)")
-    assert c_ras_list is not None
-    vertices[:, 0:3] += np.array(c_ras_list)
-
-    return vertices, triangles
-
-
-def read_cortical_region_mapping(
-    label_direc: os.PathLike, hemisphere: Hemisphere, fs_to_conn: RegionIndexMapping
-) -> np.ndarray:
-    """
-    Reads the cortical region mapping file.
-
-    :param label_direc: Where the annotation label directory is
-    :param hemisphere: (Hemisphere) enumerator
-    :param fs_to_conn: (RegionIndexMapping)
-    :return:
-    """
-    filename = os.path.join(label_direc, hemisphere.value + ".aparc.annot")
-    region_mapping, _, _ = nibabel.freesurfer.io.read_annot(filename)
-    region_mapping = region_mapping - 1
-    region_mapping[region_mapping == -2] = 0  # Unknown regions in hemispheres
-
-    # $FREESURFER_HOME/FreeSurferColorLUT.txt describes the shift
-    if hemisphere == Hemisphere.lh:
-        region_mapping += FS_LUT_LH_SHIFT
-    else:
-        region_mapping += FS_LUT_RH_SHIFT
-
-    fs_to_conn_fun = np.vectorize(lambda n: fs_to_conn.source_to_target(n))
-    region_mapping = fs_to_conn_fun(region_mapping)
-
-    return region_mapping
 
 
 def extract_vector(string: str, name: str) -> Optional[List[float]]:

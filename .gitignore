@@ -131,8 +131,3 @@ venv.bak/
 # VSCode settings
 .vscode/
 
-seek/pipeline/05-visualization/webserver/templates/static/brain.mgz
-seek/pipeline/05-visualization/webserver/templates/static/brain.glb
-#seek/pipeline/04-contact_localization/matlab
-[D]ata/*
-data/*
