@@ -30,6 +30,12 @@ clean-cache:
 
 clean: clean-build clean-pyc clean-so clean-ctags clean-cache
 
+reqs:
+	pipfile2req --dev > test_requirements.txt
+	pipfile2req > requirements.txt
+	pipfile2req > docs/requirements.txt
+	pipfile2req --dev >> docs/requirements.txt
+
 codespell:  # running manually
 	@codespell -w -i 3 -q 3 -S $(CODESPELL_SKIPS) --ignore-words=ignore_words.txt $(CODESPELL_DIRS)
 
@@ -73,6 +79,11 @@ black:
 		exit 1; \
 	fi;
 	@echo "black passed"
+
+
+type-check:
+	mypy ./seek_localize
+
 check:
-	@$(MAKE) -k black pydocstyle codespell-error
+	@$(MAKE) -k black pydocstyle codespell-error check-manifest
 

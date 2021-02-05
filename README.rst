@@ -17,6 +17,10 @@ SEEK-Localize (Stereotactic ElectroEncephalography Kit)
 .. image:: https://codecov.io/gh/adam2392/seek_localize/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/adam2392/seek_localize
 
+.. image:: https://readthedocs.org/projects/seek-localize/badge/?version=latest
+    :target: https://seek-localize.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
+
 
 SEEK-Localize helps localize iEEG electrodes on MRI/CT images and
 deals with data processing for iEEG-BIDS data.

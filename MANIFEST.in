@@ -1,0 +1,36 @@
+include *.rst
+include LICENSE
+include seek_localize/__init__.py
+include Pipfile
+include Pipfile.lock
+include *.txt
+include .coveragerc
+
+recursive-include examples *.py
+recursive-include examples README.rst
+recursive-include seek_localize *.py
+recursive-include seek_localize *.txt
+recursive-include tests *.py
+
+prune .circleci
+prune paper
+
+### Exclude
+
+exclude .zenodo*
+exclude .github
+exclude .github/PULL_REQUEST_TEMPLATE.md
+exclude Makefile
+exclude CONTRIBUTING.md
+exclude *.yml
+exclude .mailmap
+exclude paper
+exclude ignore_words.txt
+exclude data
+recursive-exclude mne_bids *.pyc
+
+recursive-exclude docs *
+recursive-exclude paper *
+recursive-exclude data *
+
+exclude test_requirements.txt

@@ -17,6 +17,12 @@ check-manifest = "*"
 pytest = "*"
 pycodestyle = "*"
 sphinx-copybutton = "*"
+pytest-cov = "*"
+mypy = "*"
+pandoc = "*"
+nbsphinx = "*"
+pipfile-requirements = "*"
+sphinx-autodoc-typehints = "*"
 
 [packages]
 mne = ">=0.22"
@@ -27,6 +33,7 @@ natsort = "*"
 pybv = ">=0.5"
 nilearn = "*"
 scikit-image = "*"
+nibabel = "*"
 
 [requires]
 python_version = "3.8"
