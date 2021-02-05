@@ -58,8 +58,18 @@ build-doc:
 	cd docs; make clean
 	cd docs; make html
 
+#upload-pipy:
+#	python setup.py sdist bdist_egg register upload
+
+build-pipy:
+	python setup.py sdist bdist_wheel
+
+test-pipy:
+	twine check dist/*
+	twine upload --repository testpypi dist/*
+
 upload-pipy:
-	python setup.py sdist bdist_egg register upload
+	twine upload dist/*
 
 pydocstyle:
 	@echo "Running pydocstyle"

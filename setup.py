@@ -17,7 +17,7 @@ To test on test pypi:
     twine upload --repository testpypi dist/*
     
     # test upload
-    pip install -i https://test.pypi.org/simple/ --no-deps neuroimgpipe
+    pip install -i https://test.pypi.org/simple/ --no-deps seek_localize
 
     twine upload dist/* 
 """
@@ -30,7 +30,8 @@ with open(os.path.join('seek_localize', '__init__.py'), 'r') as fid:
             break
 if version is None:
     raise RuntimeError('Could not determine version')
-DESCRIPTION = "Neuroimaging Pipeline software for easily generating anatomical interpretations of iEEG data."
+DESCRIPTION = "iEEG-BIDS anatomical and electrode coordinate interfacing software " \
+              "for easily generating anatomical interpretations of iEEG data."
 URL = "https://github.com/adam2302/seek_localize/"
 MINIMUM_PYTHON_VERSION = 3, 6  # Minimum of Python 3.6
 REQUIRED_PACKAGES = [
@@ -76,6 +77,7 @@ setup(
     description=DESCRIPTION,
     author=AUTHORS,
     long_description=open("README.rst").read(),
+    # long_description_content_type='text/rst',
     url=URL,
     license="GNU General Public License (GPL)",
     packages=find_packages(exclude=["tests"]),

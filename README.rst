@@ -35,8 +35,8 @@ Documentation
 -------------
 The documentation can be found under the following links:
 
-- for the [stable release](https://seek_localize.readthedocs.io/en/stable/index.html)
-- for the [latest (development) version](https://seek_localize.readthedocs.io/en/latest/index.html)
+- for the `stable release <https://seek_localize.readthedocs.io/en/stable/index.html>`_
+- for the `latest (development) version <https://seek_localize.readthedocs.io/en/latest/index.html>`_
 
 To see the ``seek`` documentation, see http://neuroseek.azurewebsites.net/docs/seek/
 
@@ -62,7 +62,7 @@ Through pip
 
 Quick Usage
 -----------
-Here's a quick look at a basic use-case, where we want to label the anatomical regions each
+Here is a quick look at a basic use-case, where we want to label the anatomical regions each
 electrode is in, based on FreeSurfer.
 
 .. code-block:: python
@@ -135,3 +135,5 @@ FAQ
 ===
 1. For ECoG data, we do not explicitly have a process outlined, but these are significantly easier since grids can
 be easily interpolated. See `Fieldtrip Toolbox`_.
+
+.. _FieldTrip Toolbox: http://www.fieldtriptoolbox.org/tutorial/human_ecog/
