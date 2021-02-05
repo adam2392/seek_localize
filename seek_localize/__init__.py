@@ -1,4 +1,4 @@
-"""Neuroimaging Pipeline software for easily generating anatomical interpretations of iEEG data."""
+"""Interface with iEEG-BIDS data and merge anatomical and electrophysiological data."""
 
 import os
 

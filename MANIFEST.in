@@ -6,8 +6,8 @@ include Pipfile.lock
 include *.txt
 include .coveragerc
 
-recursive-include examples *.py
-recursive-include examples README.rst
+recursive-include tutorials *.py
+recursive-include tutorials README.rst
 recursive-include seek_localize *.py
 recursive-include seek_localize *.txt
 recursive-include tests *.py
