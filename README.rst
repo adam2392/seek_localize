@@ -25,18 +25,21 @@ SEEK-Localize (Stereotactic ElectroEncephalography Kit)
 SEEK-Localize helps localize iEEG electrodes on MRI/CT images and
 deals with data processing for iEEG-BIDS data.
 
-For ECoG data, we do not explicitly have a process outlined, but these are significantly easier since grids can
-be easily interpolated. See `Fieldtrip Toolbox`_.
-
 Documentation
 -------------
-To see the entire documentation, see http://neuroseek.azurewebsites.net/docs/seek/
+The documentation can be found under the following links:
+
+- for the [stable release](https://seek-localize.readthedocs.io/en/stable/index.html)
+- for the [latest (development) version](https://seek-localize.readthedocs.io/en/latest/index.html)
+
+To see the ``seek`` documentation, see http://neuroseek.azurewebsites.net/docs/seek/
+
 
 Setup and Installation
 ----------------------
 
 See `INSTALLATION GUIDE <https://github.com/adam2392/seek_localize/blob/master/doc/installation.rst>`_ for full instructions.
-A quick setup can occur with ``pipenv``.
+A quick setup can occur with github and ``pipenv``.
 
 .. code-block:: bash
 
@@ -44,6 +47,34 @@ A quick setup can occur with ``pipenv``.
     $ git clone https://github.com/adam2392/seek_localize
     $ python3.8 -m venv .venv
     $ pipenv install
+
+Through pip
+
+.. code-block:: bash
+
+    $ pip install seek_localize
+
+Quick Usage
+-----------
+Here's a quick look at a basic use-case, where we want to label the anatomical regions each
+electrode is in, based on FreeSurfer.
+
+.. code-block:: python
+
+    from seek_localize import label_elecs_anat
+    from mne_bids import BIDSPath
+
+    # define file path to the T1w image that electrode coordinates are localized in
+    img_fname = ...
+
+    # define a path to the electrodes.tsv file in iEEG-BIDS
+    bids_path = BIDSPath(..., suffix='electrodes', extension='.tsv')
+
+    # define filepath to the FreeSurferColor Look up Table
+    # (it is stored locally)
+    fs_lut_fpath = seek_localize.fs_lut_fpath
+
+    label_elecs_anat(bids_path, img_fname, fs_lut_fpath)
 
 
 Data Organization
@@ -67,20 +98,20 @@ for more information. We recommend the following BIDS structure with the minimal
 
 Development
 ===========
-
-Seek was created and is maintained by `Adam Li <https://adam2392.github.io>`_. It is also maintained and contributed by
-`Christopher Coogan <https://github.com/TheBrainChain>`_ and other researchers in the NCSL and Crone lab. Contributions are more than welcome so feel free to contact me, open an issue or submit a pull request! See the
-`contribution guide <https://github.com/adam2392/seek_localize/blob/master/doc/contributing.rst>`_.
+Seek-localize was created and is maintained by `Adam Li <https://adam2392.github.io>`_. It is also maintained and contributed by
+`Christopher Coogan <https://github.com/TheBrainChain>`_ and other researchers in the NCSL and Crone lab.
+Contributions are more than welcome so feel free to contact me, open an issue or submit a pull request! See the
+`contribution guide <https://github.com/adam2392/seek_localize/blob/master/docs/contributing.rst>`_.
 
 To report a bug, please visit the `GitHub repository <https://github.com/adam2392/seek_localize/issues/>`_.
 
-Note that this program is provided with NO WARRANTY OF ANY KIND. If you can, always double check the results with a human researcher, or clinician.
+Note that this program is provided with NO WARRANTY OF ANY KIND. If you can, always double check the results with a
+human researcher, or clinician.
 
 How to cite?
 ============
 
-If you want to cite ``seek_localize``, please cite the following paper(s).
-
+If you want to cite ``seek_localize``, please cite the following paper(s). TBD
 
 
 Acknowledgement
@@ -92,8 +123,8 @@ Rockhill, A., Larson, E., Gramfort, A., & Jas, M. (2019): **MNE-BIDS: Organizing
 electrophysiological data into the BIDS format and facilitating their analysis.**
 *Journal of Open Source Software,* 4:1896. DOI: [10.21105/joss.01896](https://doi.org/10.21105/joss.01896)
 
-- `iEEG-BIDS <https://doi.org/10.1038/s41597-019-0105-7>`_
 
 FAQ
 ===
-
+1. For ECoG data, we do not explicitly have a process outlined, but these are significantly easier since grids can
+be easily interpolated. See `Fieldtrip Toolbox`_.

@@ -26,6 +26,7 @@ mri_dir = deriv_root / 'freesurfer' / f'sub-{subject}' / 'mri'
 desikan_fname = mri_dir / 'aparc+aseg.mgz'
 destrieux_fname = mri_dir / 'aparc.a2009s+aseg.mgz'
 wmparc_fname = mri_dir / 'wmparc.mgz'
+T1mgz = mri_dir / 'T1.mgz'
 
 # path to BIDs electrodes tsv file in test dataset
 # NOTE: should not be used directly, always copy to temp directory
@@ -36,7 +37,7 @@ _bids_path = BIDSPath(subject=subject, session=session,
 
 
 @pytest.mark.usefixtures('_temp_bids_root')
-@pytest.mark.parametrize('to_coord', ['voxel', 'mm', 'm'])
+@pytest.mark.parametrize('to_coord', ['voxel', 'mm', 'tkras', 'm'])
 def test_convert_coordunits(_temp_bids_root, to_coord):
     """Test conversion of coordinate units between voxel and xyz."""
     bids_path = _bids_path.copy().update(root=_temp_bids_root)
@@ -82,9 +83,19 @@ def test_convert_coordunits(_temp_bids_root, to_coord):
         # the coordinates should match
         np.testing.assert_array_almost_equal(sensors_mm_new.get_coords(),
                                       sensors_mm.get_coords())
+    elif to_coord == 'tkras':
+        # convert to voxels
+        sensors_vox = convert_elecs_coords(sensors=sensors_mm,
+                                           to_coord='voxel',
+                                           round=False)
+
+        # load FreeSurfer MGH file
+        img = nb.load(T1mgz)
+
+        # go voxels -> tkras
+        coords = apply_affine(img.header.get_vox2ras_tkr(), sensors_vox.get_coords())
     elif to_coord == 'mm':
         coords = sensors_mm.get_coords()
-
 
     # the coordinates should match
     np.testing.assert_array_equal(coords, sensors_conv.get_coords())

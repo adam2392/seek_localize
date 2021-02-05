@@ -5,6 +5,7 @@ from typing import Union, Dict
 import nibabel as nb
 import numpy as np
 import pandas as pd
+from mne.utils import warn
 from mne_bids import BIDSPath
 from nibabel.affines import apply_affine
 
@@ -30,7 +31,7 @@ def _read_lut_file(lut_fname):
             len(row) > 1 and row[0][0] != "#" and row[0][0] != "\\"
         ):  # Get rid of the comments
             lname = row[1]
-            lab[np.int(row[0])] = lname
+            lab[int(row[0])] = lname
 
     return lab
 
@@ -134,7 +135,20 @@ def convert_elecs_coords(sensors: Sensors, to_coord: str, round=True):
         elec_coords = apply_affine(affine, elec_coords)
     elif to_coord == "tkras":
         # get the voxel to tkRAS transform
-        vox2ras_tkr = img.header.get_vox2ras_tkr()
+        try:
+            vox2ras_tkr = img.header.get_vox2ras_tkr()
+        except AttributeError as e:
+            warn(
+                f"Unable to programmatically get vox2ras TKR, "
+                f"so setting manually. "
+                f"Error: {e}"
+            )
+            vox2ras_tkr = [
+                [-1.0, 0.0, 0.0, 128.0],
+                [0.0, 0.0, 1.0, -128.0],
+                [0.0, -1.0, 0.0, 128.0],
+                [0.0, 0.0, 0.0, 1.0],
+            ]
 
         # first scale to millimeters if not already there
         elec_coords = _scale_coordinates(elec_coords, sensors.coord_unit, "mm")

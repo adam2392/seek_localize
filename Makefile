@@ -55,8 +55,8 @@ test-doc:
 	$(PYTESTS) --doctest-modules --doctest-ignore-import-errors
 
 build-doc:
-	cd doc; make clean
-	cd doc; make html
+	cd docs; make clean
+	cd docs; make html
 
 pydocstyle:
 	@echo "Running pydocstyle"
