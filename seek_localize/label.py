@@ -293,54 +293,9 @@ def _label_depth(
     -------
     anatomy_labels : List
         A list of the anatomical labels per each of the electrode voxel coordinates.
-
-    Notes
-    -----
-    The ``tkrvox2ras`` transformation can be obtained from FreeSurfer's ``mri_info``
-    command via::
-
-        mri_info --vox2ras-tkr <img>
-
-    This will generally be the 4x4 matrix for FreeSurfer output.::
-
-            [
-                [-1.0, 0.0, 0.0, 128.0],
-                [0.0, 0.0, 1.0, -128.0],
-                [0.0, -1.0, 0.0, 128.0],
-                [0.0, 0.0, 0.0, 1.0],
-            ]
     """
-    # affine transformation
-    # Define the affine transform to go from surface coordinates to volume coordinates (as CRS, which is
-    # the slice *number* as x,y,z in the 3D volume. That is, if there are 256 x 256 x 256 voxels, the
-    # CRS coordinate will go from 0 to 255.)
-    vox2ras_affine = np.array(
-        [
-            [-1.0, 0.0, 0.0, 128.0],
-            [0.0, 0.0, 1.0, -128.0],
-            [0.0, -1.0, 0.0, 128.0],
-            [0.0, 0.0, 0.0, 1.0],
-        ]
-    )
-
-    # get the dummy 4th dimension for the 3D coordinates
-    # to then apply an affine transformation to
-    intercept = np.ones(len(elec_coords))
-    elecs_ones = np.column_stack((elec_coords, intercept))
-
-    # find voxel CRS
-    # apply inverse of tkrvox2ras
-    inv_affine = np.linalg.inv(vox2ras_affine)
-    VoxCRS = np.dot(inv_affine, elecs_ones.transpose()).transpose().astype(int)
-
     if verbose:
         print("Labeling electrodes...")
-        print(
-            "VoxCRS limits in 3D: ",
-            np.max(VoxCRS[:, 0]),
-            np.max(VoxCRS[:, 1]),
-            np.max(VoxCRS[:, 2]),
-        )
 
     # Label the electrodes according to the aseg volume
     nchans = elec_coords.shape[0]
