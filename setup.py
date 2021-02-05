@@ -34,15 +34,14 @@ DESCRIPTION = "Neuroimaging Pipeline software for easily generating anatomical i
 URL = "https://github.com/adam2302/seek_localize/"
 MINIMUM_PYTHON_VERSION = 3, 6  # Minimum of Python 3.6
 REQUIRED_PACKAGES = [
-    "numpy>=1.14.5",
-    "scipy>=1.1.0",
+    "numpy>=1.20.0",
+    "scipy>=1.6.0",
     "pandas>=1.0.3",
     "natsort",
-    "nibabel",
+    "nibabel>=3.2.0",
     "mne>=0.22.0",
-    "mne-bids>=0.5",
+    "mne-bids>=0.6",
     "pybv>=0.4.0",
-    "pybids>=0.10",
 ]
 CLASSIFICATION_OF_PACKAGE = [
     # How mature is this project? Common values are

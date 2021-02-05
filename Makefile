@@ -58,6 +58,9 @@ build-doc:
 	cd docs; make clean
 	cd docs; make html
 
+upload-pipy:
+	python setup.py sdist bdist_egg register upload
+
 pydocstyle:
 	@echo "Running pydocstyle"
 	@pydocstyle

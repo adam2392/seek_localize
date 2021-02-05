@@ -34,6 +34,7 @@ pybv = ">=0.5"
 nilearn = "*"
 scikit-image = "*"
 nibabel = "*"
+scipy = "*"
 
 [requires]
 python_version = "3.8"

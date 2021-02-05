@@ -3,13 +3,14 @@ import collections
 import re
 import warnings
 from pathlib import Path
+from typing import List, Dict
 from pprint import pprint
 
 import nibabel as nb
 import numpy as np
 from sklearn.base import BaseEstimator
 
-from scipy.optimize import linprog
+from scipy import spatial
 from scipy.stats import norm
 from skimage import measure
 from sklearn.cluster import KMeans
@@ -102,9 +103,6 @@ def _visualize_electrodes(img, clusters, radius, threshold, output_fpath):
     fig.tight_layout()
     plt.savefig(output_fpath, box_inches="tight")
     plt.close(fig)
-
-
-# def localize_contacts(ct_img, brainmask_img, radius=4, threshold=0.630, )
 
 
 class CylinderGroupMixin:
@@ -208,7 +206,164 @@ class CylinderGroupMixin:
         return False
 
 
-class SEEGLocalizer(BaseEstimator, CylinderGroupMixin):
+class PostProcessMixin:
+    """Post processing mixin functions."""
+
+    def _identify_merged_voxel_clusters(
+        self,
+        voxel_clusters: Dict[str, np.ndarray],
+        lb_size: int = 50,
+        ub_size: int = 200,
+    ) -> List[int]:
+        """
+        Classify the abnormal clustered_voxels that are extremely large.
+
+        Uses a lower and upper bound of number of voxels to determine if
+        cluster is merged or not.
+
+        Parameters
+        ----------
+        voxel_clusters: dict(str: ndarray)
+            Dictionary of clustered_voxels sorted by the cylinder/electrode
+            in which they fall. The keys of the dictionary are electrode
+            labels, the values of the dictionary are the cluster points
+            from the threshold-based clustering algorithm that fell
+            into a cylinder.
+        lb_size : int
+            Lower bound on the threshold of the size of merged clusters.
+        ub_size : int
+            Upper bound on the threshold of the size of merged clusters.
+
+        Returns
+        -------
+        merged_cluster_ids: List[int]
+            List of cluster ids thought to be large due to lack of
+            sufficient separation between two channels in image.
+        """
+        merged_cluster_ids = []
+
+        for cluster_id, points in voxel_clusters.items():
+            # Average size of normal cluster is around 20-25 points
+            cluster_size = len(points)
+
+            # Merged clustered_voxels are likely to be moderately large
+            if lb_size <= cluster_size <= ub_size:
+                merged_cluster_ids.append(cluster_id)
+
+        return merged_cluster_ids
+
+    def _identify_skull_voxel_clusters(
+        self, voxel_clusters: Dict, skull_cluster_size: int = 200
+    ):
+        """
+        Identify abnormal clustered_voxels that are extremely large and near skull.
+
+        TODO: identify convex hull of the brain
+
+        Parameters
+        ----------
+        voxel_clusters: dict(str: ndarray)
+            Dictionary of clustered_voxels sorted by the cylinder/electrode
+            in which they fall.
+
+            The keys of the dictionary are channel names,
+            the values of the dictionary are the cluster points
+            from the threshold-based clustering algorithm that fell
+            into a cylinder.
+
+        Returns
+        -------
+        skull_cluster_ids: dict(str: List[int])
+            Dictionary of cluster ids thought to be large due to close
+            proximity to the skull.
+        """
+        skull_clusters = []
+
+        for cluster_id, voxels in voxel_clusters.items():
+            # Average size of normal cluster is around 20-25 points
+            cluster_size = len(voxels)
+
+            # Skull clustered_voxels are likely to be very large
+            if cluster_size > skull_cluster_size:
+                skull_clusters.append(cluster_id)
+
+        return skull_clusters
+
+    def _pare_cluster(self, points_in_cluster, qtile, centroid=None):
+        """Pare a cluster down by a quantile around a centroid."""
+        if centroid is None:
+            # get the centroid of that cluster
+            centroid = np.mean(points_in_cluster, keepdims=True)
+
+        # compute spatial variance of the points inside cluster
+        var = np.var(points_in_cluster, axis=0)
+
+        # store the pared clsuters
+        pared_cluster = []
+
+        # Include points that have a z-score within specified quantile
+        for pt in points_in_cluster:
+            # Assuming the spatial distribution of points is
+            # approximately Gaussian, the outermost channel will be
+            # approximately the centroid of this cluster.
+            diff = pt - centroid
+            z = np.linalg.norm(np.divide(diff, np.sqrt(var)))
+            if norm.cdf(z) <= qtile:
+                pared_cluster.append(pt)
+        return pared_cluster
+
+    def _pare_clusters_on_electrode(self, voxel_clusters, skull_cluster_ids, qtile):
+        """
+        Pare down skull clustered_voxels.
+
+        Only considering points close to the
+        centroid of the oversized cluster.
+
+        Parameters
+        ----------
+        voxel_clusters: dict(str: dict(str: ndarray))
+            Dictionary of clustered_voxels sorted by the cylinder/electrode
+            in which they fall. The keys of the dictionary are electrode
+            labels, the values of the dictionary are the cluster points
+            from the threshold-based clustering algorithm that fell
+            into a cylinder.
+
+        skull_cluster_ids: dict(str: List[int])
+            Dictionary of cluster ids thought to be large due to close
+            proximity to the skull.
+
+        qtile: float
+            The upper bound quantile distance that we will consider for
+            being a part of the resulting pared clustered_voxels.
+
+        Returns
+        -------
+        voxel_clusters: dict(str: dict(str: ndarray))
+            Dictionary of skull clustered_voxels that have been resized.
+        """
+        # for elec in skull_cluster_ids:
+        # Get the coordinate for the outermost labeled channel from user in
+        # last_chan_coord = list(sparse_labeled_contacts.values())[-1]
+        for cluster_id in skull_cluster_ids:
+            # get the clustered points for this cluster ID
+            points_in_cluster = voxel_clusters[cluster_id]
+
+            # pare the cluster based on quantile near the centroid
+            pared_cluster = self._pare_cluster(points_in_cluster, qtile, centroid=None)
+
+            # Sanity check that we still have a non-empty list
+            if pared_cluster != []:
+                voxel_clusters[cluster_id] = np.array(pared_cluster)
+
+        return voxel_clusters
+
+    def _compute_convex_hull(self, masked_img: nb.Nifti2Image):
+        img_arr = masked_img.get_fdata()
+        voxel_pts = img_arr[img_arr > 0]
+        cvxhull = spatial.ConvexHull(voxel_pts)
+
+
+class SEEGLocalizer(BaseEstimator, CylinderGroupMixin, PostProcessMixin):
     """Localization algorithm for detecting channel centroids for sEEG electrodes.
 
     Requires at least two channel points on each electrode.
@@ -356,6 +511,9 @@ class SEEGLocalizer(BaseEstimator, CylinderGroupMixin):
 
         n_elecs, _ = X.shape
 
+        if self.verbose:
+            print(f"Applying SEEK-localize algorithm for electrodes: {X}")
+
         # compute voxel clusters in the brain image using a threshold
         voxel_clusters, num_clusters = self._compute_voxel_clusters(
             threshold=self.threshold
@@ -377,6 +535,8 @@ class SEEGLocalizer(BaseEstimator, CylinderGroupMixin):
                 radius=self.radius,
             )
 
+            # each electrode now gets a list of voxel clusters
+            # associated with it (from a cylindrical bounding)
             _cylindrical_clusters[elec_name] = voxel_clusters_in_cylinder
 
         # TODO: make work
@@ -410,7 +570,7 @@ class SEEGLocalizer(BaseEstimator, CylinderGroupMixin):
                 print(this_elec_voxels.keys())
 
                 # check for merged clusters at entry and exit for this electrode
-                merged_cluster_ids = brain._identify_merged_voxel_clusters(
+                merged_cluster_ids = self._identify_merged_voxel_clusters(
                     this_elec_voxels
                 )
 
@@ -421,14 +581,14 @@ class SEEGLocalizer(BaseEstimator, CylinderGroupMixin):
                 )
 
             # check for oversized clusters and pare them down
-            oversized_clusters_ids = brain._identify_skull_voxel_clusters(
+            oversized_clusters_ids = self._identify_skull_voxel_clusters(
                 this_elec_voxels
             )
 
             print("Found oversized clusters: ", oversized_clusters_ids)
 
             # pare them down and resize
-            this_elec_voxels = brain._pare_clusters_on_electrode(
+            this_elec_voxels = self._pare_clusters_on_electrode(
                 this_elec_voxels, oversized_clusters_ids, qtile=0.5
             )
 
@@ -451,67 +611,67 @@ def _mainv2(
     brainmasked_ct_fpath=None,
     outputfig_fpath=None,
 ):
-    # Hyperparameters for electrode clustering algorithm
-    radius = 4  # radius (in CT voxels) of cylindrical boundary
-    threshold = 0.630  # Between 0 and 1. Zeroes voxels with value < threshold
-    contact_spacing_mm = 3.5  # distance between two adjacent contacts
+    # # Hyperparameters for electrode clustering algorithm
+    # radius = 4  # radius (in CT voxels) of cylindrical boundary
+    # threshold = 0.630  # Between 0 and 1. Zeroes voxels with value < threshold
+    # contact_spacing_mm = 3.5  # distance between two adjacent contacts
+    #
+    # # load in nibabel CT and brainmask images
+    # ct_img = nb.load(ctimgfile)
+    # brainmask_img = nb.load(brainmaskfile)
+    #
+    # # initialize clustered brain image
+    # brain = ClusteredBrainImage(ct_img, brainmask_img)
+    # brain.save_masked_img(brainmasked_ct_fpath)  # save brain-masked CT file
+    #
+    # # load in the channel coordinates in xyz as dictionary
+    # ch_coords_mm = load_elecs_data(elecinitfile)
+    #
+    # # convert into electrodes
+    # ch_names = list(ch_coords_mm.keys())
+    # ch_coords = list(ch_coords_mm.values())
+    # electrodes = Electrodes(ch_names, ch_coords, coord_type="mm")
+    #
+    # # get the entry/exit electrodes
+    # entry_exit_elec = get_entry_exit_contacts(electrodes)
+    # # determine the contact numbering per electrode
+    # elec_contact_nums = {}
+    # for elec, (entry_ch, exit_ch) in entry_exit_elec.items():
+    #     elec_contact_nums[elec] = _contact_numbers_on_electrode(
+    #         entry_ch.name, exit_ch.name
+    #     )
+    #
+    # # get sparse electrodes in voxel space
+    # ch_names = []
+    # ch_coords = []
+    # # transform coordinates -> voxel space
+    # for elec_name, contacts in entry_exit_elec.items():
+    #     for contact in contacts:
+    #         contact.transform_coords(brain.get_masked_img(), coord_type="vox")
+    #         ch_names.append(contact.name)
+    #         ch_coords.append(contact.coord)
+    #         assert contact.coord_type == "vox"
+    # entry_exit_elec = Electrodes(ch_names, ch_coords, coord_type="vox")
 
-    # load in nibabel CT and brainmask images
-    ct_img = nb.load(ctimgfile)
-    brainmask_img = nb.load(brainmaskfile)
-
-    # initialize clustered brain image
-    brain = ClusteredBrainImage(ct_img, brainmask_img)
-    brain.save_masked_img(brainmasked_ct_fpath)  # save brain-masked CT file
-
-    # load in the channel coordinates in xyz as dictionary
-    ch_coords_mm = load_elecs_data(elecinitfile)
-
-    # convert into electrodes
-    ch_names = list(ch_coords_mm.keys())
-    ch_coords = list(ch_coords_mm.values())
-    electrodes = Electrodes(ch_names, ch_coords, coord_type="mm")
-
-    # get the entry/exit electrodes
-    entry_exit_elec = get_entry_exit_contacts(electrodes)
-    # determine the contact numbering per electrode
-    elec_contact_nums = {}
-    for elec, (entry_ch, exit_ch) in entry_exit_elec.items():
-        elec_contact_nums[elec] = _contact_numbers_on_electrode(
-            entry_ch.name, exit_ch.name
-        )
-
-    # get sparse electrodes in voxel space
-    ch_names = []
-    ch_coords = []
-    # transform coordinates -> voxel space
-    for elec_name, contacts in entry_exit_elec.items():
-        for contact in contacts:
-            contact.transform_coords(brain.get_masked_img(), coord_type="vox")
-            ch_names.append(contact.name)
-            ch_coords.append(contact.coord)
-            assert contact.coord_type == "vox"
-    entry_exit_elec = Electrodes(ch_names, ch_coords, coord_type="vox")
-
-    print("Applying SEEK algo... for electrodes: ", entry_exit_elec)
-    print("Contact numbering for each electrode: ", elec_contact_nums.keys())
-    # compute voxel clusters in the brain image using a threshold
-    voxel_clusters, num_clusters = brain.compute_clusters_with_threshold(
-        threshold=threshold
-    )
-
-    # feed in entry/exit voxel points per electrode and apply a cylinder filter
-    _cylindrical_clusters = {}
-    for electrode in entry_exit_elec:
-        elec_name = electrode.name
-        entry_point_vox = electrode.get_entry_ch().coord
-        exit_point_vox = electrode.get_exit_ch().coord
-        voxel_clusters_in_cylinder = brain.compute_cylindrical_clusters(
-            voxel_clusters, entry_point_vox, exit_point_vox, radius=radius
-        )
-        _cylindrical_clusters[elec_name] = voxel_clusters_in_cylinder
-    voxel_clusters = _cylindrical_clusters
-    print("Cylindrical bounded electrode clustered_voxels: ", voxel_clusters.keys())
+    # print("Applying SEEK algo... for electrodes: ", entry_exit_elec)
+    # print("Contact numbering for each electrode: ", elec_contact_nums.keys())
+    # # compute voxel clusters in the brain image using a threshold
+    # voxel_clusters, num_clusters = brain.compute_clusters_with_threshold(
+    #     threshold=threshold
+    # )
+    #
+    # # feed in entry/exit voxel points per electrode and apply a cylinder filter
+    # _cylindrical_clusters = {}
+    # for electrode in entry_exit_elec:
+    #     elec_name = electrode.name
+    #     entry_point_vox = electrode.get_entry_ch().coord
+    #     exit_point_vox = electrode.get_exit_ch().coord
+    #     voxel_clusters_in_cylinder = brain.compute_cylindrical_clusters(
+    #         voxel_clusters, entry_point_vox, exit_point_vox, radius=radius
+    #     )
+    #     _cylindrical_clusters[elec_name] = voxel_clusters_in_cylinder
+    # voxel_clusters = _cylindrical_clusters
+    # print("Cylindrical bounded electrode clustered_voxels: ", voxel_clusters.keys())
 
     # preliminarily label electrode voxel clusters
     labeled_voxel_clusters = {}
