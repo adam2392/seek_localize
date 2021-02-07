@@ -7,8 +7,7 @@ Contributing to SEEK-Localize
 
 (adopted from scikit-learn)
 
-``The latest contributing guide is available in the repository at:``
-`https://github.com/ncsl/seek/CONTRIBUTING.md`_
+The latest contributing guide is available in the repository at: https://github.com/ncsl/seek/CONTRIBUTING.md
 
 There are many ways to contribute to SEEK, with the most common ones
 being contribution of code or documentation to the project. Improving the
@@ -47,7 +46,7 @@ Code Guidelines
      $ black --check seek_localize/
      $ make check
 
-  In addition to `black`, `make check` command runs `pydocstyle`, `codespell`, `check-manifest` and `mypy`.
+  In addition to ``black``, ``make check`` command runs ``pydocstyle``, ``codespell``, ``check-manifest`` and ``mypy``.
 
 * Use `NumPy style <https://numpydoc.readthedocs.io/en/latest/format.html>`_ for docstrings. Follow existing examples for simplest guidance.
 

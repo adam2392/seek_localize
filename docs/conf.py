@@ -58,12 +58,26 @@ extensions = [
     # "seek_localize.sphinxext.snakemakerule",
 ]
 
+# configure sphinx-copybutton
+copybutton_prompt_text = r">>> |\.\.\. |\$ "
+copybutton_prompt_is_regexp = True
+
 # generate autosummary even if no references
 autosummary_generate = True
 autodoc_default_options = {'inherited-members': None}
+default_role = 'autolink'  # XXX silently allows bad syntax, someone should fix
+
+# configure numpydoc
+numpydoc_xref_param_type = True
 numpydoc_class_members_toctree = False
 numpydoc_attributes_as_param_list = True
-default_role = 'autolink'  # XXX silently allows bad syntax, someone should fix
+numpydoc_xref_aliases = {
+    'NibabelImageObject': 'nibabel.spatialimages.SpatialImage',
+}
+numpydoc_xref_ignore = {
+    # words
+    'of',
+}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -87,7 +101,11 @@ language = None
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = [
+    # 'auto_examples/index.rst',
+    '_build',
+                    'Thumbs.db',
+                    '.DS_Store']
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
@@ -115,12 +133,14 @@ html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+html_css_files = ['style.css']
+templates_path = ['_templates']
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
-    'navbar_title': 'seek_localize',
+    'navbar_title': 'SEEK-localize',
     'bootswatch_theme': "flatly",
     'navbar_sidebarrel': False,  # no "previous / next" navigation
     'navbar_pagenav': False,  # no "Page" navigation in sidebar
@@ -129,12 +149,14 @@ html_theme_options = {
         # here list header string to show, and the rst filename
         ('News', 'whats_new'),
         ('Install', 'installation'),
-        ('Use', 'use'),
+        ('Examples', 'auto_examples/index'),
         ("API", "api"),
         ("Contribute!", "contributing"),
         ("GitHub", "https://github.com/adam2392/seek_localize", True),
     ]
 }
+
+html_sidebars = {'**': ['localtoc.html']}
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
@@ -145,6 +167,7 @@ intersphinx_mapping = {
     'scipy': ('https://scipy.github.io/devdocs', None),
     'matplotlib': ('https://matplotlib.org', None),
     'nilearn': ('https://nilearn.github.io', None),
+    'nibabel': ('https://nipy.org/nibabel', None),
 }
 intersphinx_timeout = 5
 
@@ -160,9 +183,13 @@ else:
     filepath_prefix = 'v{}'.format(version)
 
 sphinx_gallery_conf = {
-    'examples_dirs': ['../tutorials'],
-    'within_subsection_order': ExampleTitleSortKey,
-    'gallery_dirs': ['auto_examples', 'auto_tutorials'],
-    'filename_pattern': '^((?!sgskip).)*$',
+    'doc_module': 'seek_localize',
+    'reference_url': {
+        'seek_localize': None,
+    },
     'backreferences_dir': 'generated',
+    'examples_dirs': '../examples',
+    'within_subsection_order': ExampleTitleSortKey,
+    'gallery_dirs': 'auto_examples',
+    'filename_pattern': '^((?!sgskip).)*$',
 }

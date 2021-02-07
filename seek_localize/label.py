@@ -136,8 +136,9 @@ def convert_elecs_coords(sensors: Sensors, to_coord: str, round=True):
                 [0.0, 0.0, 0.0, 1.0],
             ]
 
-        # first scale to millimeters if not already there
-        elec_coords = _scale_coordinates(elec_coords, sensors.coord_unit, "mm")
+        if sensors.coord_unit not in ["voxel"]:
+            # first scale to millimeters if not already there
+            elec_coords = _scale_coordinates(elec_coords, sensors.coord_unit, "mm")
 
         # now convert xyz to voxels
         elec_coords = apply_affine(inv_affine, elec_coords)
@@ -265,7 +266,7 @@ def label_elecs_anat(
         raise ValueError(
             "Image must be one of FreeSurfer "
             "output annotated image volumes: "
-            f"{ACCEPTED_IMAGE_VOLUMES}."
+            f"{ACCEPTED_IMAGE_VOLUMES}, not {img_fname}."
         )
 
     if bids_path.suffix != "electrodes" or bids_path.extension != ".tsv":

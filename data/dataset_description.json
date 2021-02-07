@@ -3,14 +3,14 @@
   "BIDSVersion": "1.4.0",
   "DatasetType": "raw",
   "Authors": [
-    "Adam Li",
+    "Adam Li"
   ],
   "Funding": [
     "NIH T32 EB003383",
     "NSF GRFP (DGE-1746891)",
     "ARCS Scholarship",
     "Whitaker Fellowship",
-    "Chateaubriand Fellowship",
+    "Chateaubriand Fellowship"
   ],
   "Acknowledgements": "Maryland Advanced Research Computing Center (MARCC)",
   "EthicsApprovals": [

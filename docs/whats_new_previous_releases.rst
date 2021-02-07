@@ -1,15 +1,9 @@
 :orphan:
 
-.. _whats_new_in_previous_releases:
-
 .. currentmodule:: seek_localize
 
 What was new in previous releases?
 ==================================
-
-.. contents:: Contents
-   :local:
-   :depth: 3
 
 .. currentmodule:: seek_localize
 .. _changes_0_1:
@@ -17,45 +11,37 @@ What was new in previous releases?
 Version 0.1 (2020-10-22)
 ------------------------
 
-TBD
-
-.. contents:: Contents
-   :local:
-   :depth: 3
-
 Notable changes
 ~~~~~~~~~~~~~~~
-- TBD
+This first version of ``seek-localize`` serves to provide a tested and
+documented API for interfacing with ``*electrodes.tsv``, ``*coordsystem.json``,
+``*T1w.nii`` and FreeSurfer derivative files to provide anatomical information
+for iEEG electrodes.
 
-Authors
-~~~~~~~
-The following people have contributed to this release of seek_localize:
+Author List
+~~~~~~~~~~~
 
 - `Adam Li`_
 - `Christopher Coogan`_
+- `Chester Huynh`_
 
 Detailed list of changes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
+
 Enhancements
 ^^^^^^^^^^^^
-
 - 
 
 Bug fixes
 ^^^^^^^^^
 
-- 
+- Anatomical labeling occurs now via voxel space
 
 API changes
 ^^^^^^^^^^^
 
-- 
-The following functions have been removed:
+- Refactored semi-automated algorithm for localizing contacts on CT img, in :code:`seek/localizae_contacts/electrode_clustering` by `Chester Huynh`_ (:gh:`16`)
 
-- 
-Further API changes:
-
-- 
 
 .. include:: authors.rst

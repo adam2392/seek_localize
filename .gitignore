@@ -28,6 +28,20 @@ __pycache__/
 
 .vscode/*
 
+# Sphinx documentation
+docs/_build/
+docs/generated/
+docs/auto_examples/
+docs/auto_tutorials/
+docs/modules/generated/
+docs/sphinxext/cachedir
+pip-log.txt
+.coverage
+tags
+docs/coverages
+docs/samples
+cover
+
 # C extensions
 *.so
 

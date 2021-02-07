@@ -2,48 +2,44 @@
 
 .. _whats_new:
 
+.. currentmodule:: seek_localize
 
 What's new?
 ===========
 
 Here we list a changelog of SEEK-Localize.
 
-.. contents:: Contents
-   :local:
-   :depth: 3
-
 .. currentmodule:: seek_localize
-
-.. _current:
 
 Current
 -------
 
-.. _changes_0_1:
+.. currentmodule:: seek_localize
+.. _changes_0_2:
 
-Version 0.1
------------
-
-Changelog
-~~~~~~~~~
-
-- Refactored semi-automated algorithm for localizing contacts on CT img, in :code:`seek/localizae_contacts/electrode_clustering` by `Chester Huynh`_ (:gh:`16`)
-
-Bug
-~~~
-
-
-API
-~~~
-
+Version 0.2 (unreleased)
+------------------------
 
 Authors
 ~~~~~~~
 
-People who contributed to this release (in alphabetical order):
+* `Adam Li`_
+* `Chester Huynh`_
 
-* Adam Li
-* Chester Huynh
+Changelog
+~~~~~~~~~
+
+-
+
+Bug
+~~~
+
+-
+
+API
+~~~
+
+-
 
 :doc:`Find out what was new in previous releases <whats_new_previous_releases>`
 

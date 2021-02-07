@@ -21,7 +21,7 @@ seek_localize
 
    label_elecs_anat
    read_dig_bids
-   convert_elec_coords
+   convert_elecs_coords
 
 
 Most-used classes

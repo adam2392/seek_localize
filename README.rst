@@ -10,7 +10,7 @@ seek_localize (Stereotactic ElectroEncephalography Kit)
     :target: https://github.com/adam2392/seek_localize/actions/
     :alt: GitHub Actions
 
-.. image:: https://github.com/adam2392/seek_localize/workflows/.github/workflows/unit_tests.yml/badge.svg
+.. image:: https://github.com/adam2392/seek_localize/workflows/test_suite/badge.svg
     :target: https://github.com/adam2392/seek_localize/actions/
     :alt: Test Suite
 
