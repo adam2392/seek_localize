@@ -100,4 +100,3 @@ type-check:
 
 check:
 	@$(MAKE) -k black pydocstyle codespell-error check-manifest type-check
-
