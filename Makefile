@@ -99,5 +99,5 @@ type-check:
 	mypy ./seek_localize
 
 check:
-	@$(MAKE) -k black pydocstyle codespell-error check-manifest
+	@$(MAKE) -k black pydocstyle codespell-error check-manifest type-check
 

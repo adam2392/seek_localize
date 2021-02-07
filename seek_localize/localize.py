@@ -3,17 +3,15 @@ import collections
 import re
 import warnings
 from pathlib import Path
-from typing import List, Dict
 from pprint import pprint
+from typing import List, Dict
 
 import nibabel as nb
 import numpy as np
-from sklearn.base import BaseEstimator
-
 from scipy import spatial
 from scipy.stats import norm
 from skimage import measure
-from sklearn.cluster import KMeans
+from sklearn.base import BaseEstimator
 
 
 def _get_entry_exit_contacts(electrodes: Electrodes):

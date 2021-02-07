@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 from typing import Union, Dict, Any
-from nptyping import NDArray
 
 import nibabel as nb
 import numpy as np
@@ -9,12 +8,12 @@ import pandas as pd
 from mne.utils import warn
 from mne_bids import BIDSPath
 from nibabel.affines import apply_affine
+from nptyping import NDArray
 
-from seek_localize import read_dig_bids
 from seek_localize.bids import _match_dig_sidecars
 from seek_localize.config import MAPPING_COORD_FRAMES, ACCEPTED_IMAGE_VOLUMES
 from seek_localize.electrodes import Sensors
-from seek_localize.io import _read_lut_file
+from seek_localize.io import read_dig_bids, _read_lut_file
 from seek_localize.utils import (
     _scale_coordinates,
     _read_vertex_labels,

@@ -7,7 +7,7 @@ import nibabel as nb
 import numpy as np
 import scipy.io
 import scipy.spatial
-from nptyping import NDArray, Number
+from nptyping import NDArray
 
 from seek_localize.utils.projection import project_electrodes_anydirection
 
@@ -45,7 +45,7 @@ def _read_vertex_labels(gyri_labels_dir: Union[str, Path], hem: str) -> Dict[int
 
 
 def _read_cortex_vertices(
-    mesh_dir: Union[str, Path],
+    mesh_dir: Path,
     hem: str,
     on_error: str = "raise",
     surf_type: str = "pial",
@@ -154,17 +154,17 @@ def convert_fsmesh2mlab(
         cortex = {"tri": tri + 1, "vert": vert}
         scipy.io.savemat(out_file_struct, {"cortex": cortex})
 
+    out_file_dict = dict()
     if mesh_name in ["pial", "dural"]:
-        out_file = dict()
-        out_file["lh"] = os.path.join(mesh_dir, f"lh_{mesh_name}_trivert.mat")
-        out_file["rh"] = os.path.join(mesh_dir, f"rh_{mesh_name}_trivert.mat")
-        return out_file
+        out_file_dict["lh"] = os.path.join(mesh_dir, f"lh_{mesh_name}_trivert.mat")
+        out_file_dict["rh"] = os.path.join(mesh_dir, f"rh_{mesh_name}_trivert.mat")
+        return out_file_dict
     else:
         return out_file
 
 
 def project_electrodes(
-    elec_coords: NDArray[Any, 3, Number],
+    elec_coords: NDArray[(Any, 3), float],
     fs_subj_dir: Union[str, Path],
     hem: str,
     surf_type: str = "dural",
@@ -212,7 +212,7 @@ def project_electrodes(
 def prepare_mesh_cortexhull(
     fs_subj_dir: Union[str, Path],
     smooth_steps: int = 30,
-    expansion_mm: Union[str, float] = 0,
+    expansion_mm: Any = 0,
     resolution: float = 1,
     fix_shrinkage: bool = False,
     verbose: bool = True,
@@ -302,6 +302,7 @@ def prepare_mesh_cortexhull(
         if fix_shrinkage:
             # mean outside distance
             if expansion_mm == "auto":
+                expansion_mm = 0.0
                 raise NotImplementedError("not done yet...")
                 # expansion_mm = np.mean(expansion[idx])
 

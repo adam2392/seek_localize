@@ -3,8 +3,8 @@ import json
 from mne_bids import get_entities_from_fname, BIDSPath
 from mne_bids.tsv_handler import _from_tsv
 
-from seek_localize import Sensors
 from seek_localize.bids import _suffix_chop
+from seek_localize.electrodes import Sensors
 
 
 def _read_lut_file(lut_fname):

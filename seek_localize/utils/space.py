@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Tuple, Optional
 
 import numpy as np
 from nptyping import NDArray, Int
@@ -6,7 +6,7 @@ from nptyping import NDArray, Int
 
 def nearest_electrode_vert(
     cortex_verts: np.ndarray, elec_coords: np.ndarray, return_dist: bool = False
-) -> [NDArray[Any, Int], NDArray[Any, 3, Int]]:
+) -> Tuple[NDArray[(Any,), int], NDArray[(Any, 3), int], NDArray[(Any, Any), float]]:  # type: ignore
     """Find vertex on a mesh that is closest to the given electrode coordinates.
 
     A mesh consists of a list of vertices (e.g. 3D coordinates) that are
@@ -55,4 +55,4 @@ def nearest_electrode_vert(
     if return_dist:
         return vert_inds, nearest_verts, vert_dists
     else:
-        return vert_inds, nearest_verts
+        return vert_inds, nearest_verts  # type: ignore

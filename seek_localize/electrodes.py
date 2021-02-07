@@ -18,7 +18,7 @@ class Sensors:
     coord_unit: str
     elecs_fname: str
     coordsystem_fname: str
-    intended_for: Union[str, Path] = None
+    intended_for: Union[str, Path, None] = None
 
     def get_coords(self):
         """Get coordinates as a N x 3 array."""
