@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
-from typing import Union, Dict
+from typing import Union, Dict, Any
+from nptyping import NDArray
 
 import nibabel as nb
 import numpy as np
@@ -9,32 +10,17 @@ from mne.utils import warn
 from mne_bids import BIDSPath
 from nibabel.affines import apply_affine
 
-from seek_localize.bids import read_dig_bids, _match_dig_sidecars
+from seek_localize import read_dig_bids
+from seek_localize.bids import _match_dig_sidecars
 from seek_localize.config import MAPPING_COORD_FRAMES, ACCEPTED_IMAGE_VOLUMES
 from seek_localize.electrodes import Sensors
-from seek_localize.utils import _scale_coordinates
-
-
-def _read_lut_file(lut_fname):
-    """Read the FreeSurfer Lookup Table file.
-
-    Creates a dictionary of labels per row index.
-    """
-    fid = open(lut_fname)
-    LUT = fid.readlines()
-    fid.close()
-
-    # Make dictionary of labels
-    LUT = [row.split() for row in LUT]
-    lab = {}
-    for row in LUT:
-        if (
-            len(row) > 1 and row[0][0] != "#" and row[0][0] != "\\"
-        ):  # Get rid of the comments
-            lname = row[1]
-            lab[int(row[0])] = lname
-
-    return lab
+from seek_localize.io import _read_lut_file
+from seek_localize.utils import (
+    _scale_coordinates,
+    _read_vertex_labels,
+    _read_cortex_vertices,
+)
+from seek_localize.utils.space import nearest_electrode_vert
 
 
 def convert_elecs_coords(sensors: Sensors, to_coord: str, round=True):
@@ -169,6 +155,75 @@ def convert_elecs_coords(sensors: Sensors, to_coord: str, round=True):
     sensors.set_coords(elec_coords)
     sensors.coord_unit = to_coord
     return sensors
+
+
+def _label_ecog(
+    elec_coords: NDArray[Any, 3, Any], fs_subj_dir: Union[str, Path], verbose: bool
+):
+    """Label ecog electrode voxel coordinates in the atlas image space.
+
+    Requires the electrode coordinates to already be in voxel space.
+
+    Parameters
+    ----------
+    elec_coords : np.ndarray (n_channels, 3)
+        The voxel coordinates for the electrodes.
+    fs_subj_dir : str | pathlib.Path
+    verbose : bool
+        Verbosity
+
+    Returns
+    -------
+    anatomy_labels : List
+        A list of the anatomical labels per each of the electrode voxel coordinates.
+    """
+    if verbose:
+        print("Finding nearest mesh vertex for each electrode")
+
+    fs_subj_dir = Path(fs_subj_dir)
+    gyri_dir = fs_subj_dir / "label" / "gyri"
+    mesh_dir = fs_subj_dir / "Meshes"
+
+    # read the vertex labels of the surface gyri
+    rh_vert_labels = _read_vertex_labels(gyri_labels_dir=gyri_dir, hem="rh")
+    lh_vert_labels = _read_vertex_labels(gyri_labels_dir=gyri_dir, hem="lh")
+
+    # read cortex's vertices as a numpy array
+    rh_cortex_verts = _read_cortex_vertices(mesh_dir=mesh_dir, hem="rh")
+    lh_cortex_verts = _read_cortex_vertices(mesh_dir=mesh_dir, hem="lh")
+
+    # find closest vertex
+    rh_vert_inds, rh_nearest_verts, rh_dist_matrix = nearest_electrode_vert(
+        rh_cortex_verts, elec_coords, return_dist=True
+    )
+    lh_vert_inds, lh_nearest_verts, lh_dist_matrix = nearest_electrode_vert(
+        lh_cortex_verts, elec_coords, return_dist=True
+    )
+
+    assert len(rh_vert_inds) == len(lh_vert_inds)
+    n_chans = len(rh_vert_inds)
+
+    ## Now make a dictionary of the label for each electrode
+    anatomy_labels = []
+    for idx in range(n_chans):
+        rh_dists = rh_dist_matrix[idx, :]
+        lh_dists = lh_dist_matrix[idx, :]
+
+        # for this electrode, determine the closest hemisphere pial surface
+        if rh_dists.min() < lh_dists.min():
+            vert_inds = rh_vert_inds
+            vert_label = rh_vert_labels
+        else:
+            vert_inds = lh_vert_inds
+            vert_label = lh_vert_labels
+
+        # obtain the anatomical label for the closest pial vertex
+        if vert_inds[idx] in vert_label:
+            anatomy_labels.append(vert_label[vert_inds[idx]].strip())
+        else:
+            anatomy_labels.append("Unknown")
+
+    return anatomy_labels
 
 
 def label_elecs_anat(

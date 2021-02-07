@@ -7,8 +7,8 @@ import pytest
 from mne_bids import BIDSPath
 from nibabel.affines import apply_affine
 
-from seek_localize import fs_lut_fpath
-from seek_localize.bids import _read_coords_json, read_dig_bids
+from seek_localize import fs_lut_fpath, read_dig_bids
+from seek_localize.io import _read_coords_json
 from seek_localize.label import label_elecs_anat, convert_elecs_coords
 
 # BIDS entities

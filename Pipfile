@@ -23,6 +23,7 @@ pandoc = "*"
 nbsphinx = "*"
 pipfile-requirements = "*"
 sphinx-autodoc-typehints = "*"
+pymcubes = "*"
 
 [packages]
 mne = ">=0.22"
@@ -35,6 +36,7 @@ nilearn = "*"
 scikit-image = "*"
 nibabel = "*"
 scipy = "*"
+nptyping = "*"
 
 [requires]
 python_version = "3.8"
