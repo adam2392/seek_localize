@@ -113,13 +113,13 @@ changes:
 	@echo
 	@echo "The overview file is in $(BUILDDIR)/changes."
 
-#.PHONY: linkcheck
-#linkcheck:
-#	@$(SPHINXBUILD) -b linkcheck -D nitpicky=0 -D plot_gallery=0 -D exclude_patterns="whats_new*.rst, docs/auto_examples, docs/generated" -d _build/doctrees . _build/linkcheck
+.PHONY: linkcheck
+linkcheck:
+	@$(SPHINXBUILD) -b linkcheck -D nitpicky=0 -D plot_gallery=0 -D exclude_patterns="whats_new*.rst, docs/auto_examples, docs/generated" -d _build/doctrees . _build/linkcheck
 
-#.PHONY: linkcheck-grep
-#linkcheck-grep:
-#	@! grep -h "^.*:.*: \[\(\(local\)\|\(broken\)\)\]" _build/linkcheck/output.txt
+.PHONY: linkcheck-grep
+linkcheck-grep:
+	@! grep -h "^.*:.*: \[\(\(local\)\|\(broken\)\)\]" _build/linkcheck/output.txt
 
 #.PHONY: linkcheck
 #linkcheck:
