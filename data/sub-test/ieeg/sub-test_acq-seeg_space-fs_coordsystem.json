@@ -1,7 +1,7 @@
 {
     "IntendedFor": "sub-test_space-fs_T1w.nii",
     "iEEGCoordinateSystem": "other",
-    "iEEGCoordinateUnits": "mm",
+    "iEEGCoordinateUnits": "voxel",
     "iEEGCoordinateSystemDescription": "FreeSurfer Coordinate System derived from the CT, or T1 MRI scan.",
     "iEEGCoordinateProcessingDescription": "SEEK-algorithm (thresholding, cylindrical clustering and post-processing), or manual labeling of contacts using FieldTrip Toolbox.",
     "iEEGCoordinateProcessingReference": "See DOI: https://zenodo.org/record/3542307#.XoYF9tNKhZI"

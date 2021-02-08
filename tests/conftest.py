@@ -55,23 +55,28 @@ def _temp_bids_root(tmpdir):
     shutil.copytree(bids_root, tmpdir, dirs_exist_ok=True)
 
     # BIDS entities
-    subject = 'la02'
-    session = 'presurgery'
-    acquisition = 'seeg'
-    datatype = 'ieeg'
-    space = 'fs'
+    for subject in ['la02', 'test']:
+        session = 'presurgery'
+        acquisition = 'seeg'
+        datatype = 'ieeg'
+        space = 'fs'
 
-    # path to BIDs electrodes tsv file in test dataset
-    # NOTE: should not be used directly, always copy to temp directory
-    _bids_path = BIDSPath(subject=subject, session=session,
-                          acquisition=acquisition, datatype=datatype,
-                          space=space, root=tmpdir,
-                          suffix='electrodes', extension='.tsv')
+        # path to BIDs electrodes tsv file in test dataset
+        # NOTE: should not be used directly, always copy to temp directory
+        _bids_path = BIDSPath(subject=subject, session=session,
+                              acquisition=acquisition, datatype=datatype,
+                              space=space, root=tmpdir,
+                              suffix='electrodes', extension='.tsv')
 
-    # read in the original electrodes file
-    elecs_df = pd.read_csv(_bids_path, delimiter='\t', index_col=None)
-    elecs_df.drop(labels=['destrieux', 'desikan-killiany'],
-                  axis=1,
-                  inplace=True)
-    elecs_df.to_csv(_bids_path, sep='\t', index=None)
+        if subject == 'test':
+            _bids_path.update(session=None)
+
+        # read in the original electrodes file
+        elecs_df = pd.read_csv(_bids_path, delimiter='\t', index_col=None)
+        labels = ['destrieux', 'desikan-killiany']
+        elecs_df.drop(labels=labels,
+                      axis=1,
+                      inplace=True,
+                      errors='ignore')
+        elecs_df.to_csv(_bids_path, sep='\t', index=None)
     return tmpdir

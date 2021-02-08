@@ -300,9 +300,15 @@ def label_elecs_anat(
 
     # read in the electrodes / coordsystem
     elecs = read_dig_bids(elecs_fname, coordsystem_fname=coordsystem_fname)
+    print(elecs)
 
     # convert elecs to voxel coordinates
     if elecs.coord_unit != "voxel":
+        if verbose:
+            print(
+                "Converting to voxel space because electrodes "
+                f"are in {elecs.coord_unit} space."
+            )
         elecs = convert_elecs_coords(sensors=elecs, to_coord="voxel", **kwargs)
 
     # map wrt atlas

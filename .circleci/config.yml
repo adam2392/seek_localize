@@ -59,8 +59,13 @@ jobs:
           name: Check links
           command: |
             pipenv run make -C docs clean
-  #            pipenv run make -C docs linkcheck
-  #            pipenv run make -C doc linkcheck-grep
+      #            pipenv run make -C docs linkcheck
+      #            pipenv run make -C doc linkcheck-grep
+
+      - run:
+          name: Upload codecov report
+          command: |
+            bash <(curl -s https://codecov.io/bash)
 
   docs-deploy:
     # will only be run on master branch
@@ -81,7 +86,7 @@ jobs:
 
       - add_ssh_keys:
           fingerprints:
-            - "de:75:29:a1:56:a9:53:08:b5:8f:95:c8:12:7a:bf:44"
+            - "da:e1:a0:1a:9e:e7:09:f8:29:32:ec:39:bc:1d:5c:ec"
 
       - run:
           # push built docs into the `dev` directory on the `gh-pages` branch
