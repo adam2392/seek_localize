@@ -66,13 +66,13 @@ jobs:
       - name: Build sdist
         run: python setup.py sdist
       - name: Install sdist
-        run: pip install ./dist/seek-localize-*
+        run: pip install ./dist/seek_localize-*
       - name: Clean up working directory
         run: rm -rf ./*
       - name: Try importing seek_localize
         run: python -c 'import seek_localize; print(seek_localize.__version__)'
       - name: Remove sdist install
-        run: pip uninstall -y seek-localize
+        run: pip uninstall -y seek_localize
 
       - uses: actions/checkout@v2
       - name: Build wheel
@@ -84,7 +84,7 @@ jobs:
       - name: Try importing seek_localize
         run: python -c 'import seek_localize; print(seek_localize.__version__)'
       - name: Remove wheel install
-        run: pip uninstall -y seek-localize
+        run: pip uninstall -y seek_localize
 
       - uses: actions/checkout@v2
       - name: Test extras install
@@ -136,7 +136,7 @@ jobs:
           which python
           python -c "import mne; mne.sys_info()"
 
-      - name: Install seek-localize
+      - name: Install seek_localize
         run: pip install --no-deps .
       - name: Run pytest
         run: |
