@@ -2,12 +2,14 @@ import bz2
 import contextlib
 import json
 import pickle
+from pathlib import Path
+from typing import Dict, Union
 
 import numpy as np
 import scipy.io
 
 
-def read_fieldtrip_elecs(elec_fname, verbose: bool = True):
+def read_fieldtrip_elecs(elec_fname: Union[str, Path], verbose: bool = True) -> Dict:
     """Read fieldtrip localization output matlab structure.
 
     The FieldTrip output will contain the channel names,

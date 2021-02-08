@@ -105,12 +105,12 @@ sensors_vox = convert_elecs_coords(sensors, to_coord="voxel")
 print(sensors_vox)
 
 ###############################################################################
-# We could convert it back to ``mm``.
+# We could convert it to ``mm``.
 sensors_mm = convert_elecs_coords(sensors_vox, to_coord="mm")
 print(sensors_mm)
 
 ###############################################################################
-# We could convert it back to ``tkras``.
+# We could convert it to ``tkras``.
 sensors_tkras = convert_elecs_coords(sensors_vox, to_coord="tkras")
 print(sensors_tkras)
 
