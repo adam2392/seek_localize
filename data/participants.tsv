@@ -1,0 +1,3 @@
+participant_id	age	sex	hand	outcome	engel_score	ilae_score	date_follow_up	ethnicity	years_follow_up	site	clinical_complexity
+sub-la02	19.0	F	R	S	1.0	1.0	n/a	0.0	3.0	CC	1.0
+sub-test	19.0	F	R	S	1.0	1.0	n/a	0.0	3.0	CC	1.0

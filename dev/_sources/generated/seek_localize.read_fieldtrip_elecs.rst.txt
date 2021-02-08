@@ -1,0 +1,6 @@
+﻿seek\_localize.read\_fieldtrip\_elecs
+=====================================
+
+.. currentmodule:: seek_localize
+
+.. autofunction:: read_fieldtrip_elecs

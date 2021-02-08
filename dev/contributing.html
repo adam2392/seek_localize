@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contributing to SEEK-Localize &#8212; seek_localize 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-rendered-html.css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          SEEK-localize</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="whats_new.html">News</a></li>
+                <li><a href="installation.html">Install</a></li>
+                <li><a href="auto_examples/index.html">Examples</a></li>
+                <li><a href="api.html">API</a></li>
+                <li><a href="#">Contribute!</a></li>
+                <li><a href="https://github.com/adam2392/seek_localize">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+<div class="navbar-form navbar-right navbar-btn dropdown btn-group-sm" style="margin-left: 20px; margin-top: 5px; margin-bottom: 5px">
+  <button type="button" class="btn btn-primary navbar-btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+    v0.1.0
+    <span class="caret"></span>
+  </button>
+<!--  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">-->
+<!--    <li><a href="https://mne.tools/mne-bids/dev/index.html">Development</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/stable/index.html">Stable</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/v0.4/index.html">v0.4</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/v0.3/index.html">v0.3</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/v0.2/index.html">v0.2</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/v0.1/index.html">v0.1</a></li>-->
+<!--  </ul>-->
+</div>
+
+
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li><a class="reference internal" href="#">Contributing to SEEK-Localize</a><ul>
+<li><a class="reference internal" href="#code-of-conduct">Code of Conduct</a></li>
+<li><a class="reference internal" href="#code-guidelines">Code Guidelines</a></li>
+<li><a class="reference internal" href="#install-development-version-of-seek-localize">Install development version of seek-localize</a></li>
+<li><a class="reference internal" href="#building-the-documentation">Building the documentation</a></li>
+<li><a class="reference internal" href="#bids-validation">BIDS-Validation</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    <div class="body col-md-9 content" role="main">
+      
+  <div class="section" id="contributing-to-seek-localize">
+<span id="contribute"></span><h1>Contributing to SEEK-Localize<a class="headerlink" href="#contributing-to-seek-localize" title="Permalink to this headline">¶</a></h1>
+<p>(adopted from scikit-learn)</p>
+<p>The latest contributing guide is available in the repository at: <a class="reference external" href="https://github.com/ncsl/seek/CONTRIBUTING.md">https://github.com/ncsl/seek/CONTRIBUTING.md</a></p>
+<p>There are many ways to contribute to SEEK, with the most common ones
+being contribution of code or documentation to the project. Improving the
+documentation is no less important than improving the pipeline itself. If you
+find a typo in the documentation, or have made improvements, do not hesitate to
+submit a GitHub pull request.</p>
+<p>But there are many other ways to help. In particular answering queries on the
+<a class="reference external" href="https://github.com/ncsl/seek/issues">issue tracker</a>, and
+investigating bugs are very valuable contributions that decrease the burden on
+the project maintainers.</p>
+<p>Another way to contribute is to report issues you’re facing, and give a “thumbs
+up” on issues that others reported and that are relevant to you. It also helps
+us if you spread the word: reference the project from your blog and articles,
+link to it from your website, or simply star it in GitHub to say “I use it”.</p>
+<p>Another way to contribute is specifically to make additional pipelines that improve
+the accuracy of contact localization for iEEG data using the T1 and CT images.</p>
+<div class="section" id="code-of-conduct">
+<h2>Code of Conduct<a class="headerlink" href="#code-of-conduct" title="Permalink to this headline">¶</a></h2>
+<p>We abide by the principles of openness, respect, and consideration of others
+of the Python Software Foundation: <a class="reference external" href="https://www.python.org/psf/codeofconduct/">https://www.python.org/psf/codeofconduct/</a>.</p>
+</div>
+<div class="section" id="code-guidelines">
+<h2>Code Guidelines<a class="headerlink" href="#code-guidelines" title="Permalink to this headline">¶</a></h2>
+<p><em>Before starting new code</em>, we highly recommend opening an issue on <a class="reference external" href="https://github.com/ncsl/seek">GitHub</a> to discuss potential changes.</p>
+<ul>
+<li><p>Please use standard <a class="reference external" href="https://black.readthedocs.io/en/stable/">black</a> Python style guidelines. To test that your code complies with those, you can run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ black --check seek_localize/
+$ make check
+</pre></div>
+</div>
+<p>In addition to <code class="docutils literal notranslate"><span class="pre">black</span></code>, <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">check</span></code> command runs <code class="docutils literal notranslate"><span class="pre">pydocstyle</span></code>, <code class="docutils literal notranslate"><span class="pre">codespell</span></code>, <code class="docutils literal notranslate"><span class="pre">check-manifest</span></code> and <code class="docutils literal notranslate"><span class="pre">mypy</span></code>.</p>
+</li>
+<li><p>Use <a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html">NumPy style</a> for docstrings. Follow existing examples for simplest guidance.</p></li>
+<li><p>New functionality must be <strong>validated</strong> against sample datasets.</p></li>
+<li><p>Changes must be accompanied by <strong>updated documentation</strong> and examples.</p></li>
+<li><p>After making changes, <strong>ensure all tests pass</strong>. This can be done by running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pytest --doctest-modules
+$ make <span class="nb">test</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="install-development-version-of-seek-localize">
+<h2>Install development version of seek-localize<a class="headerlink" href="#install-development-version-of-seek-localize" title="Permalink to this headline">¶</a></h2>
+<p>First, you should [fork](<a class="reference external" href="https://help.github.com/en/github/getting-started-with-github/fork-a-repo">https://help.github.com/en/github/getting-started-with-github/fork-a-repo</a>) the <a class="reference internal" href="api.html#module-seek_localize" title="seek_localize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seek_localize</span></code></a> repository.
+Then, clone the fork and install it in.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/adam2392/seek_localize
+$ python3 -m venv .venv
+$ pipenv install --dev
+</pre></div>
+</div>
+<p>Installing via <code class="docutils literal notranslate"><span class="pre">pipenv</span></code> with the <code class="docutils literal notranslate"><span class="pre">--dev</span></code> flag will install all the development dependencies as well.</p>
+</div>
+<div class="section" id="building-the-documentation">
+<h2>Building the documentation<a class="headerlink" href="#building-the-documentation" title="Permalink to this headline">¶</a></h2>
+<p>The documentation can be built using sphinx. To build the documentation locally, one can run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> doc/
+$ make html
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ make html-noplot
+</pre></div>
+</div>
+<p>if you don’t want to run the examples to build the documentation.
+This will result in a faster build but produce no plots in the examples.</p>
+</div>
+<div class="section" id="bids-validation">
+<h2>BIDS-Validation<a class="headerlink" href="#bids-validation" title="Permalink to this headline">¶</a></h2>
+<p>To robustly apply seek workflows and reconstruction visualiztion, we rely on the BIDS specification
+for storing data. One can use the <a class="reference external" href="https://github.com/bids-standard/bids-validator">bids-validator</a> to verify that a dataset is BIDS-compliant.</p>
+<p>Test your installation by running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ bids-validator --version
+</pre></div>
+</div>
+<p>To then validate your dataset before using <code class="docutils literal notranslate"><span class="pre">seek_localize</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ bids-validator &lt;bids_root_path&gt;
+</pre></div>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2021-2021, seek_localize Developers. Last updated on 2021-02-08.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.4.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>seek_localize.io &#8212; seek_localize 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-rendered-html.css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          SEEK-localize</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../../whats_new.html">News</a></li>
+                <li><a href="../../installation.html">Install</a></li>
+                <li><a href="../../auto_examples/index.html">Examples</a></li>
+                <li><a href="../../api.html">API</a></li>
+                <li><a href="../../contributing.html">Contribute!</a></li>
+                <li><a href="https://github.com/adam2392/seek_localize">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+<div class="navbar-form navbar-right navbar-btn dropdown btn-group-sm" style="margin-left: 20px; margin-top: 5px; margin-bottom: 5px">
+  <button type="button" class="btn btn-primary navbar-btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+    v0.1.0
+    <span class="caret"></span>
+  </button>
+<!--  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">-->
+<!--    <li><a href="https://mne.tools/mne-bids/dev/index.html">Development</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/stable/index.html">Stable</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/v0.4/index.html">v0.4</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/v0.3/index.html">v0.3</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/v0.2/index.html">v0.2</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/v0.1/index.html">v0.1</a></li>-->
+<!--  </ul>-->
+</div>
+
+
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary">
+        </div>
+      </div>
+    <div class="body col-md-9 content" role="main">
+      
+  <h1>Source code for seek_localize.io</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">mne_bids</span> <span class="kn">import</span> <span class="n">get_entities_from_fname</span><span class="p">,</span> <span class="n">BIDSPath</span>
+<span class="kn">from</span> <span class="nn">mne_bids.tsv_handler</span> <span class="kn">import</span> <span class="n">_from_tsv</span>
+
+<span class="kn">from</span> <span class="nn">seek_localize.bids</span> <span class="kn">import</span> <span class="n">_suffix_chop</span>
+<span class="kn">from</span> <span class="nn">seek_localize.electrodes</span> <span class="kn">import</span> <span class="n">Sensors</span>
+
+
+<span class="k">def</span> <span class="nf">_read_lut_file</span><span class="p">(</span><span class="n">lut_fname</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read the FreeSurfer Lookup Table file.</span>
+
+<span class="sd">    Creates a dictionary of labels per row index.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fid</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">lut_fname</span><span class="p">)</span>
+    <span class="n">LUT</span> <span class="o">=</span> <span class="n">fid</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="n">fid</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="c1"># Make dictionary of labels</span>
+    <span class="n">LUT</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">LUT</span><span class="p">]</span>
+    <span class="n">lab</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">LUT</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;#&quot;</span> <span class="ow">and</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span>
+        <span class="p">):</span>  <span class="c1"># Get rid of the comments</span>
+            <span class="n">lname</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">lab</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span> <span class="o">=</span> <span class="n">lname</span>
+
+    <span class="k">return</span> <span class="n">lab</span>
+
+
+<span class="k">def</span> <span class="nf">_read_elecs_tsv</span><span class="p">(</span><span class="n">elecs_fname</span><span class="p">,</span> <span class="n">as_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read BIDS electrodes.tsv file in.</span>
+
+<span class="sd">    Only reads in ch names and coordinates.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># read in elecs_fname</span>
+    <span class="n">elecs_tsv</span> <span class="o">=</span> <span class="n">_from_tsv</span><span class="p">(</span><span class="n">elecs_fname</span><span class="p">)</span>
+
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="n">ch_names</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">x_coord</span> <span class="o">=</span> <span class="n">elecs_tsv</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span>
+    <span class="n">y_coord</span> <span class="o">=</span> <span class="n">elecs_tsv</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
+    <span class="n">z_coord</span> <span class="o">=</span> <span class="n">elecs_tsv</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">ch_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">elecs_tsv</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]):</span>
+        <span class="n">ch_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ch_name</span><span class="p">)</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_coord</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_coord</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="n">z</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">z_coord</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">as_dict</span><span class="p">:</span>
+        <span class="n">ch_coords</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">ch_name</span><span class="p">:</span> <span class="p">(</span><span class="n">_x</span><span class="p">,</span> <span class="n">_y</span><span class="p">,</span> <span class="n">_z</span><span class="p">)</span> <span class="k">for</span> <span class="n">ch_name</span><span class="p">,</span> <span class="n">_x</span><span class="p">,</span> <span class="n">_y</span><span class="p">,</span> <span class="n">_z</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ch_names</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">ch_coords</span>
+
+    <span class="k">return</span> <span class="n">ch_names</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>
+
+
+<span class="k">def</span> <span class="nf">_read_coords_json</span><span class="p">(</span><span class="n">coordsystem_fname</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read BIDS coordsystem.json file in.</span>
+
+<span class="sd">    Only reads in the ``iEEGCoordinateSystem``.</span>
+<span class="sd">    TODO: add better checking for coordinate system and frames</span>
+<span class="sd">    from MNE &lt;-&gt; BIDS</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">coordsystem_fname</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fin</span><span class="p">:</span>
+        <span class="n">coordsystem_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fin</span><span class="p">)</span>
+    <span class="n">coord_system</span> <span class="o">=</span> <span class="n">coordsystem_json</span><span class="p">[</span><span class="s2">&quot;iEEGCoordinateSystem&quot;</span><span class="p">]</span>
+    <span class="n">unit</span> <span class="o">=</span> <span class="n">coordsystem_json</span><span class="p">[</span><span class="s2">&quot;iEEGCoordinateUnits&quot;</span><span class="p">]</span>
+    <span class="c1"># if coord_frame not in ACCEPTED_MNE_COORD_FRAMES:</span>
+    <span class="c1">#     raise ValueError(f&#39;Coord frame {coord_frame} &#39;</span>
+    <span class="c1">#                      f&#39;from mne-python is not supported yet... &#39;</span>
+    <span class="c1">#                      f&#39;Please make sure coordinate frame is one of &#39;</span>
+    <span class="c1">#                      f&#39;{ACCEPTED_MNE_COORD_FRAMES}.&#39;)</span>
+
+    <span class="c1"># convvert coordinate frame to coordinate system string</span>
+    <span class="c1"># coord_system = MNE_TO_BIDS_FRAMES.get(coord_frame)</span>
+    <span class="k">return</span> <span class="n">coord_system</span><span class="p">,</span> <span class="n">unit</span>
+
+
+<div class="viewcode-block" id="read_dig_bids"><a class="viewcode-back" href="../../generated/seek_localize.read_dig_bids.html#seek_localize.read_dig_bids">[docs]</a><span class="k">def</span> <span class="nf">read_dig_bids</span><span class="p">(</span><span class="n">elecs_fname</span><span class="p">,</span> <span class="n">coordsystem_fname</span><span class="p">,</span> <span class="n">intended_for</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read electrode coordinates from BIDS files.</span>
+
+<span class="sd">    TODO: improve to error check coordinatesystem.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    elecs_fname : str | pathlib.Path</span>
+<span class="sd">        File path to the electrodes.tsv file.</span>
+<span class="sd">    coordsystem_fname : str | pathlib.Path</span>
+<span class="sd">        File path to the coordsystem.json file.</span>
+<span class="sd">    intended_for : str | None</span>
+<span class="sd">        Optional parameter to tell function path of the Nifti image</span>
+<span class="sd">        to interpret sensor coordinates for.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    sensors : seek_localize.Sensors</span>
+<span class="sd">        A data class containing the electrode sensors.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># read in elecs_fname</span>
+    <span class="n">ch_names</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">_read_elecs_tsv</span><span class="p">(</span><span class="n">elecs_fname</span><span class="p">)</span>
+
+    <span class="c1"># read in the coordinate system json</span>
+    <span class="c1"># coord_system, unit = _read_coords_json(coordsystem_fname)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">coordsystem_fname</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fin</span><span class="p">:</span>
+        <span class="n">coordsystem_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fin</span><span class="p">)</span>
+    <span class="n">coord_system</span> <span class="o">=</span> <span class="n">coordsystem_json</span><span class="p">[</span><span class="s2">&quot;iEEGCoordinateSystem&quot;</span><span class="p">]</span>
+    <span class="n">unit</span> <span class="o">=</span> <span class="n">coordsystem_json</span><span class="p">[</span><span class="s2">&quot;iEEGCoordinateUnits&quot;</span><span class="p">]</span>
+
+    <span class="c1"># get the BIDS root</span>
+    <span class="n">entities</span> <span class="o">=</span> <span class="n">get_entities_from_fname</span><span class="p">(</span><span class="n">elecs_fname</span><span class="p">)</span>
+    <span class="n">elecs_bids_path</span> <span class="o">=</span> <span class="n">BIDSPath</span><span class="p">(</span><span class="o">**</span><span class="n">entities</span><span class="p">,</span> <span class="n">datatype</span><span class="o">=</span><span class="s2">&quot;ieeg&quot;</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="s2">&quot;.tsv&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fpath</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">_suffix_chop</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">elecs_fname</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">elecs_bids_path</span><span class="p">))</span>
+
+    <span class="c1"># try to get the BIDS Path to the image file that</span>
+    <span class="c1"># the coordinates are intended to be interpreted for</span>
+    <span class="n">intended_for_fname</span> <span class="o">=</span> <span class="n">coordsystem_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;IntendedFor&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">intended_for_fname</span><span class="p">:</span>
+        <span class="n">entities</span> <span class="o">=</span> <span class="n">get_entities_from_fname</span><span class="p">(</span><span class="n">intended_for_fname</span><span class="p">)</span>
+        <span class="n">intended_img_path</span> <span class="o">=</span> <span class="n">BIDSPath</span><span class="p">(</span><span class="o">**</span><span class="n">entities</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">intended_for</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">intended_img_path</span> <span class="o">=</span> <span class="n">intended_for</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;IntendedFor inside </span><span class="si">{</span><span class="n">coordsystem_fname</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;is not available, and ``intended_for`` &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;kwarg is not set. Please set &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;``intended_for``.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># get the coordinates and set</span>
+    <span class="c1"># montage_coords = montage.get_positions()</span>
+    <span class="c1"># ch_pos = montage_coords.get(&#39;ch_pos&#39;)</span>
+    <span class="c1"># for ch_name, coord in ch_pos.items():</span>
+    <span class="c1">#     ch_names.append(ch_name)</span>
+    <span class="c1">#     x.append(coord[0])</span>
+    <span class="c1">#     y.append(coord[1])</span>
+    <span class="c1">#     z.append(coord[2])</span>
+
+    <span class="c1"># get the coordinate frame in mne</span>
+    <span class="c1"># XXX: Possible coordframes subject to change in mne</span>
+    <span class="c1"># mri=FIFF.FIFFV_COORD_MRI,</span>
+    <span class="c1"># mri_voxel=FIFF.FIFFV_MNE_COORD_MRI_VOXEL,</span>
+    <span class="c1"># head=FIFF.FIFFV_COORD_HEAD,</span>
+    <span class="c1"># mni_tal=FIFF.FIFFV_MNE_COORD_MNI_TAL,</span>
+    <span class="c1"># ras=FIFF.FIFFV_MNE_COORD_RAS,</span>
+    <span class="c1"># fs_tal=FIFF.FIFFV_MNE_COORD_FS_TAL,</span>
+    <span class="c1"># coord_frame = ch_pos.get(&#39;coord_frame&#39;)</span>
+    <span class="n">sensors</span> <span class="o">=</span> <span class="n">Sensors</span><span class="p">(</span>
+        <span class="n">ch_names</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">,</span>
+        <span class="n">z</span><span class="p">,</span>
+        <span class="n">coord_system</span><span class="o">=</span><span class="n">coord_system</span><span class="p">,</span>
+        <span class="n">elecs_fname</span><span class="o">=</span><span class="n">elecs_fname</span><span class="p">,</span>
+        <span class="n">coordsystem_fname</span><span class="o">=</span><span class="n">coordsystem_fname</span><span class="p">,</span>
+        <span class="n">coord_unit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span>
+        <span class="n">intended_for</span><span class="o">=</span><span class="n">intended_img_path</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">sensors</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2021-2021, seek_localize Developers. Last updated on 2021-02-08.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.4.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

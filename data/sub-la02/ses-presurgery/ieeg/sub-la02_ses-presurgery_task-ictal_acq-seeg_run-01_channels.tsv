@@ -1,0 +1,141 @@
+name	type	units	low_cutoff	high_cutoff	description	sampling_frequency	status	status_description
+L'1	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+L'2	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+L'3	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+L'4	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+FZ	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	n/a
+CZ	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	n/a
+L'5	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+L'6	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	white matter
+L'7	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+L'8	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	white matter
+L'11	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+L'12	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+L'13	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	out
+L'14	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	out
+N'1	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+N'2	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+N'3	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+N'4	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+N'5	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+E	MISC	µV	0.0	500.0	Miscellaneous	1000.0	bad	n/a
+N'6	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	white matter
+N'7	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+L'9	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+L'10	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+N'8	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	white matter
+N'9	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+N'10	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+N'11	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+N'12	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+F'1	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+F'2	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+F'3	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+F'4	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+F'5	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+F'6	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	white matter
+F'7	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	white matter
+F'8	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	white matter
+DC01	MISC	mV	0.0	500.0	Miscellaneous	1000.0	bad	n/a
+DC02	MISC	mV	0.0	500.0	Miscellaneous	1000.0	bad	n/a
+DC03	MISC	mV	0.0	500.0	Miscellaneous	1000.0	bad	n/a
+DC04	MISC	mV	0.0	500.0	Miscellaneous	1000.0	bad	n/a
+DC05	MISC	mV	0.0	500.0	Miscellaneous	1000.0	bad	n/a
+DC06	MISC	mV	0.0	500.0	Miscellaneous	1000.0	bad	n/a
+DC07	MISC	mV	0.0	500.0	Miscellaneous	1000.0	bad	n/a
+DC08	MISC	mV	0.0	500.0	Miscellaneous	1000.0	bad	n/a
+F'9	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	white matter
+F'10	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+MARK1	MISC	n/a	0.0	500.0	Miscellaneous	1000.0	bad	n/a
+MARK2	MISC	n/a	0.0	500.0	Miscellaneous	1000.0	bad	n/a
+F'11	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+F'12	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+F'13	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+F'14	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+O'1	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+O'2	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+O'3	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+O'4	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+O'5	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+O'6	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+O'7	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+O'8	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+O'9	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+O'10	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	white matter
+O'11	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+O'12	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+O'13	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+O'14	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+O'15	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	out
+O'16	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	out
+G'1	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+G'2	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+G'3	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+G'4	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+G'5	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	white matter
+G'6	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	white matter
+G'7	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	white matter
+G'8	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	white matter
+G'9	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	white matter
+G'10	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+G'11	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+G'12	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+G'13	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+G'14	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+G'15	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+G'16	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+X'1	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+X'2	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+X'3	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	white matter
+X'4	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	white matter
+X'5	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+X'6	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	white matter
+X'7	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	white matter
+X'8	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	white matter
+X'9	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	white matter
+X'10	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+X'11	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+X'12	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+X'13	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+X'14	SEEG	µV	0.0	500.0	StereoEEG	1000.0	good	n/a
+X'15	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	out
+X'16	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	out
+0	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+1	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+2	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+3	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+4	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+5	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+6	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+7	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+8	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+9	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+10	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+11	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+12	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+13	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+14	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+15	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+16	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+17	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+18	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+19	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+20	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+21	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+22	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+23	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+24	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+25	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+26	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+27	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+28	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+29	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+30	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+31	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+32	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+33	SEEG	n/a	0.0	500.0	StereoEEG	1000.0	bad	n/a
+TP10	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	excel-file-labeled
+PZ	SEEG	µV	0.0	500.0	StereoEEG	1000.0	bad	n/a
+EKG1	MISC	µV	0.0	500.0	Miscellaneous	1000.0	bad	n/a
+EKG2	MISC	µV	0.0	500.0	Miscellaneous	1000.0	bad	n/a
+EVENTS/MARKERS	MISC	n/a	0.0	500.0	Miscellaneous	1000.0	bad	n/a

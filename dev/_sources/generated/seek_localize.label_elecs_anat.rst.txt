@@ -1,0 +1,6 @@
+﻿seek\_localize.label\_elecs\_anat
+=================================
+
+.. currentmodule:: seek_localize
+
+.. autofunction:: label_elecs_anat

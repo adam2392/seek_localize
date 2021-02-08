@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>seek_localize.label &#8212; seek_localize 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-rendered-html.css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          SEEK-localize</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../../whats_new.html">News</a></li>
+                <li><a href="../../installation.html">Install</a></li>
+                <li><a href="../../auto_examples/index.html">Examples</a></li>
+                <li><a href="../../api.html">API</a></li>
+                <li><a href="../../contributing.html">Contribute!</a></li>
+                <li><a href="https://github.com/adam2392/seek_localize">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+<div class="navbar-form navbar-right navbar-btn dropdown btn-group-sm" style="margin-left: 20px; margin-top: 5px; margin-bottom: 5px">
+  <button type="button" class="btn btn-primary navbar-btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+    v0.1.0
+    <span class="caret"></span>
+  </button>
+<!--  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">-->
+<!--    <li><a href="https://mne.tools/mne-bids/dev/index.html">Development</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/stable/index.html">Stable</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/v0.4/index.html">v0.4</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/v0.3/index.html">v0.3</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/v0.2/index.html">v0.2</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/v0.1/index.html">v0.1</a></li>-->
+<!--  </ul>-->
+</div>
+
+
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary">
+        </div>
+      </div>
+    <div class="body col-md-9 content" role="main">
+      
+  <h1>Source code for seek_localize.label</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+
+<span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nb</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">mne.utils</span> <span class="kn">import</span> <span class="n">warn</span>
+<span class="kn">from</span> <span class="nn">mne_bids</span> <span class="kn">import</span> <span class="n">BIDSPath</span>
+<span class="kn">from</span> <span class="nn">nibabel.affines</span> <span class="kn">import</span> <span class="n">apply_affine</span>
+<span class="kn">from</span> <span class="nn">nptyping</span> <span class="kn">import</span> <span class="n">NDArray</span>
+
+<span class="kn">from</span> <span class="nn">seek_localize.bids</span> <span class="kn">import</span> <span class="n">_match_dig_sidecars</span>
+<span class="kn">from</span> <span class="nn">seek_localize.config</span> <span class="kn">import</span> <span class="n">MAPPING_COORD_FRAMES</span><span class="p">,</span> <span class="n">ACCEPTED_IMAGE_VOLUMES</span>
+<span class="kn">from</span> <span class="nn">seek_localize.electrodes</span> <span class="kn">import</span> <span class="n">Sensors</span>
+<span class="kn">from</span> <span class="nn">seek_localize.io</span> <span class="kn">import</span> <span class="n">read_dig_bids</span><span class="p">,</span> <span class="n">_read_lut_file</span>
+<span class="kn">from</span> <span class="nn">seek_localize.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">_scale_coordinates</span><span class="p">,</span>
+    <span class="n">_read_vertex_labels</span><span class="p">,</span>
+    <span class="n">_read_cortex_vertices</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">seek_localize.utils.space</span> <span class="kn">import</span> <span class="n">nearest_electrode_vert</span>
+
+
+<div class="viewcode-block" id="convert_elecs_coords"><a class="viewcode-back" href="../../generated/seek_localize.convert_elecs_coords.html#seek_localize.convert_elecs_coords">[docs]</a><span class="k">def</span> <span class="nf">convert_elecs_coords</span><span class="p">(</span><span class="n">sensors</span><span class="p">:</span> <span class="n">Sensors</span><span class="p">,</span> <span class="n">to_coord</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">round</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert electrode coordinates between voxel and xyz.</span>
+
+<span class="sd">    To obtain the sensors, one can use :func:`seek_localize.bids.read_dig_bids`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sensors : Sensors</span>
+<span class="sd">        An instance of the electrode sensors with the coordinates,</span>
+<span class="sd">        coordinate system and coordinate units.</span>
+<span class="sd">    to_coord : str</span>
+<span class="sd">        The type of coordinate unit to convert to. Must be one of</span>
+<span class="sd">        ``[&#39;voxel&#39;, &#39;mm&#39;]``.</span>
+<span class="sd">    round : bool</span>
+<span class="sd">        Whether to round the coordinates to the nearest integer.</span>
+<span class="sd">    img : instance of Nifti image | None</span>
+<span class="sd">        Image volume that sensors are intended for that supplies the</span>
+<span class="sd">        affine transformation to go from &#39;mm&#39; &lt;-&gt; &#39;voxels&#39;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    sensors : Sensors</span>
+<span class="sd">        The electrode sensors with converted coordinates.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    ``Nibabel`` processes everything in units of ``millimeters``.</span>
+
+<span class="sd">    To convert from xyz (e.g. &#39;mm&#39;) to voxel and vice versa, one</span>
+<span class="sd">    simply needs the ``IntendedFor`` image that contains the affine</span>
+<span class="sd">    ``vox2ras`` transformation. For example, this might be a T1w</span>
+<span class="sd">    image. One can use :func:`nibabel.affines.apply_affine` to then</span>
+<span class="sd">    apply the corresponding transformation from vox to xyz space.</span>
+
+<span class="sd">    Note, if you want to go from xyz to vox, then you need the</span>
+<span class="sd">    inverse of the ``vox2ras`` transformation.</span>
+
+<span class="sd">    If one wants to convert to ``tkras``, which is FreeSurfer&#39;s</span>
+<span class="sd">    surface xyz space, this is the xyz space of the closest surface [1,2,3].</span>
+<span class="sd">    This corresponds to the `vox2rask_tkr &lt;https://nipy.org/nibabel/reference/nibabel.freesurfer.html#nibabel.freesurfer.mghformat.MGHHeader.get_vox2ras_tkr&gt;`_  # noqa</span>
+<span class="sd">    function in ``nibabel``. The ``tkrvox2ras`` transformation can</span>
+<span class="sd">    be obtained from FreeSurfer&#39;s ``mri_info`` command via::</span>
+
+<span class="sd">        mri_info --vox2ras-tkr &lt;img&gt;</span>
+
+<span class="sd">    This will generally be the 4x4 matrix for FreeSurfer output.::</span>
+
+<span class="sd">            [</span>
+<span class="sd">                [-1.0, 0.0, 0.0, 128.0],</span>
+<span class="sd">                [0.0, 0.0, 1.0, -128.0],</span>
+<span class="sd">                [0.0, -1.0, 0.0, 128.0],</span>
+<span class="sd">                [0.0, 0.0, 0.0, 1.0],</span>
+<span class="sd">            ]</span>
+
+<span class="sd">    but may be different depending on how some FreeSurfer hyperparameters.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] FieldTrip explanation: https://www.fieldtriptoolbox.org/faq/how_are_the_different_head_and_mri_coordinate_systems_defined/#details-of-the-freesurfer-coordinate-system  # noqa</span>
+
+<span class="sd">    .. [2] How MNE handles FreeSurfer data: https://mne.tools/dev/auto_tutorials/source-modeling/plot_background_freesurfer_mne.html  # noqa</span>
+
+<span class="sd">    .. [3] FreeSurfer Wiki: https://surfer.nmr.mgh.harvard.edu/fswiki/CoordinateSystems  # noqa</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">to_coord</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">MAPPING_COORD_FRAMES</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Converting coordinates to </span><span class="si">{</span><span class="n">to_coord</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;is not accepted. Please use one of &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">MAPPING_COORD_FRAMES</span><span class="si">}</span><span class="s2"> coordinate systems.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">to_coord</span> <span class="o">==</span> <span class="n">sensors</span><span class="o">.</span><span class="n">coord_unit</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sensors</span>
+
+    <span class="c1"># get the image file path</span>
+    <span class="n">img_fpath</span> <span class="o">=</span> <span class="n">sensors</span><span class="o">.</span><span class="n">intended_for</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">img_fpath</span><span class="p">)</span>
+
+    <span class="c1"># voxel -&gt; xyz</span>
+    <span class="n">affine</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">affine</span>
+
+    <span class="c1"># xyz -&gt; voxel</span>
+    <span class="n">inv_affine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">affine</span><span class="p">)</span>
+
+    <span class="c1"># get the actual xyz coordinates</span>
+    <span class="n">elec_coords</span> <span class="o">=</span> <span class="n">sensors</span><span class="o">.</span><span class="n">get_coords</span><span class="p">()</span>
+
+    <span class="c1"># apply the affine</span>
+    <span class="k">if</span> <span class="n">to_coord</span> <span class="o">==</span> <span class="s2">&quot;voxel&quot;</span><span class="p">:</span>
+        <span class="c1"># first scale to millimeters if not already there</span>
+        <span class="n">elec_coords</span> <span class="o">=</span> <span class="n">_scale_coordinates</span><span class="p">(</span><span class="n">elec_coords</span><span class="p">,</span> <span class="n">sensors</span><span class="o">.</span><span class="n">coord_unit</span><span class="p">,</span> <span class="s2">&quot;mm&quot;</span><span class="p">)</span>
+
+        <span class="c1"># now convert xyz to voxels</span>
+        <span class="n">elec_coords</span> <span class="o">=</span> <span class="n">apply_affine</span><span class="p">(</span><span class="n">inv_affine</span><span class="p">,</span> <span class="n">elec_coords</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">to_coord</span> <span class="o">==</span> <span class="s2">&quot;mm&quot;</span><span class="p">:</span>
+        <span class="c1"># xyz -&gt; voxels</span>
+        <span class="n">elec_coords</span> <span class="o">=</span> <span class="n">apply_affine</span><span class="p">(</span><span class="n">affine</span><span class="p">,</span> <span class="n">elec_coords</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">to_coord</span> <span class="o">==</span> <span class="s2">&quot;tkras&quot;</span><span class="p">:</span>
+        <span class="c1"># get the voxel to tkRAS transform</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">vox2ras_tkr</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">get_vox2ras_tkr</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">warn</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unable to programmatically get vox2ras TKR, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;so setting manually. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="n">vox2ras_tkr</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">128.0</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">128.0</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">128.0</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+            <span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">sensors</span><span class="o">.</span><span class="n">coord_unit</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;voxel&quot;</span><span class="p">]:</span>
+            <span class="c1"># first scale to millimeters if not already there</span>
+            <span class="n">elec_coords</span> <span class="o">=</span> <span class="n">_scale_coordinates</span><span class="p">(</span><span class="n">elec_coords</span><span class="p">,</span> <span class="n">sensors</span><span class="o">.</span><span class="n">coord_unit</span><span class="p">,</span> <span class="s2">&quot;mm&quot;</span><span class="p">)</span>
+
+        <span class="c1"># now convert xyz to voxels</span>
+        <span class="n">elec_coords</span> <span class="o">=</span> <span class="n">apply_affine</span><span class="p">(</span><span class="n">inv_affine</span><span class="p">,</span> <span class="n">elec_coords</span><span class="p">)</span>
+
+        <span class="c1"># now convert voxels to tkras</span>
+        <span class="n">elec_coords</span> <span class="o">=</span> <span class="n">apply_affine</span><span class="p">(</span><span class="n">vox2ras_tkr</span><span class="p">,</span> <span class="n">elec_coords</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">round</span><span class="p">:</span>
+        <span class="c1"># round it off to integer</span>
+        <span class="n">elec_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">elec_coords</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="c1"># recreate sensors</span>
+    <span class="n">sensors</span> <span class="o">=</span> <span class="n">Sensors</span><span class="p">(</span><span class="o">**</span><span class="n">sensors</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+    <span class="n">sensors</span><span class="o">.</span><span class="n">set_coords</span><span class="p">(</span><span class="n">elec_coords</span><span class="p">)</span>
+    <span class="n">sensors</span><span class="o">.</span><span class="n">coord_unit</span> <span class="o">=</span> <span class="n">to_coord</span>
+    <span class="k">return</span> <span class="n">sensors</span></div>
+
+
+<span class="k">def</span> <span class="nf">_label_ecog</span><span class="p">(</span>
+    <span class="n">elec_coords</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">fs_subj_dir</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Label ecog electrode voxel coordinates in the atlas image space.</span>
+
+<span class="sd">    Requires the electrode coordinates to already be in voxel space.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    elec_coords : np.ndarray (n_channels, 3)</span>
+<span class="sd">        The voxel coordinates for the electrodes.</span>
+<span class="sd">    fs_subj_dir : str | pathlib.Path</span>
+<span class="sd">    verbose : bool</span>
+<span class="sd">        Verbosity</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    anatomy_labels : List</span>
+<span class="sd">        A list of the anatomical labels per each of the electrode voxel coordinates.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Finding nearest mesh vertex for each electrode&quot;</span><span class="p">)</span>
+
+    <span class="n">fs_subj_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">fs_subj_dir</span><span class="p">)</span>
+    <span class="n">gyri_dir</span> <span class="o">=</span> <span class="n">fs_subj_dir</span> <span class="o">/</span> <span class="s2">&quot;label&quot;</span> <span class="o">/</span> <span class="s2">&quot;gyri&quot;</span>
+    <span class="n">mesh_dir</span> <span class="o">=</span> <span class="n">fs_subj_dir</span> <span class="o">/</span> <span class="s2">&quot;Meshes&quot;</span>
+
+    <span class="c1"># read the vertex labels of the surface gyri</span>
+    <span class="n">rh_vert_labels</span> <span class="o">=</span> <span class="n">_read_vertex_labels</span><span class="p">(</span><span class="n">gyri_labels_dir</span><span class="o">=</span><span class="n">gyri_dir</span><span class="p">,</span> <span class="n">hem</span><span class="o">=</span><span class="s2">&quot;rh&quot;</span><span class="p">)</span>
+    <span class="n">lh_vert_labels</span> <span class="o">=</span> <span class="n">_read_vertex_labels</span><span class="p">(</span><span class="n">gyri_labels_dir</span><span class="o">=</span><span class="n">gyri_dir</span><span class="p">,</span> <span class="n">hem</span><span class="o">=</span><span class="s2">&quot;lh&quot;</span><span class="p">)</span>
+
+    <span class="c1"># read cortex&#39;s vertices as a numpy array</span>
+    <span class="n">rh_cortex_verts</span> <span class="o">=</span> <span class="n">_read_cortex_vertices</span><span class="p">(</span><span class="n">mesh_dir</span><span class="o">=</span><span class="n">mesh_dir</span><span class="p">,</span> <span class="n">hem</span><span class="o">=</span><span class="s2">&quot;rh&quot;</span><span class="p">)</span>
+    <span class="n">lh_cortex_verts</span> <span class="o">=</span> <span class="n">_read_cortex_vertices</span><span class="p">(</span><span class="n">mesh_dir</span><span class="o">=</span><span class="n">mesh_dir</span><span class="p">,</span> <span class="n">hem</span><span class="o">=</span><span class="s2">&quot;lh&quot;</span><span class="p">)</span>
+
+    <span class="c1"># find closest vertex</span>
+    <span class="n">rh_vert_inds</span><span class="p">,</span> <span class="n">rh_nearest_verts</span><span class="p">,</span> <span class="n">rh_dist_matrix</span> <span class="o">=</span> <span class="n">nearest_electrode_vert</span><span class="p">(</span>
+        <span class="n">rh_cortex_verts</span><span class="p">,</span> <span class="n">elec_coords</span><span class="p">,</span> <span class="n">return_dist</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="n">lh_vert_inds</span><span class="p">,</span> <span class="n">lh_nearest_verts</span><span class="p">,</span> <span class="n">lh_dist_matrix</span> <span class="o">=</span> <span class="n">nearest_electrode_vert</span><span class="p">(</span>
+        <span class="n">lh_cortex_verts</span><span class="p">,</span> <span class="n">elec_coords</span><span class="p">,</span> <span class="n">return_dist</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">rh_vert_inds</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">lh_vert_inds</span><span class="p">)</span>
+    <span class="n">n_chans</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">rh_vert_inds</span><span class="p">)</span>
+
+    <span class="c1">## Now make a dictionary of the label for each electrode</span>
+    <span class="n">anatomy_labels</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_chans</span><span class="p">):</span>
+        <span class="n">rh_dists</span> <span class="o">=</span> <span class="n">rh_dist_matrix</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">lh_dists</span> <span class="o">=</span> <span class="n">lh_dist_matrix</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">:]</span>
+
+        <span class="c1"># for this electrode, determine the closest hemisphere pial surface</span>
+        <span class="k">if</span> <span class="n">rh_dists</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">lh_dists</span><span class="o">.</span><span class="n">min</span><span class="p">():</span>
+            <span class="n">vert_inds</span> <span class="o">=</span> <span class="n">rh_vert_inds</span>
+            <span class="n">vert_label</span> <span class="o">=</span> <span class="n">rh_vert_labels</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">vert_inds</span> <span class="o">=</span> <span class="n">lh_vert_inds</span>
+            <span class="n">vert_label</span> <span class="o">=</span> <span class="n">lh_vert_labels</span>
+
+        <span class="c1"># obtain the anatomical label for the closest pial vertex</span>
+        <span class="k">if</span> <span class="n">vert_inds</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="ow">in</span> <span class="n">vert_label</span><span class="p">:</span>
+            <span class="n">anatomy_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vert_label</span><span class="p">[</span><span class="n">vert_inds</span><span class="p">[</span><span class="n">idx</span><span class="p">]]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">anatomy_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Unknown&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">anatomy_labels</span>
+
+
+<div class="viewcode-block" id="label_elecs_anat"><a class="viewcode-back" href="../../generated/seek_localize.label_elecs_anat.html#seek_localize.label_elecs_anat">[docs]</a><span class="k">def</span> <span class="nf">label_elecs_anat</span><span class="p">(</span>
+    <span class="n">bids_path</span><span class="p">:</span> <span class="n">BIDSPath</span><span class="p">,</span>
+    <span class="n">img_fname</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
+    <span class="n">fs_lut_fpath</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Label electrode anatomical location based on an annotated image volume.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bids_path : BIDSPath</span>
+<span class="sd">        The BIDS path constructed using :func:`mne_bids.BIDSPath` that leads</span>
+<span class="sd">        to the ``*electrodes.tsv`` file.</span>
+<span class="sd">    img_fname : str | pathlib.Path</span>
+<span class="sd">        The file path for the image volume. Must be a Nifti file.</span>
+<span class="sd">    fs_lut_fpath : str | pathlib.Path</span>
+<span class="sd">        The file path for the ``FreeSurferColorLUT.txt`` file.</span>
+<span class="sd">    verbose : bool</span>
+<span class="sd">        Verbosity.</span>
+<span class="sd">    kwargs : dict</span>
+<span class="sd">        Keyword arguments to be passed to</span>
+<span class="sd">        :func:`seek_localize.convert_elec_coords`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    elecs_df : pd.DataFrame</span>
+<span class="sd">        DataFrame for electrodes.tsv file. If you would like to save it to</span>
+<span class="sd">        disc. Suggested code</span>
+
+<span class="sd">            elecs_df.to_csv(bids_path, sep=&#39;\t&#39;, index=None)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># work with pathlib</span>
+    <span class="n">img_fname</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">img_fname</span><span class="p">)</span>
+
+    <span class="c1"># error check atlas image volume</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">img_fname</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ACCEPTED_IMAGE_VOLUMES</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Image must be one of FreeSurfer &quot;</span>
+            <span class="s2">&quot;output annotated image volumes: &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ACCEPTED_IMAGE_VOLUMES</span><span class="si">}</span><span class="s2">, not </span><span class="si">{</span><span class="n">img_fname</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">bids_path</span><span class="o">.</span><span class="n">suffix</span> <span class="o">!=</span> <span class="s2">&quot;electrodes&quot;</span> <span class="ow">or</span> <span class="n">bids_path</span><span class="o">.</span><span class="n">extension</span> <span class="o">!=</span> <span class="s2">&quot;.tsv&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;BIDS path input should lead &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;to the electrodes.tsv file. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">bids_path</span><span class="si">}</span><span class="s2"> does not have &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;suffix electrodes, and/or &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;extension .tsv.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="s2">&quot;aparc.a2009s+aseg.mgz&quot;</span> <span class="o">==</span> <span class="n">img_fname</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+        <span class="n">atlas_name</span> <span class="o">=</span> <span class="s2">&quot;destrieux&quot;</span>
+    <span class="k">elif</span> <span class="s2">&quot;aparc+aseg.mgz&quot;</span> <span class="o">==</span> <span class="n">img_fname</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+        <span class="n">atlas_name</span> <span class="o">=</span> <span class="s2">&quot;desikan-killiany&quot;</span>
+    <span class="k">elif</span> <span class="s2">&quot;wmparc.mgz&quot;</span> <span class="o">==</span> <span class="n">img_fname</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+        <span class="n">atlas_name</span> <span class="o">=</span> <span class="s2">&quot;desikan-killiany-wm&quot;</span>
+
+    <span class="c1"># read in the atlas volume image</span>
+    <span class="n">atlas_img</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">freesurfer</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">img_fname</span><span class="p">)</span>
+
+    <span class="c1"># get the names of these labels using Freesurfer&#39;s lookup table (LUT)</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading lookup table for freesurfer labels: </span><span class="si">{</span><span class="n">fs_lut_fpath</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">lut_labels</span> <span class="o">=</span> <span class="n">_read_lut_file</span><span class="p">(</span><span class="n">lut_fname</span><span class="o">=</span><span class="n">fs_lut_fpath</span><span class="p">)</span>
+
+    <span class="c1"># get the paths to the electrodes/coordsystem.json files</span>
+    <span class="n">elecs_path</span><span class="p">,</span> <span class="n">coordsystem_path</span> <span class="o">=</span> <span class="n">_match_dig_sidecars</span><span class="p">(</span><span class="n">bids_path</span><span class="p">)</span>
+    <span class="n">coordsystem_fname</span> <span class="o">=</span> <span class="n">coordsystem_path</span><span class="o">.</span><span class="n">fpath</span>
+    <span class="n">elecs_fname</span> <span class="o">=</span> <span class="n">elecs_path</span><span class="o">.</span><span class="n">fpath</span>
+
+    <span class="c1"># read in the electrodes / coordsystem</span>
+    <span class="n">elecs</span> <span class="o">=</span> <span class="n">read_dig_bids</span><span class="p">(</span><span class="n">elecs_fname</span><span class="p">,</span> <span class="n">coordsystem_fname</span><span class="o">=</span><span class="n">coordsystem_fname</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">elecs</span><span class="p">)</span>
+
+    <span class="c1"># convert elecs to voxel coordinates</span>
+    <span class="k">if</span> <span class="n">elecs</span><span class="o">.</span><span class="n">coord_unit</span> <span class="o">!=</span> <span class="s2">&quot;voxel&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="s2">&quot;Converting to voxel space because electrodes &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;are in </span><span class="si">{</span><span class="n">elecs</span><span class="o">.</span><span class="n">coord_unit</span><span class="si">}</span><span class="s2"> space.&quot;</span>
+            <span class="p">)</span>
+        <span class="n">elecs</span> <span class="o">=</span> <span class="n">convert_elecs_coords</span><span class="p">(</span><span class="n">sensors</span><span class="o">=</span><span class="n">elecs</span><span class="p">,</span> <span class="n">to_coord</span><span class="o">=</span><span class="s2">&quot;voxel&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># map wrt atlas</span>
+    <span class="n">elec_coords</span> <span class="o">=</span> <span class="n">elecs</span><span class="o">.</span><span class="n">get_coords</span><span class="p">()</span>
+    <span class="n">anatomy_labels</span> <span class="o">=</span> <span class="n">_label_depth</span><span class="p">(</span>
+        <span class="n">elec_coords</span><span class="p">,</span> <span class="n">atlas_img</span><span class="o">=</span><span class="n">atlas_img</span><span class="p">,</span> <span class="n">lut_labels</span><span class="o">=</span><span class="n">lut_labels</span>
+    <span class="p">)</span>
+
+    <span class="c1"># first get all the coordinates as a dictionary</span>
+    <span class="n">elecs_dict</span> <span class="o">=</span> <span class="n">elecs</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()</span>
+    <span class="n">elecs_dict</span><span class="p">[</span><span class="n">atlas_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">anatomy_labels</span>
+
+    <span class="c1"># update electrodes.tsv file with anatomical labels</span>
+    <span class="n">elecs_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">elecs_path</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">elecs_df</span><span class="p">[</span><span class="n">atlas_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">anatomy_labels</span>
+
+    <span class="k">return</span> <span class="n">elecs_df</span></div>
+
+
+<span class="k">def</span> <span class="nf">_label_depth</span><span class="p">(</span>
+    <span class="n">elec_coords</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">atlas_img</span><span class="p">:</span> <span class="n">nb</span><span class="o">.</span><span class="n">Nifti2Image</span><span class="p">,</span>
+    <span class="n">lut_labels</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Label depth electrode voxel coordinates in the atlas image space.</span>
+
+<span class="sd">    Requires the electrode coordinates to already be in voxel space.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    elec_coords : np.ndarray (n_channels, 3)</span>
+<span class="sd">        The voxel coordinates for the electrodes.</span>
+<span class="sd">    atlas_img : nb.Nifti2Image</span>
+<span class="sd">        The corresponding Nifti volumetric image that has an atlas</span>
+<span class="sd">        segmentation at the voxel level.</span>
+<span class="sd">    lut_labels : dict</span>
+<span class="sd">        A dictionary of voxel coordinates that are mapped to the</span>
+<span class="sd">        atlas anatomical label.</span>
+<span class="sd">    verbose : bool</span>
+<span class="sd">        Verbosity</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    anatomy_labels : List</span>
+<span class="sd">        A list of the anatomical labels per each of the electrode voxel coordinates.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Labeling electrodes...&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Label the electrodes according to the aseg volume</span>
+    <span class="n">nchans</span> <span class="o">=</span> <span class="n">elec_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># get the atlas data</span>
+    <span class="n">aparc_dat</span> <span class="o">=</span> <span class="n">atlas_img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()</span>
+
+    <span class="c1"># label each channel</span>
+    <span class="n">anatomy_labels</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nchans</span><span class="p">):</span>
+        <span class="n">voxel</span> <span class="o">=</span> <span class="n">elec_coords</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span>
+            <span class="nb">int</span>
+        <span class="p">)</span>  <span class="c1"># VoxCRS[elec, 0], VoxCRS[elec, 1], VoxCRS[elec, 2]</span>
+        <span class="n">voxel_num</span> <span class="o">=</span> <span class="n">aparc_dat</span><span class="p">[</span><span class="n">voxel</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">voxel</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">voxel</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">lut_labels</span><span class="p">[</span><span class="n">voxel_num</span><span class="p">]</span>
+        <span class="n">anatomy_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;E</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">, Vox CRS: </span><span class="si">{</span><span class="n">voxel</span><span class="si">}</span><span class="s2">, Label #</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">anatomy_labels</span>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2021-2021, seek_localize Developers. Last updated on 2021-02-08.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.4.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

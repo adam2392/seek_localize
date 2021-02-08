@@ -1,0 +1,118 @@
+version: 2.1
+
+jobs:
+  docs-build:
+    docker:
+      - image: circleci/python:3.8-buster
+
+    environment:
+      CODECOV_TOKEN: "03aa440a-f1d0-4a97-8c86-f8e12c2ff2f0"
+
+    steps:
+      - checkout
+
+      # Also restore pip cache to speed up installations
+      - restore_cache: # ensure this step occurs *before* installing dependencies
+          keys:
+            # when lock file changes, use increasingly general patterns to restore cache
+            - pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+            - pip-packages-v1-{{ .Branch }}-
+            - pip-packages-v1-
+
+      - run:
+          name: Setup Python environment via Pipenv
+          # ... but use latest version of EZTrack
+          command: |
+            sudo pip install --upgrade pip
+            sudo pip install pipenv
+            pipenv install --skip-lock --dev
+
+      - run:
+          name: Clone testing data
+          command: git clone --depth 1 https://github.com/adam2392/seek-testing-data.git
+
+      - run:
+          name: Run unit and integration tests
+          command: |
+            pipenv run make check
+            pipenv run pytest --cov=seek_localize ./tests/ --cov-report=xml --cov-config=setup.cfg --verbose
+
+      - save_cache:
+          key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+          paths:
+            - "~/.local/share/virtualenvs/venv"
+
+      - run:
+          name: Build the documentation
+          command: |
+            pipenv run make build-doc
+
+      - persist_to_workspace:
+          root: docs/_build
+          paths: html
+
+      - store_artifacts:
+          path: docs/_build/html/
+          destination: dev
+
+      - run:
+          name: Check links
+          command: |
+            pipenv run make -C docs clean
+      #            pipenv run make -C docs linkcheck
+      #            pipenv run make -C doc linkcheck-grep
+
+      - run:
+          name: Upload codecov report
+          command: |
+            bash <(curl -s https://codecov.io/bash)
+
+  docs-deploy:
+    # will only be run on master branch
+    docker:
+      - image: node:8.10.0
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: docs/_build
+
+      - run:
+          name: Install and configure dependencies
+          command: |
+            npm install -g --silent gh-pages@2.2
+            git config --global user.email "circle@seek.com"
+            git config --global user.name "Circle Ci"
+
+      - add_ssh_keys:
+          fingerprints:
+            - "da:e1:a0:1a:9e:e7:09:f8:29:32:ec:39:bc:1d:5c:ec"
+
+      - run:
+          # push built docs into the `dev` directory on the `gh-pages` branch
+          name: Deploy docs to gh-pages branch
+          command: gh-pages --dotfiles --message "doc updates [skip ci]" --dist docs/_build/html --dest ./dev
+
+workflows:
+  commit:
+    jobs:
+      - docs-build
+      - docs-deploy:
+          requires:
+            - docs-build
+          filters:
+            branches:
+              only: master
+
+#  scheduled:
+#    jobs:
+#      - docs-build
+#
+#    triggers:
+#      - schedule:
+#          cron: "0 4 * * *"
+#          filters:
+#            branches:
+#              only:
+#                - master
+

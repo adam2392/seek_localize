@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>seek_localize.convert_elecs_coords &#8212; seek_localize 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          SEEK-localize</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../whats_new.html">News</a></li>
+                <li><a href="../installation.html">Install</a></li>
+                <li><a href="../auto_examples/index.html">Examples</a></li>
+                <li><a href="../api.html">API</a></li>
+                <li><a href="../contributing.html">Contribute!</a></li>
+                <li><a href="https://github.com/adam2392/seek_localize">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+<div class="navbar-form navbar-right navbar-btn dropdown btn-group-sm" style="margin-left: 20px; margin-top: 5px; margin-bottom: 5px">
+  <button type="button" class="btn btn-primary navbar-btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+    v0.1.0
+    <span class="caret"></span>
+  </button>
+<!--  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">-->
+<!--    <li><a href="https://mne.tools/mne-bids/dev/index.html">Development</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/stable/index.html">Stable</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/v0.4/index.html">v0.4</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/v0.3/index.html">v0.3</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/v0.2/index.html">v0.2</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/v0.1/index.html">v0.1</a></li>-->
+<!--  </ul>-->
+</div>
+
+
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li><a class="reference internal" href="#">seek_localize.convert_elecs_coords</a></li>
+</ul>
+
+        </div>
+      </div>
+    <div class="body col-md-9 content" role="main">
+      
+  <div class="section" id="seek-localize-convert-elecs-coords">
+<h1>seek_localize.convert_elecs_coords<a class="headerlink" href="#seek-localize-convert-elecs-coords" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="seek_localize.convert_elecs_coords">
+<code class="sig-prename descclassname">seek_localize.</code><code class="sig-name descname">convert_elecs_coords</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sensors</span><span class="p">:</span> <span class="n">seek_localize.electrodes.Sensors</span></em>, <em class="sig-param"><span class="n">to_coord</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">round</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seek_localize/label.html#convert_elecs_coords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#seek_localize.convert_elecs_coords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert electrode coordinates between voxel and xyz.</p>
+<p>To obtain the sensors, one can use <code class="xref py py-func docutils literal notranslate"><span class="pre">seek_localize.bids.read_dig_bids()</span></code>.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>sensors</strong><span class="classifier"><a class="reference internal" href="seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sensors</span></code></a></span></dt><dd><p>An instance of the electrode sensors with the coordinates,
+coordinate system and coordinate units.</p>
+</dd>
+<dt><strong>to_coord</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The type of coordinate unit to convert to. Must be one of
+<code class="docutils literal notranslate"><span class="pre">['voxel',</span> <span class="pre">'mm']</span></code>.</p>
+</dd>
+<dt><strong>round</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bltin-boolean-values" title="(in Python v3.9)"><span class="xref std std-ref">bool</span></a></span></dt><dd><p>Whether to round the coordinates to the nearest integer.</p>
+</dd>
+<dt><strong>img</strong><span class="classifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instance</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Nifti</span></code> <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="docutils literal notranslate"><span class="pre">None</span></code></a></span></dt><dd><p>Image volume that sensors are intended for that supplies the
+affine transformation to go from ‘mm’ &lt;-&gt; ‘voxels’.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl>
+<dt><strong>sensors</strong><span class="classifier"><a class="reference internal" href="seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sensors</span></code></a></span></dt><dd><p>The electrode sensors with converted coordinates.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p><code class="docutils literal notranslate"><span class="pre">Nibabel</span></code> processes everything in units of <code class="docutils literal notranslate"><span class="pre">millimeters</span></code>.</p>
+<p>To convert from xyz (e.g. ‘mm’) to voxel and vice versa, one
+simply needs the <code class="docutils literal notranslate"><span class="pre">IntendedFor</span></code> image that contains the affine
+<code class="docutils literal notranslate"><span class="pre">vox2ras</span></code> transformation. For example, this might be a T1w
+image. One can use <a class="reference external" href="https://nipy.org/nibabel/reference/nibabel.affines.html#nibabel.affines.apply_affine" title="(in NiBabel v3.2.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">nibabel.affines.apply_affine()</span></code></a> to then
+apply the corresponding transformation from vox to xyz space.</p>
+<p>Note, if you want to go from xyz to vox, then you need the
+inverse of the <code class="docutils literal notranslate"><span class="pre">vox2ras</span></code> transformation.</p>
+<p>If one wants to convert to <code class="docutils literal notranslate"><span class="pre">tkras</span></code>, which is FreeSurfer’s
+surface xyz space, this is the xyz space of the closest surface [1,2,3].
+This corresponds to the <a class="reference external" href="https://nipy.org/nibabel/reference/nibabel.freesurfer.html#nibabel.freesurfer.mghformat.MGHHeader.get_vox2ras_tkr">vox2rask_tkr</a>  # noqa
+function in <code class="docutils literal notranslate"><span class="pre">nibabel</span></code>. The <code class="docutils literal notranslate"><span class="pre">tkrvox2ras</span></code> transformation can
+be obtained from FreeSurfer’s <code class="docutils literal notranslate"><span class="pre">mri_info</span></code> command via:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mri_info</span> <span class="o">--</span><span class="n">vox2ras</span><span class="o">-</span><span class="n">tkr</span> <span class="o">&lt;</span><span class="n">img</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>This will generally be the 4x4 matrix for FreeSurfer output.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">128.0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">128.0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">128.0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>but may be different depending on how some FreeSurfer hyperparameters.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r2ba247ab2be5-1"><span class="brackets">1</span></dt>
+<dd><p>FieldTrip explanation: <a class="reference external" href="https://www.fieldtriptoolbox.org/faq/how_are_the_different_head_and_mri_coordinate_systems_defined/#details-of-the-freesurfer-coordinate-system">https://www.fieldtriptoolbox.org/faq/how_are_the_different_head_and_mri_coordinate_systems_defined/#details-of-the-freesurfer-coordinate-system</a>  # noqa</p>
+</dd>
+<dt class="label" id="r2ba247ab2be5-2"><span class="brackets">2</span></dt>
+<dd><p>How MNE handles FreeSurfer data: <a class="reference external" href="https://mne.tools/dev/auto_tutorials/source-modeling/plot_background_freesurfer_mne.html">https://mne.tools/dev/auto_tutorials/source-modeling/plot_background_freesurfer_mne.html</a>  # noqa</p>
+</dd>
+<dt class="label" id="r2ba247ab2be5-3"><span class="brackets">3</span></dt>
+<dd><p>FreeSurfer Wiki: <a class="reference external" href="https://surfer.nmr.mgh.harvard.edu/fswiki/CoordinateSystems">https://surfer.nmr.mgh.harvard.edu/fswiki/CoordinateSystems</a>  # noqa</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2021-2021, seek_localize Developers. Last updated on 2021-02-08.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.4.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

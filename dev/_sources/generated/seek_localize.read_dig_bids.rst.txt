@@ -1,0 +1,6 @@
+﻿seek\_localize.read\_dig\_bids
+==============================
+
+.. currentmodule:: seek_localize
+
+.. autofunction:: read_dig_bids
