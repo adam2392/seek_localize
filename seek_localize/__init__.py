@@ -6,7 +6,8 @@ __name__ = "seek_localize"
 __version__ = "0.1.0"
 
 import seek_localize
-from .label import label_elecs_anat, convert_elecs_coords
+from .label import label_elecs_anat
+from .coordsystem import convert_coord_space, convert_coord_units
 from .io import read_dig_bids
 from .electrodes import Sensors
 from .utils import read_fieldtrip_elecs

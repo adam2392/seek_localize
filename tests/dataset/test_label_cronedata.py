@@ -6,10 +6,10 @@ import pandas as pd
 import pytest
 from mne_bids import BIDSPath
 from nibabel.affines import apply_affine
+from mne.utils import run_tests_if_main
 
-from seek_localize import fs_lut_fpath, read_dig_bids
-from seek_localize.io import _read_coords_json
-from seek_localize.label import label_elecs_anat, convert_elecs_coords
+from seek_localize import fs_lut_fpath, read_dig_bids, convert_coord_units
+from seek_localize.label import label_elecs_anat
 
 # BIDS entities
 subject = 'test'
@@ -53,14 +53,14 @@ def test_convert_coordunits(_temp_bids_root, to_coord):
         with pytest.raises(ValueError,
                            match='Converting coordinates '
                                  'to m is not accepted.'):
-            convert_elecs_coords(sensors=orig_sensors,
-                                 to_coord=to_coord)
+            convert_coord_units(sensors=orig_sensors,
+                                to_coord=to_coord)
         return
 
     # convert sensors to whatever space they need to be in
-    sensors_conv = convert_elecs_coords(sensors=orig_sensors,
-                                        to_coord=to_coord,
-                                        round=False)
+    sensors_conv = convert_coord_units(sensors=orig_sensors,
+                                       to_coord=to_coord,
+                                       round=False)
 
     # intended for image path should match
     assert img_fpath == sensors_conv.intended_for
@@ -76,17 +76,17 @@ def test_convert_coordunits(_temp_bids_root, to_coord):
         coords = apply_affine(inv_affine, orig_sensors.get_coords().copy())
 
         # round trip should be the same
-        orig_sensors_new = convert_elecs_coords(sensors=sensors_conv,
-                                              to_coord='voxel',
-                                              round=False)
+        orig_sensors_new = convert_coord_units(sensors=sensors_conv,
+                                               to_coord='voxel',
+                                               round=False)
         # the coordinates should match
         np.testing.assert_array_almost_equal(orig_sensors_new.get_coords(),
                                              orig_sensors.get_coords())
     elif to_coord == 'tkras':
         # convert to voxels
-        sensors_vox = convert_elecs_coords(sensors=orig_sensors,
-                                           to_coord='voxel',
-                                           round=False)
+        sensors_vox = convert_coord_units(sensors=orig_sensors,
+                                          to_coord='voxel',
+                                          round=False)
 
         # load FreeSurfer MGH file
         img = nb.load(T1mgz)
@@ -112,7 +112,10 @@ def test_anat_labeling(_temp_bids_root, img_fname, atlas_name, expected_anatomy)
 
     Should work regardless of input coordinate system.
     """
-    bids_path = _bids_path.copy().update(root=_temp_bids_root)
+    bids_path = _bids_path.copy().update(
+        # root=_temp_bids_root
+        root = './'
+    )
 
     coordsystem_fpath = bids_path.copy().update(suffix='coordsystem',
                                                 extension='.json')
@@ -157,3 +160,6 @@ def test_anat_labeling(_temp_bids_root, img_fname, atlas_name, expected_anatomy)
         label_elecs_anat(bids_path.copy().update(suffix='ieeg'),
                          img_fname=img_fname,
                          fs_lut_fpath=fs_lut_fpath)
+
+
+run_tests_if_main()

@@ -1,160 +1,22 @@
 import os
 from pathlib import Path
-from typing import Union, Dict, Any
 
 import nibabel as nb
 import numpy as np
 import pandas as pd
-from mne.utils import warn
 from mne_bids import BIDSPath
-from nibabel.affines import apply_affine
 from nptyping import NDArray
+from typing import Union, Dict, Any
 
+from seek_localize import convert_coord_units
 from seek_localize.bids import _match_dig_sidecars
-from seek_localize.config import MAPPING_COORD_FRAMES, ACCEPTED_IMAGE_VOLUMES
-from seek_localize.electrodes import Sensors
+from seek_localize.config import ACCEPTED_IMAGE_VOLUMES
 from seek_localize.io import read_dig_bids, _read_lut_file
 from seek_localize.utils import (
-    _scale_coordinates,
     _read_vertex_labels,
     _read_cortex_vertices,
 )
 from seek_localize.utils.space import nearest_electrode_vert
-
-
-def convert_elecs_coords(sensors: Sensors, to_coord: str, round=True):
-    """Convert electrode coordinates between voxel and xyz.
-
-    To obtain the sensors, one can use :func:`seek_localize.bids.read_dig_bids`.
-
-    Parameters
-    ----------
-    sensors : Sensors
-        An instance of the electrode sensors with the coordinates,
-        coordinate system and coordinate units.
-    to_coord : str
-        The type of coordinate unit to convert to. Must be one of
-        ``['voxel', 'mm']``.
-    round : bool
-        Whether to round the coordinates to the nearest integer.
-    img : instance of Nifti image | None
-        Image volume that sensors are intended for that supplies the
-        affine transformation to go from 'mm' <-> 'voxels'.
-
-    Returns
-    -------
-    sensors : Sensors
-        The electrode sensors with converted coordinates.
-
-    Notes
-    -----
-    ``Nibabel`` processes everything in units of ``millimeters``.
-
-    To convert from xyz (e.g. 'mm') to voxel and vice versa, one
-    simply needs the ``IntendedFor`` image that contains the affine
-    ``vox2ras`` transformation. For example, this might be a T1w
-    image. One can use :func:`nibabel.affines.apply_affine` to then
-    apply the corresponding transformation from vox to xyz space.
-
-    Note, if you want to go from xyz to vox, then you need the
-    inverse of the ``vox2ras`` transformation.
-
-    If one wants to convert to ``tkras``, which is FreeSurfer's
-    surface xyz space, this is the xyz space of the closest surface [1,2,3].
-    This corresponds to the `vox2rask_tkr <https://nipy.org/nibabel/reference/nibabel.freesurfer.html#nibabel.freesurfer.mghformat.MGHHeader.get_vox2ras_tkr>`_  # noqa
-    function in ``nibabel``. The ``tkrvox2ras`` transformation can
-    be obtained from FreeSurfer's ``mri_info`` command via::
-
-        mri_info --vox2ras-tkr <img>
-
-    This will generally be the 4x4 matrix for FreeSurfer output.::
-
-            [
-                [-1.0, 0.0, 0.0, 128.0],
-                [0.0, 0.0, 1.0, -128.0],
-                [0.0, -1.0, 0.0, 128.0],
-                [0.0, 0.0, 0.0, 1.0],
-            ]
-
-    but may be different depending on how some FreeSurfer hyperparameters.
-
-    References
-    ----------
-    .. [1] FieldTrip explanation: https://www.fieldtriptoolbox.org/faq/how_are_the_different_head_and_mri_coordinate_systems_defined/#details-of-the-freesurfer-coordinate-system  # noqa
-
-    .. [2] How MNE handles FreeSurfer data: https://mne.tools/dev/auto_tutorials/source-modeling/plot_background_freesurfer_mne.html  # noqa
-
-    .. [3] FreeSurfer Wiki: https://surfer.nmr.mgh.harvard.edu/fswiki/CoordinateSystems  # noqa
-    """
-    if to_coord not in MAPPING_COORD_FRAMES:
-        raise ValueError(
-            f"Converting coordinates to {to_coord} "
-            f"is not accepted. Please use one of "
-            f"{MAPPING_COORD_FRAMES} coordinate systems."
-        )
-
-    if to_coord == sensors.coord_unit:
-        return sensors
-
-    # get the image file path
-    img_fpath = sensors.intended_for
-    img = nb.load(img_fpath)
-
-    # voxel -> xyz
-    affine = img.affine
-
-    # xyz -> voxel
-    inv_affine = np.linalg.inv(affine)
-
-    # get the actual xyz coordinates
-    elec_coords = sensors.get_coords()
-
-    # apply the affine
-    if to_coord == "voxel":
-        # first scale to millimeters if not already there
-        elec_coords = _scale_coordinates(elec_coords, sensors.coord_unit, "mm")
-
-        # now convert xyz to voxels
-        elec_coords = apply_affine(inv_affine, elec_coords)
-    elif to_coord == "mm":
-        # xyz -> voxels
-        elec_coords = apply_affine(affine, elec_coords)
-    elif to_coord == "tkras":
-        # get the voxel to tkRAS transform
-        try:
-            vox2ras_tkr = img.header.get_vox2ras_tkr()
-        except AttributeError as e:
-            warn(
-                f"Unable to programmatically get vox2ras TKR, "
-                f"so setting manually. "
-                f"Error: {e}"
-            )
-            vox2ras_tkr = [
-                [-1.0, 0.0, 0.0, 128.0],
-                [0.0, 0.0, 1.0, -128.0],
-                [0.0, -1.0, 0.0, 128.0],
-                [0.0, 0.0, 0.0, 1.0],
-            ]
-
-        if sensors.coord_unit not in ["voxel"]:
-            # first scale to millimeters if not already there
-            elec_coords = _scale_coordinates(elec_coords, sensors.coord_unit, "mm")
-
-        # now convert xyz to voxels
-        elec_coords = apply_affine(inv_affine, elec_coords)
-
-        # now convert voxels to tkras
-        elec_coords = apply_affine(vox2ras_tkr, elec_coords)
-
-    if round:
-        # round it off to integer
-        elec_coords = np.round(elec_coords).astype(int)
-
-    # recreate sensors
-    sensors = Sensors(**sensors.__dict__)
-    sensors.set_coords(elec_coords)
-    sensors.coord_unit = to_coord
-    return sensors
 
 
 def _label_ecog(
@@ -303,13 +165,13 @@ def label_elecs_anat(
     print(elecs)
 
     # convert elecs to voxel coordinates
-    if elecs.coord_unit != "voxel":
+    if elecs.coord_unit != "mri":
         if verbose:
             print(
                 "Converting to voxel space because electrodes "
                 f"are in {elecs.coord_unit} space."
             )
-        elecs = convert_elecs_coords(sensors=elecs, to_coord="voxel", **kwargs)
+        elecs = convert_coord_units(sensors=elecs, to_coord="mri", **kwargs)
 
     # map wrt atlas
     elec_coords = elecs.get_coords()

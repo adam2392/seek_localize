@@ -59,6 +59,7 @@ CLASSIFICATION_OF_PACKAGE = [
 AUTHORS = [
     "Adam Li",
     "Chester Huynh",
+    "Christopher Coogan"
 ]
 
 
