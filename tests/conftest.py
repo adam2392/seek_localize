@@ -52,8 +52,8 @@ def _temp_bids_root(tmpdir):
     bids_root = Path('data')
 
     # comment out when not running locally
-    tmpdir = '/Users/adam2392/Downloads/data/'
-    bids_root = Path('/Users/adam2392/Documents/seek_localize/data')
+    # tmpdir = '/Users/adam2392/Downloads/data/'
+    # bids_root = Path('/Users/adam2392/Documents/seek_localize/data')
 
     # shutil copy entire thing
     shutil.copytree(bids_root, tmpdir, dirs_exist_ok=True)
