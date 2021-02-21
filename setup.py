@@ -34,7 +34,7 @@ DESCRIPTION = "iEEG-BIDS anatomical and electrode coordinate interfacing softwar
 URL = "https://github.com/adam2302/seek_localize/"
 MINIMUM_PYTHON_VERSION = 3, 6  # Minimum of Python 3.6
 REQUIRED_PACKAGES = [
-    "numpy>=1.20.0",
+    "numpy>=1.19",
     "scipy>=1.6.0",
     "pandas>=1.0.3",
     "natsort",
