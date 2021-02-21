@@ -37,10 +37,15 @@ def read_fieldtrip_elecs(elec_fname: Union[str, Path], verbose: bool = True) -> 
     eleccoords_mm = {}
 
     matreader = MatReader()
-    data = matreader.loadmat(elec_fname)
+    data = matreader.loadmat(elec_fname).get("elec_acpc_f")
 
-    eleclabels = data["eleclabels"]
-    elecmatrix = data["elecmatrix"]
+    if verbose:
+        print(f"Read in data with keys: {data.keys()}")
+
+    # eleclabels = data["eleclabels"]
+    # elecmatrix = data["elecmatrix"]
+    eleclabels = data["label"]
+    elecmatrix = data["chanpos"]
     # print(f"Electrode matrix shape: {elecmatrix.shape}")
 
     for i in range(len(eleclabels)):

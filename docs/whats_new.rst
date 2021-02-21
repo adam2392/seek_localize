@@ -29,7 +29,7 @@ Authors
 Changelog
 ~~~~~~~~~
 
--
+- Added string representation for ``Sensors`` class, by `Adam Li`_ (:gh:`17`)
 
 Bug
 ~~~
@@ -39,7 +39,7 @@ Bug
 API
 ~~~
 
--
+- Improve API to have conversion of units (voxels and xyz :func:`seek_localize.convert_coord_units`) and conversion of coordinate spaces (:func:`seek_localize.convert_coord_space`) that are BIDS-complaint, by `Adam Li`_ (:gh:`17`)
 
 :doc:`Find out what was new in previous releases <whats_new_previous_releases>`
 

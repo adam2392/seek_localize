@@ -27,6 +27,7 @@ def _match_dig_sidecars(bids_path):
     electrodes_fnames = BIDSPath(
         subject=bids_path.subject,
         session=bids_path.session,
+        space=bids_path.space,
         suffix="electrodes",
         extension=".tsv",
         root=bids_path.root,

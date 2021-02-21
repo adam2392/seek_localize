@@ -51,6 +51,10 @@ def _temp_bids_root(tmpdir):
     # paths to test files
     bids_root = Path('data')
 
+    # comment out when not running locally
+    tmpdir = '/Users/adam2392/Downloads/data/'
+    bids_root = Path('/Users/adam2392/Documents/seek_localize/data')
+
     # shutil copy entire thing
     shutil.copytree(bids_root, tmpdir, dirs_exist_ok=True)
 
@@ -73,7 +77,7 @@ def _temp_bids_root(tmpdir):
 
         # read in the original electrodes file
         elecs_df = pd.read_csv(_bids_path, delimiter='\t', index_col=None)
-        labels = ['destrieux', 'desikan-killiany']
+        labels = ['destrieux', 'desikan-killiany', 'desikan-killiany-wm']
         elecs_df.drop(labels=labels,
                       axis=1,
                       inplace=True,

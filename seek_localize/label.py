@@ -1,16 +1,16 @@
 import os
 from pathlib import Path
+from typing import Union, Dict, Any
 
 import nibabel as nb
 import numpy as np
 import pandas as pd
 from mne_bids import BIDSPath
 from nptyping import NDArray
-from typing import Union, Dict, Any
 
-from seek_localize import convert_coord_units
 from seek_localize.bids import _match_dig_sidecars
 from seek_localize.config import ACCEPTED_IMAGE_VOLUMES
+from seek_localize.coordsystem import convert_coord_units
 from seek_localize.io import read_dig_bids, _read_lut_file
 from seek_localize.utils import (
     _read_vertex_labels,
@@ -165,13 +165,13 @@ def label_elecs_anat(
     print(elecs)
 
     # convert elecs to voxel coordinates
-    if elecs.coord_unit != "mri":
+    if elecs.coord_unit != "voxel":
         if verbose:
             print(
-                "Converting to voxel space because electrodes "
+                "Converting to voxel mri space because electrodes "
                 f"are in {elecs.coord_unit} space."
             )
-        elecs = convert_coord_units(sensors=elecs, to_coord="mri", **kwargs)
+        elecs = convert_coord_units(sensors=elecs, to_unit="voxel", **kwargs)
 
     # map wrt atlas
     elec_coords = elecs.get_coords()

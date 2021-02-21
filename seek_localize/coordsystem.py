@@ -1,6 +1,7 @@
 from os import path as op
 from pathlib import Path
 from typing import Union
+
 import nibabel as nb
 import numpy as np
 from mne import read_talxfm
@@ -9,13 +10,13 @@ from mne.utils import warn
 from mne_bids import get_entities_from_fname
 from nibabel.affines import apply_affine
 
-from seek_localize import Sensors
-from seek_localize.config import MAPPING_COORD_FRAMES
+from seek_localize.config import MAPPING_COORD_FRAMES, SI, COORDINATE_UNITS
+from seek_localize.io import Sensors
 from seek_localize.utils import _scale_coordinates
 
 
 def convert_coord_space(
-    sensors: Sensors, to_coord: str, subjects_dir: str = None, verbose: bool = True
+    sensors: Sensors, to_frame: str, subjects_dir: str = None, verbose: bool = True
 ):
     """Convert electrode voxel coordinates between coordinate systems.
 
@@ -25,8 +26,11 @@ def convert_coord_space(
     ----------
     sensors : Sensors
         An instance of the electrode sensors with the coordinates,
-        coordinate system and coordinate units.
-    to_coord : str
+        coordinate system and coordinate units. It is assumed that
+        the coordinates are already in ``voxel`` units, in one of the
+        accepted coordinate frames. See Notes on coordinate frames
+        for more details.
+    to_frame : str
         The type of coordinate unit to convert to. Must be one of
         ``['mri', 'tkras', 'mni']``. ``tkras`` is the FreeSurfer
         special RAS space, described in Notes. ``mni`` is the Montreal
@@ -85,22 +89,21 @@ def convert_coord_space(
 
     .. [3] FreeSurfer Wiki: https://surfer.nmr.mgh.harvard.edu/fswiki/CoordinateSystems  # noqa
     """
-    if to_coord not in MAPPING_COORD_FRAMES:
+    if to_frame == sensors.coord_system:
+        return sensors
+
+    if to_frame not in MAPPING_COORD_FRAMES:
         raise ValueError(
-            f"Converting coordinates to {to_coord} "
+            f"Converting coordinates to {to_frame} "
             f"is not accepted. Please use one of "
             f"{MAPPING_COORD_FRAMES} coordinate systems."
         )
-    if sensors.coord_unit not in MAPPING_COORD_FRAMES:
+    if sensors.coord_unit != "voxel":
         raise ValueError(
             f"Converting coordinates requires sensor "
             f"coordinate space to be in 'voxel' space for "
-            f"a particular coordinate system. Please use one of "
-            f"{MAPPING_COORD_FRAMES} coordinate systems. "
+            f"a particular coordinate system not {sensors.coord_unit}. "
         )
-
-    if to_coord == sensors.coord_unit:
-        return sensors
 
     # get the image file path
     img_fpath = sensors.intended_for
@@ -114,7 +117,7 @@ def convert_coord_space(
     elec_coords = sensors.get_coords()
 
     # first convert to standardized MRI coordinates
-    if sensors.coord_unit == "mni":
+    if sensors.coord_system == "mni":
         # reverse MNI transform to MRI
         elec_coords = _handle_mni_trans(
             elec_coords=elec_coords,
@@ -123,14 +126,14 @@ def convert_coord_space(
             revert_mni=True,
             verbose=verbose,
         )
-    elif sensors.coord_unit == "tkras":
+    elif sensors.coord_system == "tkras":
         # reverse Tkras transform to MRI
         elec_coords = _handle_tkras_trans(
             elec_coords=elec_coords, img=img, revert_tkras=True, verbose=verbose
         )
 
     # next convert from standardized MRI coordinates -> desired coordinate system
-    if to_coord == "mni":
+    if to_frame == "mni":
         # reverse MNI transform to MRI
         elec_coords = _handle_mni_trans(
             elec_coords=elec_coords,
@@ -139,25 +142,24 @@ def convert_coord_space(
             revert_mni=False,
             verbose=verbose,
         )
-    elif to_coord == "tkras":
-        if sensors.coord_unit not in ["mri", "mni"]:
-            # first scale to millimeters if not already there
-            elec_coords = _scale_coordinates(elec_coords, sensors.coord_unit, "mm")
-
+        unit = "voxel"
+    elif to_frame == "tkras":
         # MRI transform to tkras
         elec_coords = _handle_tkras_trans(
             elec_coords=elec_coords, img=img, revert_tkras=False, verbose=verbose
         )
+        unit = "mm"
 
     # recreate sensors
     sensors = Sensors(**sensors.__dict__)
     sensors.set_coords(elec_coords)
-    sensors.coord_unit = to_coord
+    sensors.coord_unit = unit
+    sensors.coord_system = to_frame
     return sensors
 
 
 def convert_coord_units(
-    sensors: Sensors, to_coord: str, round=True, verbose: bool = True
+    sensors: Sensors, to_unit: str, round=True, verbose: bool = True
 ):
     """Convert electrode coordinates between voxel and xyz.
 
@@ -167,8 +169,12 @@ def convert_coord_units(
     ----------
     sensors : Sensors
         An instance of the electrode sensors with the coordinates,
-        coordinate system and coordinate units.
-    to_coord : str
+        coordinate system and coordinate units. It is assumed
+        that the sensors are already in ``mri`` coordinate frame.
+        If not, then one must use
+        `~seek_localize.coordsystem.convert_coord_space` to
+        convert coordinate spaces first.
+    to_unit : str
         The type of coordinate unit to convert to. Must be one of
         ``['mri', 'mm']``. ``mri`` corresponds to voxel space of the
         FreeSurfer ``T1.mgz`` file.
@@ -196,14 +202,27 @@ def convert_coord_units(
 
     .. [3] FreeSurfer Wiki: https://surfer.nmr.mgh.harvard.edu/fswiki/CoordinateSystems  # noqa
     """
-    if to_coord not in ["mri", "mm"]:
+    # error check coordinate units
+    if to_unit not in COORDINATE_UNITS:
         raise ValueError(
-            f"Converting coordinates to {to_coord} "
+            f"Converting coordinates to {to_unit} "
             f"is not accepted. Please use one of "
-            f"['mm', 'mri'] coordinate types."
+            f"{COORDINATE_UNITS} coordinate types."
         )
 
-    if to_coord == sensors.coord_unit:
+    # error check coordinate system
+    if sensors.coord_system not in ["mri"]:
+        raise ValueError(
+            f"Sensor coordinates should be in mri " f"space not {sensors.coord_system}."
+        )
+    if round is True and to_unit != "voxel":
+        warn(
+            f"Rounding when to_unit is {to_unit} " f"and not voxel is not recommended."
+        )
+
+    # if units are already in the right unit, then
+    # just return
+    if to_unit == sensors.coord_unit:
         return sensors
 
     # get the image file path
@@ -222,20 +241,24 @@ def convert_coord_units(
     if verbose:
         print(
             f"Converting coordinates from {sensors.coord_unit} to "
-            f"{to_coord} using {img_fpath}."
+            f"{to_unit} using {img_fpath}."
         )
 
     # apply the affine
-    if to_coord == "mri":
-        # first scale to millimeters if not already there
-        elec_coords = _scale_coordinates(elec_coords, sensors.coord_unit, "mm")
+    if to_unit == "voxel":
+        if sensors.coord_unit in SI:
+            # first scale to millimeters if not already there
+            elec_coords = _scale_coordinates(elec_coords, sensors.coord_unit, "mm")
 
         # now convert xyz to voxels
         elec_coords = apply_affine(inv_affine, elec_coords)
-    elif to_coord == "mm":
-        # xyz -> voxels
-        elec_coords = apply_affine(affine, elec_coords)
+    elif to_unit in SI:
+        if sensors.coord_unit == "voxel":
+            # xyz -> voxels
+            elec_coords = apply_affine(affine, elec_coords)
 
+        # first scale to millimeters if not already there
+        elec_coords = _scale_coordinates(elec_coords, "mm", to_unit)
     if round:
         # round it off to integer
         elec_coords = np.round(elec_coords).astype(int)
@@ -243,7 +266,7 @@ def convert_coord_units(
     # recreate sensors
     sensors = Sensors(**sensors.__dict__)
     sensors.set_coords(elec_coords)
-    sensors.coord_unit = to_coord
+    sensors.coord_unit = to_unit
     return sensors
 
 
@@ -255,13 +278,12 @@ def _handle_tkras_trans(
 ):
     """Handle FreeSurfer MRI <-> TKRAS."""
     # get the voxel to tkRAS transform
-    try:
+    if "get_vox2ras_tkr" in dir(img.header):
         vox2ras_tkr = img.header.get_vox2ras_tkr()
-    except AttributeError as e:
+    else:
         warn(
-            f"Unable to programmatically get vox2ras TKR, "
-            f"so setting manually. "
-            f"Error: {e}"
+            f"Unable to programmatically get vox2ras TKR "
+            f"from {img.get_filename()}, so setting manually."
         )
         vox2ras_tkr = [
             [-1.0, 0.0, 0.0, 128.0],
@@ -303,12 +325,17 @@ def _handle_mni_trans(
 
     # Try to get Norig and Torig
     # (i.e. vox_ras_t and vox_mri_t, respectively)
-    path = op.join(subjects_dir, subject, "mri", "orig.mgz")  # type: ignore
+    subj_fs_dir = Path(subjects_dir) / subject  # type: ignore
+    if not op.exists(subj_fs_dir):
+        subject = f"sub-{subject}"
+        subj_fs_dir = Path(subjects_dir) / subject  # type: ignore
+
+    path = op.join(subj_fs_dir, "mri", "orig.mgz")  # type: ignore
     if not op.isfile(path):
-        path = op.join(subjects_dir, subject, "mri", "T1.mgz")  # type: ignore
+        path = op.join(subj_fs_dir, "mri", "T1.mgz")  # type: ignore
     if not op.isfile(path):
         raise IOError("mri not found: %s" % path)
-    _, _, mri_ras_t, _, _ = _read_mri_info(path)
+    _, _, mri_ras_t, _, _ = _read_mri_info(path, units="mm")
 
     # get the intended affine transform from vox -> RAS
     img = nb.load(img_fpath)
@@ -316,24 +343,32 @@ def _handle_mni_trans(
     intended_affine = img.affine
 
     # check that vox2ras is the same as our affine
-    if not np.isclose(intended_affine, mri_ras_t):
-        raise RuntimeError(
-            f"You are trying to convert data "
-            f"to MNI coordinates for {img_fpath}, "
-            f"but this does not correspond to the "
-            f"original T1.mgz file of FreeSurfer. "
-            f"This is a limitation..."
-        )
+    # if not np.all(np.isclose(intended_affine, mri_ras_t['trans'],
+    #                          atol=1e-6)):
+    #     print(np.isclose(intended_affine, mri_ras_t['trans'],
+    #                          atol=1e-6))
+    #     print(intended_affine)
+    #     print(mri_ras_t['trans'])
+    #     raise RuntimeError(
+    #         f"You are trying to convert data "
+    #         f"to MNI coordinates for {img_fpath}, "
+    #         f"but this does not correspond to the "
+    #         f"original T1.mgz file of FreeSurfer. "
+    #         f"This is a limitation..."
+    #     )
 
     # read mri voxel of T1.mgz -> MNI tal xfm
     mri_mni_t = read_talxfm(subject=subject, subjects_dir=subjects_dir, verbose=verbose)
 
+    # make sure these are in mm
+    mri_to_mni_aff = mri_mni_t["trans"] * 1000.0
+
     # if reversing MNI, invert affine transform
     # else keep the same as read in
     if revert_mni:
-        affine = np.linalg.inv(mri_mni_t)
+        affine = np.linalg.inv(mri_to_mni_aff)
     else:
-        affine = mri_mni_t
+        affine = mri_to_mni_aff
 
     # first convert to voxels
     elec_coords = apply_affine(affine, elec_coords)
