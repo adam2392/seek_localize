@@ -45,7 +45,8 @@ Setup and Installation
 ----------------------
 
 See `INSTALLATION GUIDE <https://github.com/adam2392/seek_localize/blob/master/doc/installation.rst>`_ for full instructions.
-A quick setup can occur with github and ``pipenv``.
+A quick setup can occur with github and ``pipenv``. This has been tested on
+Python versions 3.7, 3.8 and 3.9.
 
 .. code-block:: bash
 

@@ -42,6 +42,7 @@ from seek_localize import read_dig_bids, convert_coord_units, convert_coord_spac
 # ``seek-localize`` repository.
 
 bids_root = (Path.cwd() / Path("../data/")).absolute()
+subjects_dir = bids_root / 'derivatives' / 'freesurfer'
 
 ###############################################################################
 # Now it's time to get ready for labeling some of the data! First, we need to
@@ -121,7 +122,8 @@ sensors_tkras = convert_coord_space(sensors_vox, to_frame="tkras")
 print(sensors_tkras)
 
 # We could convert it to ``mni``.
-sensors_mni = convert_coord_space(sensors_vox, to_frame="mni")
+sensors_mni = convert_coord_space(sensors_vox, to_frame="mni",
+                                  subjects_dir=subjects_dir)
 print(sensors_mni)
 
 # We could convert it to back to ``mri``.
