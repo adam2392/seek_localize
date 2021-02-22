@@ -49,16 +49,13 @@ _bids_path = BIDSPath(subject=subject, session=session,
 ])
 def test_convert_coordunits(_temp_bids_root, to_frame, to_unit):
     """Test conversion of coordinate units between voxel and xyz."""
-    print('INSIDE THE TEST')
-    print(os.getcwd())
-
     bids_path = _bids_path.copy().update(root=_temp_bids_root)
     subject = bids_path.subject
     coordsystem_fpath = bids_path.copy().update(suffix='coordsystem',
                                                 extension='.json')
 
     # read dig bids
-    sensors_mm = read_dig_bids(bids_path, coordsystem_fpath)
+    sensors_mm = read_dig_bids(bids_path, root=_temp_bids_root)
     img_fpath = sensors_mm.intended_for
 
     # check error on unexpected kwarg

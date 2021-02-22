@@ -157,11 +157,10 @@ def label_elecs_anat(
 
     # get the paths to the electrodes/coordsystem.json files
     elecs_path, coordsystem_path = _match_dig_sidecars(bids_path)
-    coordsystem_fname = coordsystem_path.fpath
     elecs_fname = elecs_path.fpath
 
     # read in the electrodes / coordsystem
-    elecs = read_dig_bids(elecs_fname, coordsystem_fname=coordsystem_fname)
+    elecs = read_dig_bids(elecs_fname, root=bids_path.root)
     print(elecs)
 
     # convert elecs to voxel coordinates

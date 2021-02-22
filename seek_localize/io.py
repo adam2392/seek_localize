@@ -79,17 +79,17 @@ def _read_coords_json(coordsystem_fname):
     return coord_system, unit
 
 
-def read_dig_bids(elecs_fname, coordsystem_fname, intended_for: str = None):
+def read_dig_bids(fname, root, intended_for: str = None):
     """Read electrode coordinates from BIDS files.
 
     TODO: improve to error check coordinatesystem.
 
     Parameters
     ----------
-    elecs_fname : str | pathlib.Path
-        File path to the electrodes.tsv file.
-    coordsystem_fname : str | pathlib.Path
-        File path to the coordsystem.json file.
+    fname : str | pathlib.Path
+        File path to the electrodes.tsv file, or
+        file path to the coordsystem.json file. Each one will be inferred
+        based on the BIDS entities inside the filename.
     intended_for : str | None
         Optional parameter to tell function path of the Nifti image
         to interpret sensor coordinates for.
@@ -99,6 +99,17 @@ def read_dig_bids(elecs_fname, coordsystem_fname, intended_for: str = None):
     sensors : seek_localize.Sensors
         A data class containing the electrode sensors.
     """
+    # check that filename adheres to BIDS naming convention
+    entities = get_entities_from_fname(fname, on_error="raise")
+
+    # get the 3 channels needed
+    datatype = "ieeg"
+    elecs_fname = BIDSPath(**entities, datatype=datatype, root=root)
+    elecs_fname.update(suffix="electrodes", extension=".tsv")
+    coordsystem_fname = elecs_fname.copy().update(
+        suffix="coordsystem", extension=".json"
+    )
+
     # read in elecs_fname
     ch_names, x, y, z = _read_elecs_tsv(elecs_fname)
 
