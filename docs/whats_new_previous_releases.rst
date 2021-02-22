@@ -6,6 +6,34 @@ What was new in previous releases?
 ==================================
 
 .. currentmodule:: seek_localize
+.. _changes_0_2:
+
+Version 0.2 (2021-02-22)
+------------------------
+
+Notable changes
+~~~~~~~~~~~~~~~
+This version of ``seek-localize`` provides improved BIDS io and
+a unified API to perform conversion of units and coordinate systems.
+
+Authors
+~~~~~~~
+
+* `Adam Li`_
+* `Chester Huynh`_
+
+Changelog
+~~~~~~~~~
+
+- Added string representation for ``Sensors`` class, by `Adam Li`_ (:gh:`3`)
+
+API
+~~~
+
+- Implementation of :func:`seek_localize.write_dig_bids` for outputting ``*_electrodes.tsv`` and ``*_coordsystem.json`` files, by `Adam Li`_ (:gh:`5`)
+- Improve API to have conversion of units (voxels and xyz :func:`seek_localize.convert_coord_units`) and conversion of coordinate spaces (:func:`seek_localize.convert_coord_space`) that are BIDS-complaint, by `Adam Li`_ (:gh:`3`)
+
+.. currentmodule:: seek_localize
 .. _changes_0_1:
 
 Version 0.1 (2020-10-22)
