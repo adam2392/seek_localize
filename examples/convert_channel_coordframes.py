@@ -34,7 +34,7 @@ from pathlib import Path
 
 from mne_bids import BIDSPath
 
-from seek_localize import read_dig_bids, convert_elecs_coords
+from seek_localize import read_dig_bids, convert_coord_units, convert_coord_space
 
 ###############################################################################
 # We will be using the `testing dataset`, which
@@ -42,6 +42,7 @@ from seek_localize import read_dig_bids, convert_elecs_coords
 # ``seek-localize`` repository.
 
 bids_root = (Path.cwd() / Path("../data/")).absolute()
+subjects_dir = bids_root / 'derivatives' / 'freesurfer'
 
 ###############################################################################
 # Now it's time to get ready for labeling some of the data! First, we need to
@@ -98,24 +99,40 @@ print(sensors)
 
 ###############################################################################
 # The data already saved was originally written in ``'mm'``, so we can
-# convert to ``voxel`` space.
+# convert to ``voxel`` space denoted by the ``mri`` coordinate frame.
+# This is in-line with how MNE_ does things
 #
 
-sensors_vox = convert_elecs_coords(sensors, to_coord="voxel")
+sensors_vox = convert_coord_units(sensors, to_unit="voxel")
 print(sensors_vox)
 
 ###############################################################################
 # We could convert it to ``mm``.
-sensors_mm = convert_elecs_coords(sensors_vox, to_coord="mm")
+sensors_mm = convert_coord_units(sensors_vox, to_unit="mm")
 print(sensors_mm)
 
 ###############################################################################
+# The data was originally saved according to the ``mri`` space, intended
+# for the ``T1.mgz`` image in FreeSurfer. One can also use seek_localize to
+# transform to standard coordinate spaces, such as ``tkras`` and ``mni``.
+#
+
 # We could convert it to ``tkras``.
-sensors_tkras = convert_elecs_coords(sensors_vox, to_coord="tkras")
+sensors_tkras = convert_coord_space(sensors_vox, to_frame="tkras")
 print(sensors_tkras)
+
+# We could convert it to ``mni``.
+sensors_mni = convert_coord_space(sensors_vox, to_frame="mni",
+                                  subjects_dir=subjects_dir)
+print(sensors_mni)
+
+# We could convert it to back to ``mri``.
+sensors_mri = convert_coord_space(sensors_vox, to_frame="mri")
+print(sensors_mri)
 
 ###############################################################################
 # .. LINKS
 #
 # .. _iEEG-BIDS:
 #    https://bids-specification.readthedocs.io/en/stable/04-modality-specific-files/04-intracranial-electroencephalography.html
+# .. _MNE: https://mne.tools/dev/auto_tutorials/source-modeling/plot_source_alignment.html

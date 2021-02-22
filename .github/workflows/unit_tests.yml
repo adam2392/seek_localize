@@ -52,7 +52,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, macos-latest ]
-        python-version: [ 3.6, 3.7, 3.8, 3.9 ]
+        python-version: [ 3.7, 3.8, 3.9 ]
     steps:
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1
@@ -99,13 +99,19 @@ jobs:
       matrix:
         os: [ ubuntu-latest, macos-latest ]
         python-version: [ 3.8, 3.9 ]
+        bids-validator: [master, stable]
 
     env:
       TZ: Europe/Berlin
       FORCE_COLOR: true
     steps:
       - uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
 
+      - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1
         with:
@@ -128,10 +134,26 @@ jobs:
           pip install -r requirements.txt
           pip install -r test_requirements.txt
 
+      - name: Install BIDS validator (stable)
+        if: "matrix.bids-validator == 'stable'"
+        run: |
+          npm install -g bids-validator
+
+      - name: Install BIDS validator (master)
+        if: "matrix.bids-validator == 'master'"
+        run: |
+          pushd ..
+          git clone --depth 1 https://github.com/bids-standard/bids-validator
+          npm install -g bids-validator/bids-validator
+          popd
+
       - name: Display versions and environment information
         run: |
           echo $TZ
           date
+          echo "npm"; npm --version
+          echo "node"; node --version
+          echo "bids-validator"; bids-validator --version
           python --version
           which python
           python -c "import mne; mne.sys_info()"
@@ -142,8 +164,8 @@ jobs:
         run: |
           python -m pytest . --cov=seek_localize --cov-report=xml --cov-config=setup.cfg --verbose --ignore mne-python
         shell: bash
-#      - name: Upload coverage stats to codecov
-#        if: "matrix.os == 'ubuntu-latest'"
-#        uses: codecov/codecov-action@v1
-#        with:
-#          file: ./coverage.xml
+      - name: Upload coverage stats to codecov
+        if: "matrix.os == 'ubuntu-latest'"
+        uses: codecov/codecov-action@v1
+        with:
+          file: ./coverage.xml

@@ -34,7 +34,7 @@ DESCRIPTION = "iEEG-BIDS anatomical and electrode coordinate interfacing softwar
 URL = "https://github.com/adam2302/seek_localize/"
 MINIMUM_PYTHON_VERSION = 3, 6  # Minimum of Python 3.6
 REQUIRED_PACKAGES = [
-    "numpy>=1.20.0",
+    "numpy>=1.19",
     "scipy>=1.6.0",
     "pandas>=1.0.3",
     "natsort",
@@ -42,6 +42,7 @@ REQUIRED_PACKAGES = [
     "mne>=0.22.0",
     "mne-bids>=0.6",
     "pybv>=0.4.0",
+    "nptyping"
 ]
 CLASSIFICATION_OF_PACKAGE = [
     # How mature is this project? Common values are
@@ -51,14 +52,16 @@ CLASSIFICATION_OF_PACKAGE = [
     "Development Status :: 3 - Alpha",
     # Specify the Python versions you support here. In particular, ensure
     # that you indicate whether you support Python 2, Python 3 or both.
-    "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: Implementation",
     "Natural Language :: English",
 ]
 AUTHORS = [
     "Adam Li",
     "Chester Huynh",
+    "Christopher Coogan"
 ]
 
 

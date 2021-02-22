@@ -12,12 +12,13 @@ import nibabel as nb
 import numpy as np
 import pandas as pd
 
+from seek_localize.config import SI
 
-def _scale_coordinates(coord, from_unit, to_unit="m"):
+
+def _scale_coordinates(coord, from_unit, to_unit):
     """Scale units to meters (mne-python default)."""
-    SI = {"mm": 0.001, "cm": 0.01, "m": 1.0}
     divisor = SI[from_unit] / SI[to_unit]
-    return np.divide(coord, divisor)
+    return np.multiply(coord, divisor)
 
 
 def apply_xfm_to_elecs(xfm_fpath, electrodes_fname, t1w_fpath):

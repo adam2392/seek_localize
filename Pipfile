@@ -24,6 +24,7 @@ nbsphinx = "*"
 pipfile-requirements = "*"
 sphinx-autodoc-typehints = "*"
 pymcubes = "*"
+typing-extensions = "*"
 
 [packages]
 mne = ">=0.22"

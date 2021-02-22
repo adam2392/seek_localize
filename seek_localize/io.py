@@ -109,6 +109,15 @@ def read_dig_bids(elecs_fname, coordsystem_fname, intended_for: str = None):
     coord_system = coordsystem_json["iEEGCoordinateSystem"]
     unit = coordsystem_json["iEEGCoordinateUnits"]
 
+    # if units are voxels and coord_system is other, then
+    # assume coordinate system 'mri'
+    if coord_system == "other":
+        print(
+            "SETTING COORDINATE SYSTEM AS MRI by default if "
+            'coordinatesystem is "other".'
+        )
+        coord_system = "mri"
+
     # get the BIDS root
     entities = get_entities_from_fname(elecs_fname)
     elecs_bids_path = BIDSPath(**entities, datatype="ieeg", extension=".tsv").fpath
