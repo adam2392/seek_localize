@@ -3,7 +3,7 @@
 import os
 
 __name__ = "seek_localize"
-__version__ = "0.2.0dev"
+__version__ = "0.2.0"
 
 import seek_localize
 from .label import label_elecs_anat

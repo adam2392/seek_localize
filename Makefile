@@ -15,20 +15,27 @@ clean-pyc:
 	find . -name "*.pyc" | xargs rm -f
 	find . -name "*.DS_Store" | xargs rm -f
 
-clean-so:
-	find . -name "*.so" | xargs rm -f
-	find . -name "*.pyd" | xargs rm -f
+#clean-so:
+#	find . -name "*.so" | xargs rm -f
+#	find . -name "*.pyd" | xargs rm -f
 
 clean-build:
 	rm -rf _build
+	rm -rf dist
+	rm -rf seek_localize.egg-info
 
 clean-ctags:
 	rm -f tags
 
-clean-cache:
-	find . -name "__pychache__" | xargs rm -rf
+clean-test:
+	rm -rf .mypy_cache
+	rm -rf .pytest_cache
+	rm junit-results.xml
 
-clean: clean-build clean-pyc clean-so clean-ctags clean-cache
+#clean-cache:
+	#find . -name "__pychache__" | xargs rm -rf
+
+clean: clean-build clean-pyc clean-ctags clean-test
 
 reqs:
 	pipfile2req --dev > test_requirements.txt
