@@ -7,6 +7,7 @@ from mne_bids import BIDSPath
 
 from seek_localize import fs_lut_fpath
 from seek_localize.label import label_elecs_anat
+from seek_localize.bids import bids_validate
 
 # BIDS entities
 subject = 'test'
@@ -67,7 +68,6 @@ def test_anat_labeling(_temp_bids_root, img_fname, atlas_name, expected_anatomy)
     new_elecs_df.to_csv(bids_path, sep="\t", index=None)
 
     # original dataframe should not change
-    # TODO: need to make work with crone data?
     for column in elecs_df.columns:
         pd.testing.assert_series_equal(elecs_df[column], new_elecs_df[column])
 

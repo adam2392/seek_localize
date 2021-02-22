@@ -49,7 +49,7 @@ def _bids_validate():
 @pytest.fixture(scope='function')
 def _temp_bids_root(tmpdir):
     # paths to test files
-    bids_root = Path('data')
+    bids_root = Path(os.getcwd()) / 'data'
 
     # comment out when not running locally
     # tmpdir = '/Users/adam2392/Downloads/data/'
