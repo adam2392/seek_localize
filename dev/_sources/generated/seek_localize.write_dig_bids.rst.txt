@@ -1,0 +1,6 @@
+﻿seek\_localize.write\_dig\_bids
+===============================
+
+.. currentmodule:: seek_localize
+
+.. autofunction:: write_dig_bids

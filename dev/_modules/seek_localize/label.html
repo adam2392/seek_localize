@@ -276,11 +276,10 @@
 
     <span class="c1"># get the paths to the electrodes/coordsystem.json files</span>
     <span class="n">elecs_path</span><span class="p">,</span> <span class="n">coordsystem_path</span> <span class="o">=</span> <span class="n">_match_dig_sidecars</span><span class="p">(</span><span class="n">bids_path</span><span class="p">)</span>
-    <span class="n">coordsystem_fname</span> <span class="o">=</span> <span class="n">coordsystem_path</span><span class="o">.</span><span class="n">fpath</span>
     <span class="n">elecs_fname</span> <span class="o">=</span> <span class="n">elecs_path</span><span class="o">.</span><span class="n">fpath</span>
 
     <span class="c1"># read in the electrodes / coordsystem</span>
-    <span class="n">elecs</span> <span class="o">=</span> <span class="n">read_dig_bids</span><span class="p">(</span><span class="n">elecs_fname</span><span class="p">,</span> <span class="n">coordsystem_fname</span><span class="o">=</span><span class="n">coordsystem_fname</span><span class="p">)</span>
+    <span class="n">elecs</span> <span class="o">=</span> <span class="n">read_dig_bids</span><span class="p">(</span><span class="n">elecs_fname</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="n">bids_path</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">elecs</span><span class="p">)</span>
 
     <span class="c1"># convert elecs to voxel coordinates</span>

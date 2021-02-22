@@ -198,17 +198,17 @@
     <span class="k">return</span> <span class="n">coord_system</span><span class="p">,</span> <span class="n">unit</span>
 
 
-<div class="viewcode-block" id="read_dig_bids"><a class="viewcode-back" href="../../generated/seek_localize.read_dig_bids.html#seek_localize.read_dig_bids">[docs]</a><span class="k">def</span> <span class="nf">read_dig_bids</span><span class="p">(</span><span class="n">elecs_fname</span><span class="p">,</span> <span class="n">coordsystem_fname</span><span class="p">,</span> <span class="n">intended_for</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="read_dig_bids"><a class="viewcode-back" href="../../generated/seek_localize.read_dig_bids.html#seek_localize.read_dig_bids">[docs]</a><span class="k">def</span> <span class="nf">read_dig_bids</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">intended_for</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Read electrode coordinates from BIDS files.</span>
 
 <span class="sd">    TODO: improve to error check coordinatesystem.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    elecs_fname : str | pathlib.Path</span>
-<span class="sd">        File path to the electrodes.tsv file.</span>
-<span class="sd">    coordsystem_fname : str | pathlib.Path</span>
-<span class="sd">        File path to the coordsystem.json file.</span>
+<span class="sd">    fname : str | pathlib.Path</span>
+<span class="sd">        File path to the electrodes.tsv file, or</span>
+<span class="sd">        file path to the coordsystem.json file. Each one will be inferred</span>
+<span class="sd">        based on the BIDS entities inside the filename.</span>
 <span class="sd">    intended_for : str | None</span>
 <span class="sd">        Optional parameter to tell function path of the Nifti image</span>
 <span class="sd">        to interpret sensor coordinates for.</span>
@@ -218,6 +218,17 @@
 <span class="sd">    sensors : seek_localize.Sensors</span>
 <span class="sd">        A data class containing the electrode sensors.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># check that filename adheres to BIDS naming convention</span>
+    <span class="n">entities</span> <span class="o">=</span> <span class="n">get_entities_from_fname</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">on_error</span><span class="o">=</span><span class="s2">&quot;raise&quot;</span><span class="p">)</span>
+
+    <span class="c1"># get the 3 channels needed</span>
+    <span class="n">datatype</span> <span class="o">=</span> <span class="s2">&quot;ieeg&quot;</span>
+    <span class="n">elecs_fname</span> <span class="o">=</span> <span class="n">BIDSPath</span><span class="p">(</span><span class="o">**</span><span class="n">entities</span><span class="p">,</span> <span class="n">datatype</span><span class="o">=</span><span class="n">datatype</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+    <span class="n">elecs_fname</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;electrodes&quot;</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="s2">&quot;.tsv&quot;</span><span class="p">)</span>
+    <span class="n">coordsystem_fname</span> <span class="o">=</span> <span class="n">elecs_fname</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+        <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;coordsystem&quot;</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="s2">&quot;.json&quot;</span>
+    <span class="p">)</span>
+
     <span class="c1"># read in elecs_fname</span>
     <span class="n">ch_names</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">_read_elecs_tsv</span><span class="p">(</span><span class="n">elecs_fname</span><span class="p">)</span>
 

@@ -94,7 +94,7 @@ print(coordsystem_fpath.fpath)
 # electrode coordinates in (e.g. a T1w image in FreeSurfer space).
 #
 
-sensors = read_dig_bids(electrodes_fpath, coordsystem_fpath)
+sensors = read_dig_bids(electrodes_fpath, root=bids_root)
 print(sensors)
 
 ###############################################################################
