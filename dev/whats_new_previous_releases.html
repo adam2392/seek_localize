@@ -113,8 +113,15 @@
       <div class="col-md-3">
         <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
 <li><a class="reference internal" href="#">What was new in previous releases?</a><ul>
-<li><a class="reference internal" href="#version-0-1-2020-10-22">Version 0.1 (2020-10-22)</a><ul>
+<li><a class="reference internal" href="#version-0-2-2021-02-22">Version 0.2 (2021-02-22)</a><ul>
 <li><a class="reference internal" href="#notable-changes">Notable changes</a></li>
+<li><a class="reference internal" href="#authors">Authors</a></li>
+<li><a class="reference internal" href="#changelog">Changelog</a></li>
+<li><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#version-0-1-2020-10-22">Version 0.1 (2020-10-22)</a><ul>
+<li><a class="reference internal" href="#id1">Notable changes</a></li>
 <li><a class="reference internal" href="#author-list">Author List</a></li>
 <li><a class="reference internal" href="#detailed-list-of-changes">Detailed list of changes</a><ul>
 <li><a class="reference internal" href="#enhancements">Enhancements</a></li>
@@ -134,10 +141,38 @@
       
   <div class="section" id="what-was-new-in-previous-releases">
 <h1>What was new in previous releases?<a class="headerlink" href="#what-was-new-in-previous-releases" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="version-0-1-2020-10-22">
-<span id="changes-0-1"></span><h2>Version 0.1 (2020-10-22)<a class="headerlink" href="#version-0-1-2020-10-22" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="version-0-2-2021-02-22">
+<span id="changes-0-2"></span><h2>Version 0.2 (2021-02-22)<a class="headerlink" href="#version-0-2-2021-02-22" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="notable-changes">
 <h3>Notable changes<a class="headerlink" href="#notable-changes" title="Permalink to this headline">¶</a></h3>
+<p>This version of <code class="docutils literal notranslate"><span class="pre">seek-localize</span></code> provides improved BIDS io and
+a unified API to perform conversion of units and coordinate systems.</p>
+</div>
+<div class="section" id="authors">
+<h3>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/adam2392">Adam Li</a></p></li>
+<li><p><a class="reference external" href="https://github.com/ChesterHuynh">Chester Huynh</a></p></li>
+</ul>
+</div>
+<div class="section" id="changelog">
+<h3>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Added string representation for <code class="docutils literal notranslate"><span class="pre">Sensors</span></code> class, by <a class="reference external" href="https://github.com/adam2392">Adam Li</a> (<a class="reference external" href="https://github.com/mne-tools/mne-bids/issues/3">#3</a>)</p></li>
+</ul>
+</div>
+<div class="section" id="api">
+<h3>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Implementation of <a class="reference internal" href="generated/seek_localize.write_dig_bids.html#seek_localize.write_dig_bids" title="seek_localize.write_dig_bids"><code class="xref py py-func docutils literal notranslate"><span class="pre">seek_localize.write_dig_bids()</span></code></a> for outputting <code class="docutils literal notranslate"><span class="pre">*_electrodes.tsv</span></code> and <code class="docutils literal notranslate"><span class="pre">*_coordsystem.json</span></code> files, by <a class="reference external" href="https://github.com/adam2392">Adam Li</a> (<a class="reference external" href="https://github.com/mne-tools/mne-bids/issues/5">#5</a>)</p></li>
+<li><p>Improve API to have conversion of units (voxels and xyz <a class="reference internal" href="generated/seek_localize.convert_coord_units.html#seek_localize.convert_coord_units" title="seek_localize.convert_coord_units"><code class="xref py py-func docutils literal notranslate"><span class="pre">seek_localize.convert_coord_units()</span></code></a>) and conversion of coordinate spaces (<a class="reference internal" href="generated/seek_localize.convert_coord_space.html#seek_localize.convert_coord_space" title="seek_localize.convert_coord_space"><code class="xref py py-func docutils literal notranslate"><span class="pre">seek_localize.convert_coord_space()</span></code></a>) that are BIDS-complaint, by <a class="reference external" href="https://github.com/adam2392">Adam Li</a> (<a class="reference external" href="https://github.com/mne-tools/mne-bids/issues/3">#3</a>)</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="version-0-1-2020-10-22">
+<span id="changes-0-1"></span><h2>Version 0.1 (2020-10-22)<a class="headerlink" href="#version-0-1-2020-10-22" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Notable changes<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>This first version of <code class="docutils literal notranslate"><span class="pre">seek-localize</span></code> serves to provide a tested and
 documented API for interfacing with <code class="docutils literal notranslate"><span class="pre">*electrodes.tsv</span></code>, <code class="docutils literal notranslate"><span class="pre">*coordsystem.json</span></code>,
 <code class="docutils literal notranslate"><span class="pre">*T1w.nii</span></code> and FreeSurfer derivative files to provide anatomical information
