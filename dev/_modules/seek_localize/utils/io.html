@@ -4,15 +4,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>seek_localize.utils.io &#8212; seek_localize 0.1.0 documentation</title>
+    <title>seek_localize.utils.io &#8212; seek_localize 0.2.0dev documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/style.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/style.css" />
     <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
@@ -43,7 +43,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           SEEK-localize</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.2.0dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -80,7 +80,7 @@
           
 <div class="navbar-form navbar-right navbar-btn dropdown btn-group-sm" style="margin-left: 20px; margin-top: 5px; margin-bottom: 5px">
   <button type="button" class="btn btn-primary navbar-btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
-    v0.1.0
+    v0.2.0dev
     <span class="caret"></span>
   </button>
 <!--  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">-->
@@ -121,12 +121,14 @@
 <span class="kn">import</span> <span class="nn">contextlib</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.io</span>
 
 
-<div class="viewcode-block" id="read_fieldtrip_elecs"><a class="viewcode-back" href="../../../generated/seek_localize.read_fieldtrip_elecs.html#seek_localize.read_fieldtrip_elecs">[docs]</a><span class="k">def</span> <span class="nf">read_fieldtrip_elecs</span><span class="p">(</span><span class="n">elec_fname</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="read_fieldtrip_elecs"><a class="viewcode-back" href="../../../generated/seek_localize.read_fieldtrip_elecs.html#seek_localize.read_fieldtrip_elecs">[docs]</a><span class="k">def</span> <span class="nf">read_fieldtrip_elecs</span><span class="p">(</span><span class="n">elec_fname</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Read fieldtrip localization output matlab structure.</span>
 
 <span class="sd">    The FieldTrip output will contain the channel names,</span>
@@ -154,10 +156,15 @@
     <span class="n">eleccoords_mm</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="n">matreader</span> <span class="o">=</span> <span class="n">MatReader</span><span class="p">()</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">matreader</span><span class="o">.</span><span class="n">loadmat</span><span class="p">(</span><span class="n">elec_fname</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">matreader</span><span class="o">.</span><span class="n">loadmat</span><span class="p">(</span><span class="n">elec_fname</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;elec_acpc_f&quot;</span><span class="p">)</span>
 
-    <span class="n">eleclabels</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;eleclabels&quot;</span><span class="p">]</span>
-    <span class="n">elecmatrix</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;elecmatrix&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Read in data with keys: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># eleclabels = data[&quot;eleclabels&quot;]</span>
+    <span class="c1"># elecmatrix = data[&quot;elecmatrix&quot;]</span>
+    <span class="n">eleclabels</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span>
+    <span class="n">elecmatrix</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;chanpos&quot;</span><span class="p">]</span>
     <span class="c1"># print(f&quot;Electrode matrix shape: {elecmatrix.shape}&quot;)</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">eleclabels</span><span class="p">)):</span>
@@ -253,8 +260,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2021, seek_localize Developers. Last updated on 2021-02-08.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.4.3.<br/>
+        &copy; Copyright 2021-2021, seek_localize Developers. Last updated on 2021-02-22.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.1.<br/>
     </p>
   </div>
 </footer>

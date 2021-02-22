@@ -4,15 +4,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>seek_localize.convert_elecs_coords &#8212; seek_localize 0.1.0 documentation</title>
+    <title>seek_localize.convert_coord_units &#8212; seek_localize 0.2.0dev documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/style.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
@@ -43,7 +43,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           SEEK-localize</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.2.0dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -80,7 +80,7 @@
           
 <div class="navbar-form navbar-right navbar-btn dropdown btn-group-sm" style="margin-left: 20px; margin-top: 5px; margin-bottom: 5px">
   <button type="button" class="btn btn-primary navbar-btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
-    v0.1.0
+    v0.2.0dev
     <span class="caret"></span>
   </button>
 <!--  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">-->
@@ -112,33 +112,37 @@
   <div class="row">
       <div class="col-md-3">
         <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
-<li><a class="reference internal" href="#">seek_localize.convert_elecs_coords</a></li>
+<li><a class="reference internal" href="#">seek_localize.convert_coord_units</a></li>
 </ul>
 
         </div>
       </div>
     <div class="body col-md-9 content" role="main">
       
-  <div class="section" id="seek-localize-convert-elecs-coords">
-<h1>seek_localize.convert_elecs_coords<a class="headerlink" href="#seek-localize-convert-elecs-coords" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="seek-localize-convert-coord-units">
+<h1>seek_localize.convert_coord_units<a class="headerlink" href="#seek-localize-convert-coord-units" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="seek_localize.convert_elecs_coords">
-<code class="sig-prename descclassname">seek_localize.</code><code class="sig-name descname">convert_elecs_coords</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sensors</span><span class="p">:</span> <span class="n">seek_localize.electrodes.Sensors</span></em>, <em class="sig-param"><span class="n">to_coord</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">round</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seek_localize/label.html#convert_elecs_coords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#seek_localize.convert_elecs_coords" title="Permalink to this definition">¶</a></dt>
+<dt id="seek_localize.convert_coord_units">
+<code class="sig-prename descclassname"><span class="pre">seek_localize.</span></code><code class="sig-name descname"><span class="pre">convert_coord_units</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sensors</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">seek_localize.electrodes.Sensors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_unit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">round</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/seek_localize/coordsystem.html#convert_coord_units"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#seek_localize.convert_coord_units" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert electrode coordinates between voxel and xyz.</p>
 <p>To obtain the sensors, one can use <code class="xref py py-func docutils literal notranslate"><span class="pre">seek_localize.bids.read_dig_bids()</span></code>.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl>
 <dt><strong>sensors</strong><span class="classifier"><a class="reference internal" href="seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sensors</span></code></a></span></dt><dd><p>An instance of the electrode sensors with the coordinates,
-coordinate system and coordinate units.</p>
+coordinate system and coordinate units. It is assumed
+that the sensors are already in <code class="docutils literal notranslate"><span class="pre">mri</span></code> coordinate frame.
+If not, then one must use
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_coord_space</span></code> to
+convert coordinate spaces first.</p>
 </dd>
-<dt><strong>to_coord</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The type of coordinate unit to convert to. Must be one of
-<code class="docutils literal notranslate"><span class="pre">['voxel',</span> <span class="pre">'mm']</span></code>.</p>
+<dt><strong>to_unit</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="docutils literal notranslate"><span class="pre">str</span></code></a></span></dt><dd><p>The type of coordinate unit to convert to. Must be one of
+<code class="docutils literal notranslate"><span class="pre">['mri',</span> <span class="pre">'mm']</span></code>. <code class="docutils literal notranslate"><span class="pre">mri</span></code> corresponds to voxel space of the
+FreeSurfer <code class="docutils literal notranslate"><span class="pre">T1.mgz</span></code> file.</p>
 </dd>
 <dt><strong>round</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bltin-boolean-values" title="(in Python v3.9)"><span class="xref std std-ref">bool</span></a></span></dt><dd><p>Whether to round the coordinates to the nearest integer.</p>
 </dd>
-<dt><strong>img</strong><span class="classifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instance</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Nifti</span></code> <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="docutils literal notranslate"><span class="pre">None</span></code></a></span></dt><dd><p>Image volume that sensors are intended for that supplies the
-affine transformation to go from ‘mm’ &lt;-&gt; ‘voxels’.</p>
+<dt><strong>verbose</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bltin-boolean-values" title="(in Python v3.9)"><span class="xref std std-ref">bool</span></a></span></dt><dd><p>Verbosity.</p>
 </dd>
 </dl>
 </dd>
@@ -150,41 +154,18 @@ affine transformation to go from ‘mm’ &lt;-&gt; ‘voxels’.</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p><code class="docutils literal notranslate"><span class="pre">Nibabel</span></code> processes everything in units of <code class="docutils literal notranslate"><span class="pre">millimeters</span></code>.</p>
-<p>To convert from xyz (e.g. ‘mm’) to voxel and vice versa, one
-simply needs the <code class="docutils literal notranslate"><span class="pre">IntendedFor</span></code> image that contains the affine
-<code class="docutils literal notranslate"><span class="pre">vox2ras</span></code> transformation. For example, this might be a T1w
-image. One can use <a class="reference external" href="https://nipy.org/nibabel/reference/nibabel.affines.html#nibabel.affines.apply_affine" title="(in NiBabel v3.2.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">nibabel.affines.apply_affine()</span></code></a> to then
-apply the corresponding transformation from vox to xyz space.</p>
-<p>Note, if you want to go from xyz to vox, then you need the
-inverse of the <code class="docutils literal notranslate"><span class="pre">vox2ras</span></code> transformation.</p>
-<p>If one wants to convert to <code class="docutils literal notranslate"><span class="pre">tkras</span></code>, which is FreeSurfer’s
-surface xyz space, this is the xyz space of the closest surface [1,2,3].
-This corresponds to the <a class="reference external" href="https://nipy.org/nibabel/reference/nibabel.freesurfer.html#nibabel.freesurfer.mghformat.MGHHeader.get_vox2ras_tkr">vox2rask_tkr</a>  # noqa
-function in <code class="docutils literal notranslate"><span class="pre">nibabel</span></code>. The <code class="docutils literal notranslate"><span class="pre">tkrvox2ras</span></code> transformation can
-be obtained from FreeSurfer’s <code class="docutils literal notranslate"><span class="pre">mri_info</span></code> command via:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mri_info</span> <span class="o">--</span><span class="n">vox2ras</span><span class="o">-</span><span class="n">tkr</span> <span class="o">&lt;</span><span class="n">img</span><span class="o">&gt;</span>
-</pre></div>
-</div>
-<p>This will generally be the 4x4 matrix for FreeSurfer output.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
-    <span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">128.0</span><span class="p">],</span>
-    <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">128.0</span><span class="p">],</span>
-    <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">128.0</span><span class="p">],</span>
-    <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
-<span class="p">]</span>
-</pre></div>
-</div>
-<p>but may be different depending on how some FreeSurfer hyperparameters.</p>
+<p>This function SOLELY transforms between <code class="docutils literal notranslate"><span class="pre">voxel</span></code> and <code class="docutils literal notranslate"><span class="pre">xyz</span></code> (i.e. RAS)
+spaces. For converting between different standardized coordinate systems like
+<code class="docutils literal notranslate"><span class="pre">tkras</span></code> and <code class="docutils literal notranslate"><span class="pre">mni</span></code>, then check out <em class="xref py py-obj">convert_coord_space</em>.</p>
 <p class="rubric">References</p>
 <dl class="citation">
-<dt class="label" id="r2ba247ab2be5-1"><span class="brackets">1</span></dt>
+<dt class="label" id="rd51a9e2c2567-1"><span class="brackets">1</span></dt>
 <dd><p>FieldTrip explanation: <a class="reference external" href="https://www.fieldtriptoolbox.org/faq/how_are_the_different_head_and_mri_coordinate_systems_defined/#details-of-the-freesurfer-coordinate-system">https://www.fieldtriptoolbox.org/faq/how_are_the_different_head_and_mri_coordinate_systems_defined/#details-of-the-freesurfer-coordinate-system</a>  # noqa</p>
 </dd>
-<dt class="label" id="r2ba247ab2be5-2"><span class="brackets">2</span></dt>
+<dt class="label" id="rd51a9e2c2567-2"><span class="brackets">2</span></dt>
 <dd><p>How MNE handles FreeSurfer data: <a class="reference external" href="https://mne.tools/dev/auto_tutorials/source-modeling/plot_background_freesurfer_mne.html">https://mne.tools/dev/auto_tutorials/source-modeling/plot_background_freesurfer_mne.html</a>  # noqa</p>
 </dd>
-<dt class="label" id="r2ba247ab2be5-3"><span class="brackets">3</span></dt>
+<dt class="label" id="rd51a9e2c2567-3"><span class="brackets">3</span></dt>
 <dd><p>FreeSurfer Wiki: <a class="reference external" href="https://surfer.nmr.mgh.harvard.edu/fswiki/CoordinateSystems">https://surfer.nmr.mgh.harvard.edu/fswiki/CoordinateSystems</a>  # noqa</p>
 </dd>
 </dl>
@@ -204,8 +185,8 @@ be obtained from FreeSurfer’s <code class="docutils literal notranslate"><span
       
     </p>
     <p>
-        &copy; Copyright 2021-2021, seek_localize Developers. Last updated on 2021-02-08.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.4.3.<br/>
+        &copy; Copyright 2021-2021, seek_localize Developers. Last updated on 2021-02-22.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.1.<br/>
     </p>
   </div>
 </footer>

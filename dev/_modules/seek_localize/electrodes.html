@@ -4,15 +4,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>seek_localize.electrodes &#8212; seek_localize 0.1.0 documentation</title>
+    <title>seek_localize.electrodes &#8212; seek_localize 0.2.0dev documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
@@ -43,7 +43,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           SEEK-localize</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.2.0dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -80,7 +80,7 @@
           
 <div class="navbar-form navbar-right navbar-btn dropdown btn-group-sm" style="margin-left: 20px; margin-top: 5px; margin-bottom: 5px">
   <button type="button" class="btn btn-primary navbar-btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
-    v0.1.0
+    v0.2.0dev
     <span class="caret"></span>
   </button>
 <!--  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">-->
@@ -120,9 +120,16 @@
 <span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">textwrap</span> <span class="kn">import</span> <span class="n">shorten</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="k">def</span> <span class="nf">_pl</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">non_pl</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Determine if plural should be used.&quot;&quot;&quot;</span>
+    <span class="n">len_x</span> <span class="o">=</span> <span class="n">x</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">generic</span><span class="p">))</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">non_pl</span> <span class="k">if</span> <span class="n">len_x</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;s&quot;</span>
 
 
 <div class="viewcode-block" id="Sensors"><a class="viewcode-back" href="../../generated/seek_localize.Sensors.html#seek_localize.Sensors">[docs]</a><span class="nd">@dataclass</span><span class="p">()</span>
@@ -138,6 +145,42 @@
     <span class="n">elecs_fname</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">coordsystem_fname</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">intended_for</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Taken from mne-python.&quot;&quot;&quot;</span>
+        <span class="n">MAX_WIDTH</span> <span class="o">=</span> <span class="mi">68</span>
+        <span class="n">strs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&lt;Sensors | </span><span class="si">%s</span><span class="s2"> non-empty values&quot;</span><span class="p">]</span>
+        <span class="n">non_empty</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s2">&quot;ch_names&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">v</span><span class="p">:</span>
+                    <span class="n">entr</span> <span class="o">=</span> <span class="n">shorten</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">MAX_WIDTH</span><span class="p">,</span> <span class="n">placeholder</span><span class="o">=</span><span class="s2">&quot; ...&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">entr</span> <span class="o">=</span> <span class="s2">&quot;[]&quot;</span>  <span class="c1"># always show</span>
+                    <span class="n">non_empty</span> <span class="o">-=</span> <span class="mi">1</span>  <span class="c1"># don&#39;t count as non-empty</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;coord_system&quot;</span><span class="p">,</span> <span class="s2">&quot;coord_unit&quot;</span><span class="p">]:</span>
+                <span class="n">entr</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">this_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                    <span class="n">entr</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">this_len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">entr</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> item</span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                            <span class="n">this_len</span><span class="p">,</span>
+                            <span class="n">_pl</span><span class="p">(</span><span class="n">this_len</span><span class="p">),</span>
+                            <span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">entr</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">if</span> <span class="n">entr</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="n">non_empty</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">strs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">entr</span><span class="p">))</span>
+        <span class="n">st</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">strs</span><span class="p">))</span>
+        <span class="n">st</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&gt;&quot;</span>
+        <span class="n">st</span> <span class="o">%=</span> <span class="n">non_empty</span>
+        <span class="k">return</span> <span class="n">st</span>
 
 <div class="viewcode-block" id="Sensors.get_coords"><a class="viewcode-back" href="../../generated/seek_localize.Sensors.html#seek_localize.Sensors.get_coords">[docs]</a>    <span class="k">def</span> <span class="nf">get_coords</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get coordinates as a N x 3 array.&quot;&quot;&quot;</span>
@@ -176,8 +219,8 @@
       
     </p>
     <p>
-        &copy; Copyright 2021-2021, seek_localize Developers. Last updated on 2021-02-08.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.4.3.<br/>
+        &copy; Copyright 2021-2021, seek_localize Developers. Last updated on 2021-02-22.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.1.<br/>
     </p>
   </div>
 </footer>

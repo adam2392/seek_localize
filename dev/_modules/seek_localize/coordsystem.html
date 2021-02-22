@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>seek_localize.coordsystem &#8212; seek_localize 0.2.0dev documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          SEEK-localize</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.2.0dev</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../../whats_new.html">News</a></li>
+                <li><a href="../../installation.html">Install</a></li>
+                <li><a href="../../auto_examples/index.html">Examples</a></li>
+                <li><a href="../../api.html">API</a></li>
+                <li><a href="../../contributing.html">Contribute!</a></li>
+                <li><a href="https://github.com/adam2392/seek_localize">GitHub</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+<div class="navbar-form navbar-right navbar-btn dropdown btn-group-sm" style="margin-left: 20px; margin-top: 5px; margin-bottom: 5px">
+  <button type="button" class="btn btn-primary navbar-btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+    v0.2.0dev
+    <span class="caret"></span>
+  </button>
+<!--  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">-->
+<!--    <li><a href="https://mne.tools/mne-bids/dev/index.html">Development</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/stable/index.html">Stable</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/v0.4/index.html">v0.4</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/v0.3/index.html">v0.3</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/v0.2/index.html">v0.2</a></li>-->
+<!--    <li><a href="https://mne.tools/mne-bids/v0.1/index.html">v0.1</a></li>-->
+<!--  </ul>-->
+</div>
+
+
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary">
+        </div>
+      </div>
+    <div class="body col-md-9 content" role="main">
+      
+  <h1>Source code for seek_localize.coordsystem</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span> <span class="k">as</span> <span class="n">op</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nb</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">mne</span> <span class="kn">import</span> <span class="n">read_talxfm</span>
+<span class="kn">from</span> <span class="nn">mne.source_space</span> <span class="kn">import</span> <span class="n">_read_mri_info</span>
+<span class="kn">from</span> <span class="nn">mne.utils</span> <span class="kn">import</span> <span class="n">warn</span>
+<span class="kn">from</span> <span class="nn">mne_bids</span> <span class="kn">import</span> <span class="n">get_entities_from_fname</span>
+<span class="kn">from</span> <span class="nn">nibabel.affines</span> <span class="kn">import</span> <span class="n">apply_affine</span>
+
+<span class="kn">from</span> <span class="nn">seek_localize.config</span> <span class="kn">import</span> <span class="n">MAPPING_COORD_FRAMES</span><span class="p">,</span> <span class="n">SI</span><span class="p">,</span> <span class="n">COORDINATE_UNITS</span>
+<span class="kn">from</span> <span class="nn">seek_localize.io</span> <span class="kn">import</span> <span class="n">Sensors</span>
+<span class="kn">from</span> <span class="nn">seek_localize.utils</span> <span class="kn">import</span> <span class="n">_scale_coordinates</span>
+
+
+<div class="viewcode-block" id="convert_coord_space"><a class="viewcode-back" href="../../generated/seek_localize.convert_coord_space.html#seek_localize.convert_coord_space">[docs]</a><span class="k">def</span> <span class="nf">convert_coord_space</span><span class="p">(</span>
+    <span class="n">sensors</span><span class="p">:</span> <span class="n">Sensors</span><span class="p">,</span> <span class="n">to_frame</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">subjects_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert electrode voxel coordinates between coordinate systems.</span>
+
+<span class="sd">    To obtain the sensors, one can use :func:`seek_localize.bids.read_dig_bids`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sensors : Sensors</span>
+<span class="sd">        An instance of the electrode sensors with the coordinates,</span>
+<span class="sd">        coordinate system and coordinate units. It is assumed that</span>
+<span class="sd">        the coordinates are already in ``voxel`` units, in one of the</span>
+<span class="sd">        accepted coordinate frames. See Notes on coordinate frames</span>
+<span class="sd">        for more details.</span>
+<span class="sd">    to_frame : str</span>
+<span class="sd">        The type of coordinate unit to convert to. Must be one of</span>
+<span class="sd">        ``[&#39;mri&#39;, &#39;tkras&#39;, &#39;mni&#39;]``. ``tkras`` is the FreeSurfer</span>
+<span class="sd">        special RAS space, described in Notes. ``mni`` is the Montreal</span>
+<span class="sd">        Neurological Institute space, corresponding to the ``fsaverage``</span>
+<span class="sd">        subject in FreeSurfer.</span>
+<span class="sd">    subjects_dir : str | pathlib.Path</span>
+<span class="sd">        The FreeSurfer ``SUBJECTS-DIR`` that houses the output of FreeSurfer</span>
+<span class="sd">        reconstruction. A matching subject corresponding to the subject</span>
+<span class="sd">        of ``sensors`` should be in there. Only required if</span>
+<span class="sd">        ``to_coord = &#39;mni&#39;``.</span>
+<span class="sd">    verbose : bool</span>
+<span class="sd">        Verbosity.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    sensors : Sensors</span>
+<span class="sd">        The electrode sensors with converted coordinates.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    ``Nibabel`` processes everything in units of ``millimeters``.</span>
+
+<span class="sd">    To convert from xyz (e.g. &#39;mm&#39;) to voxel and vice versa, one</span>
+<span class="sd">    simply needs the ``IntendedFor`` image that contains the affine</span>
+<span class="sd">    ``vox2ras`` transformation. For example, this might be a T1w</span>
+<span class="sd">    image. One can use :func:`nibabel.affines.apply_affine` to then</span>
+<span class="sd">    apply the corresponding transformation from vox to xyz space.</span>
+
+<span class="sd">    Note, if you want to go from xyz to vox, then you need the</span>
+<span class="sd">    inverse of the ``vox2ras`` transformation.</span>
+
+<span class="sd">    If one wants to convert to ``tkras``, which is FreeSurfer&#39;s</span>
+<span class="sd">    surface xyz space, this is the xyz space of the closest surface [1,2,3].</span>
+<span class="sd">    This corresponds to the `vox2rask_tkr &lt;https://nipy.org/nibabel/reference/nibabel.freesurfer.html#nibabel.freesurfer.mghformat.MGHHeader.get_vox2ras_tkr&gt;`_  # noqa</span>
+<span class="sd">    function in ``nibabel``. The ``tkrvox2ras`` transformation can</span>
+<span class="sd">    be obtained from FreeSurfer&#39;s ``mri_info`` command via::</span>
+
+<span class="sd">        mri_info --vox2ras-tkr &lt;img&gt;</span>
+
+<span class="sd">    This will generally be the 4x4 matrix for FreeSurfer output.::</span>
+
+<span class="sd">            [</span>
+<span class="sd">                [-1.0, 0.0, 0.0, 128.0],</span>
+<span class="sd">                [0.0, 0.0, 1.0, -128.0],</span>
+<span class="sd">                [0.0, -1.0, 0.0, 128.0],</span>
+<span class="sd">                [0.0, 0.0, 0.0, 1.0],</span>
+<span class="sd">            ]</span>
+
+<span class="sd">    but may be different depending on how some FreeSurfer hyperparameters.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] FieldTrip explanation: https://www.fieldtriptoolbox.org/faq/how_are_the_different_head_and_mri_coordinate_systems_defined/#details-of-the-freesurfer-coordinate-system  # noqa</span>
+
+<span class="sd">    .. [2] How MNE handles FreeSurfer data: https://mne.tools/dev/auto_tutorials/source-modeling/plot_background_freesurfer_mne.html  # noqa</span>
+
+<span class="sd">    .. [3] FreeSurfer Wiki: https://surfer.nmr.mgh.harvard.edu/fswiki/CoordinateSystems  # noqa</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">to_frame</span> <span class="o">==</span> <span class="n">sensors</span><span class="o">.</span><span class="n">coord_system</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sensors</span>
+
+    <span class="k">if</span> <span class="n">to_frame</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">MAPPING_COORD_FRAMES</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Converting coordinates to </span><span class="si">{</span><span class="n">to_frame</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;is not accepted. Please use one of &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">MAPPING_COORD_FRAMES</span><span class="si">}</span><span class="s2"> coordinate systems.&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">sensors</span><span class="o">.</span><span class="n">coord_unit</span> <span class="o">!=</span> <span class="s2">&quot;voxel&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Converting coordinates requires sensor &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;coordinate space to be in &#39;voxel&#39; space for &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;a particular coordinate system not </span><span class="si">{</span><span class="n">sensors</span><span class="o">.</span><span class="n">coord_unit</span><span class="si">}</span><span class="s2">. &quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># get the image file path</span>
+    <span class="n">img_fpath</span> <span class="o">=</span> <span class="n">sensors</span><span class="o">.</span><span class="n">intended_for</span>
+    <span class="k">if</span> <span class="n">img_fpath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Need IntendedFor Image filepath for &quot;</span> <span class="sa">f</span><span class="s2">&quot;sensors </span><span class="si">{</span><span class="n">sensors</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">img_fpath</span><span class="p">)</span>
+
+    <span class="c1"># get the actual xyz coordinates</span>
+    <span class="n">elec_coords</span> <span class="o">=</span> <span class="n">sensors</span><span class="o">.</span><span class="n">get_coords</span><span class="p">()</span>
+
+    <span class="c1"># first convert to standardized MRI coordinates</span>
+    <span class="k">if</span> <span class="n">sensors</span><span class="o">.</span><span class="n">coord_system</span> <span class="o">==</span> <span class="s2">&quot;mni&quot;</span><span class="p">:</span>
+        <span class="c1"># reverse MNI transform to MRI</span>
+        <span class="n">elec_coords</span> <span class="o">=</span> <span class="n">_handle_mni_trans</span><span class="p">(</span>
+            <span class="n">elec_coords</span><span class="o">=</span><span class="n">elec_coords</span><span class="p">,</span>
+            <span class="n">img_fpath</span><span class="o">=</span><span class="n">img_fpath</span><span class="p">,</span>
+            <span class="n">subjects_dir</span><span class="o">=</span><span class="n">subjects_dir</span><span class="p">,</span>
+            <span class="n">revert_mni</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">sensors</span><span class="o">.</span><span class="n">coord_system</span> <span class="o">==</span> <span class="s2">&quot;tkras&quot;</span><span class="p">:</span>
+        <span class="c1"># reverse Tkras transform to MRI</span>
+        <span class="n">elec_coords</span> <span class="o">=</span> <span class="n">_handle_tkras_trans</span><span class="p">(</span>
+            <span class="n">elec_coords</span><span class="o">=</span><span class="n">elec_coords</span><span class="p">,</span> <span class="n">img</span><span class="o">=</span><span class="n">img</span><span class="p">,</span> <span class="n">revert_tkras</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span>
+        <span class="p">)</span>
+
+    <span class="c1"># next convert from standardized MRI coordinates -&gt; desired coordinate system</span>
+    <span class="k">if</span> <span class="n">to_frame</span> <span class="o">==</span> <span class="s2">&quot;mni&quot;</span><span class="p">:</span>
+        <span class="c1"># reverse MNI transform to MRI</span>
+        <span class="n">elec_coords</span> <span class="o">=</span> <span class="n">_handle_mni_trans</span><span class="p">(</span>
+            <span class="n">elec_coords</span><span class="o">=</span><span class="n">elec_coords</span><span class="p">,</span>
+            <span class="n">img_fpath</span><span class="o">=</span><span class="n">img_fpath</span><span class="p">,</span>
+            <span class="n">subjects_dir</span><span class="o">=</span><span class="n">subjects_dir</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+            <span class="n">revert_mni</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;voxel&quot;</span>
+    <span class="k">elif</span> <span class="n">to_frame</span> <span class="o">==</span> <span class="s2">&quot;tkras&quot;</span><span class="p">:</span>
+        <span class="c1"># MRI transform to tkras</span>
+        <span class="n">elec_coords</span> <span class="o">=</span> <span class="n">_handle_tkras_trans</span><span class="p">(</span>
+            <span class="n">elec_coords</span><span class="o">=</span><span class="n">elec_coords</span><span class="p">,</span> <span class="n">img</span><span class="o">=</span><span class="n">img</span><span class="p">,</span> <span class="n">revert_tkras</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span>
+        <span class="p">)</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;mm&quot;</span>
+
+    <span class="c1"># recreate sensors</span>
+    <span class="n">sensors</span> <span class="o">=</span> <span class="n">Sensors</span><span class="p">(</span><span class="o">**</span><span class="n">sensors</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+    <span class="n">sensors</span><span class="o">.</span><span class="n">set_coords</span><span class="p">(</span><span class="n">elec_coords</span><span class="p">)</span>
+    <span class="n">sensors</span><span class="o">.</span><span class="n">coord_unit</span> <span class="o">=</span> <span class="n">unit</span>
+    <span class="n">sensors</span><span class="o">.</span><span class="n">coord_system</span> <span class="o">=</span> <span class="n">to_frame</span>
+    <span class="k">return</span> <span class="n">sensors</span></div>
+
+
+<div class="viewcode-block" id="convert_coord_units"><a class="viewcode-back" href="../../generated/seek_localize.convert_coord_units.html#seek_localize.convert_coord_units">[docs]</a><span class="k">def</span> <span class="nf">convert_coord_units</span><span class="p">(</span>
+    <span class="n">sensors</span><span class="p">:</span> <span class="n">Sensors</span><span class="p">,</span> <span class="n">to_unit</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">round</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert electrode coordinates between voxel and xyz.</span>
+
+<span class="sd">    To obtain the sensors, one can use :func:`seek_localize.bids.read_dig_bids`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sensors : Sensors</span>
+<span class="sd">        An instance of the electrode sensors with the coordinates,</span>
+<span class="sd">        coordinate system and coordinate units. It is assumed</span>
+<span class="sd">        that the sensors are already in ``mri`` coordinate frame.</span>
+<span class="sd">        If not, then one must use</span>
+<span class="sd">        `~seek_localize.coordsystem.convert_coord_space` to</span>
+<span class="sd">        convert coordinate spaces first.</span>
+<span class="sd">    to_unit : str</span>
+<span class="sd">        The type of coordinate unit to convert to. Must be one of</span>
+<span class="sd">        ``[&#39;mri&#39;, &#39;mm&#39;]``. ``mri`` corresponds to voxel space of the</span>
+<span class="sd">        FreeSurfer ``T1.mgz`` file.</span>
+<span class="sd">    round : bool</span>
+<span class="sd">        Whether to round the coordinates to the nearest integer.</span>
+<span class="sd">    verbose : bool</span>
+<span class="sd">        Verbosity.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    sensors : Sensors</span>
+<span class="sd">        The electrode sensors with converted coordinates.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This function SOLELY transforms between ``voxel`` and ``xyz`` (i.e. RAS)</span>
+<span class="sd">    spaces. For converting between different standardized coordinate systems like</span>
+<span class="sd">    ``tkras`` and ``mni``, then check out `~seek_localize.label.convert_coord_space`.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] FieldTrip explanation: https://www.fieldtriptoolbox.org/faq/how_are_the_different_head_and_mri_coordinate_systems_defined/#details-of-the-freesurfer-coordinate-system  # noqa</span>
+
+<span class="sd">    .. [2] How MNE handles FreeSurfer data: https://mne.tools/dev/auto_tutorials/source-modeling/plot_background_freesurfer_mne.html  # noqa</span>
+
+<span class="sd">    .. [3] FreeSurfer Wiki: https://surfer.nmr.mgh.harvard.edu/fswiki/CoordinateSystems  # noqa</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># error check coordinate units</span>
+    <span class="k">if</span> <span class="n">to_unit</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">COORDINATE_UNITS</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Converting coordinates to </span><span class="si">{</span><span class="n">to_unit</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;is not accepted. Please use one of &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">COORDINATE_UNITS</span><span class="si">}</span><span class="s2"> coordinate types.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># error check coordinate system</span>
+    <span class="k">if</span> <span class="n">sensors</span><span class="o">.</span><span class="n">coord_system</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;mri&quot;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Sensor coordinates should be in mri &quot;</span> <span class="sa">f</span><span class="s2">&quot;space not </span><span class="si">{</span><span class="n">sensors</span><span class="o">.</span><span class="n">coord_system</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="nb">round</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">and</span> <span class="n">to_unit</span> <span class="o">!=</span> <span class="s2">&quot;voxel&quot;</span><span class="p">:</span>
+        <span class="n">warn</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Rounding when to_unit is </span><span class="si">{</span><span class="n">to_unit</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="sa">f</span><span class="s2">&quot;and not voxel is not recommended.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># if units are already in the right unit, then</span>
+    <span class="c1"># just return</span>
+    <span class="k">if</span> <span class="n">to_unit</span> <span class="o">==</span> <span class="n">sensors</span><span class="o">.</span><span class="n">coord_unit</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sensors</span>
+
+    <span class="c1"># get the image file path</span>
+    <span class="n">img_fpath</span> <span class="o">=</span> <span class="n">sensors</span><span class="o">.</span><span class="n">intended_for</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">img_fpath</span><span class="p">)</span>
+
+    <span class="c1"># voxel -&gt; xyz</span>
+    <span class="n">affine</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">affine</span>
+
+    <span class="c1"># xyz -&gt; voxel</span>
+    <span class="n">inv_affine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">affine</span><span class="p">)</span>
+
+    <span class="c1"># get the actual xyz coordinates</span>
+    <span class="n">elec_coords</span> <span class="o">=</span> <span class="n">sensors</span><span class="o">.</span><span class="n">get_coords</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Converting coordinates from </span><span class="si">{</span><span class="n">sensors</span><span class="o">.</span><span class="n">coord_unit</span><span class="si">}</span><span class="s2"> to &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">to_unit</span><span class="si">}</span><span class="s2"> using </span><span class="si">{</span><span class="n">img_fpath</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># apply the affine</span>
+    <span class="k">if</span> <span class="n">to_unit</span> <span class="o">==</span> <span class="s2">&quot;voxel&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sensors</span><span class="o">.</span><span class="n">coord_unit</span> <span class="ow">in</span> <span class="n">SI</span><span class="p">:</span>
+            <span class="c1"># first scale to millimeters if not already there</span>
+            <span class="n">elec_coords</span> <span class="o">=</span> <span class="n">_scale_coordinates</span><span class="p">(</span><span class="n">elec_coords</span><span class="p">,</span> <span class="n">sensors</span><span class="o">.</span><span class="n">coord_unit</span><span class="p">,</span> <span class="s2">&quot;mm&quot;</span><span class="p">)</span>
+
+        <span class="c1"># now convert xyz to voxels</span>
+        <span class="n">elec_coords</span> <span class="o">=</span> <span class="n">apply_affine</span><span class="p">(</span><span class="n">inv_affine</span><span class="p">,</span> <span class="n">elec_coords</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">to_unit</span> <span class="ow">in</span> <span class="n">SI</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sensors</span><span class="o">.</span><span class="n">coord_unit</span> <span class="o">==</span> <span class="s2">&quot;voxel&quot;</span><span class="p">:</span>
+            <span class="c1"># xyz -&gt; voxels</span>
+            <span class="n">elec_coords</span> <span class="o">=</span> <span class="n">apply_affine</span><span class="p">(</span><span class="n">affine</span><span class="p">,</span> <span class="n">elec_coords</span><span class="p">)</span>
+
+        <span class="c1"># first scale to millimeters if not already there</span>
+        <span class="n">elec_coords</span> <span class="o">=</span> <span class="n">_scale_coordinates</span><span class="p">(</span><span class="n">elec_coords</span><span class="p">,</span> <span class="s2">&quot;mm&quot;</span><span class="p">,</span> <span class="n">to_unit</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">round</span><span class="p">:</span>
+        <span class="c1"># round it off to integer</span>
+        <span class="n">elec_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">elec_coords</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="c1"># recreate sensors</span>
+    <span class="n">sensors</span> <span class="o">=</span> <span class="n">Sensors</span><span class="p">(</span><span class="o">**</span><span class="n">sensors</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+    <span class="n">sensors</span><span class="o">.</span><span class="n">set_coords</span><span class="p">(</span><span class="n">elec_coords</span><span class="p">)</span>
+    <span class="n">sensors</span><span class="o">.</span><span class="n">coord_unit</span> <span class="o">=</span> <span class="n">to_unit</span>
+    <span class="k">return</span> <span class="n">sensors</span></div>
+
+
+<span class="k">def</span> <span class="nf">_handle_tkras_trans</span><span class="p">(</span>
+    <span class="n">elec_coords</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">img</span><span class="p">:</span> <span class="n">nb</span><span class="o">.</span><span class="n">Nifti2Image</span><span class="p">,</span>
+    <span class="n">revert_tkras</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Handle FreeSurfer MRI &lt;-&gt; TKRAS.&quot;&quot;&quot;</span>
+    <span class="c1"># get the voxel to tkRAS transform</span>
+    <span class="k">if</span> <span class="s2">&quot;get_vox2ras_tkr&quot;</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">header</span><span class="p">):</span>
+        <span class="n">vox2ras_tkr</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">get_vox2ras_tkr</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">warn</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Unable to programmatically get vox2ras TKR &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;from </span><span class="si">{</span><span class="n">img</span><span class="o">.</span><span class="n">get_filename</span><span class="p">()</span><span class="si">}</span><span class="s2">, so setting manually.&quot;</span>
+        <span class="p">)</span>
+        <span class="n">vox2ras_tkr</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">128.0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">128.0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">128.0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+        <span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using Vox2TKRAS affine: </span><span class="si">{</span><span class="n">vox2ras_tkr</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">revert_tkras</span><span class="p">:</span>
+        <span class="n">affine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">vox2ras_tkr</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">affine</span> <span class="o">=</span> <span class="n">vox2ras_tkr</span>
+
+    <span class="c1"># now convert voxels to tkras</span>
+    <span class="n">elec_coords</span> <span class="o">=</span> <span class="n">apply_affine</span><span class="p">(</span><span class="n">affine</span><span class="p">,</span> <span class="n">elec_coords</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">elec_coords</span>
+
+
+<span class="k">def</span> <span class="nf">_handle_mni_trans</span><span class="p">(</span>
+    <span class="n">elec_coords</span><span class="p">,</span>
+    <span class="n">img_fpath</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
+    <span class="n">subjects_dir</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+    <span class="n">revert_mni</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Handle FreeSurfer MRI &lt;-&gt; MNI voxels.&quot;&quot;&quot;</span>
+    <span class="n">entities</span> <span class="o">=</span> <span class="n">get_entities_from_fname</span><span class="p">(</span><span class="n">img_fpath</span><span class="p">)</span>
+    <span class="n">subject</span> <span class="o">=</span> <span class="n">entities</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;subject&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">subject</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Could not interpret the subject from &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;IntendedFor Image filepath </span><span class="si">{</span><span class="n">img_fpath</span><span class="si">}</span><span class="s2">. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;This file path is possibly not named &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;according to BIDS.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Try to get Norig and Torig</span>
+    <span class="c1"># (i.e. vox_ras_t and vox_mri_t, respectively)</span>
+    <span class="n">subj_fs_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">subjects_dir</span><span class="p">)</span> <span class="o">/</span> <span class="n">subject</span>  <span class="c1"># type: ignore</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">subj_fs_dir</span><span class="p">):</span>
+        <span class="n">subject</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;sub-</span><span class="si">{</span><span class="n">subject</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">subj_fs_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">subjects_dir</span><span class="p">)</span> <span class="o">/</span> <span class="n">subject</span>  <span class="c1"># type: ignore</span>
+
+    <span class="n">path</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subj_fs_dir</span><span class="p">,</span> <span class="s2">&quot;mri&quot;</span><span class="p">,</span> <span class="s2">&quot;orig.mgz&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subj_fs_dir</span><span class="p">,</span> <span class="s2">&quot;mri&quot;</span><span class="p">,</span> <span class="s2">&quot;T1.mgz&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s2">&quot;mri not found: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">mri_ras_t</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_read_mri_info</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;mm&quot;</span><span class="p">)</span>
+
+    <span class="c1"># get the intended affine transform from vox -&gt; RAS</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">img_fpath</span><span class="p">)</span>
+    <span class="c1"># voxel -&gt; xyz</span>
+    <span class="n">intended_affine</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">affine</span>
+
+    <span class="c1"># check that vox2ras is the same as our affine</span>
+    <span class="c1"># if not np.all(np.isclose(intended_affine, mri_ras_t[&#39;trans&#39;],</span>
+    <span class="c1">#                          atol=1e-6)):</span>
+    <span class="c1">#     print(np.isclose(intended_affine, mri_ras_t[&#39;trans&#39;],</span>
+    <span class="c1">#                          atol=1e-6))</span>
+    <span class="c1">#     print(intended_affine)</span>
+    <span class="c1">#     print(mri_ras_t[&#39;trans&#39;])</span>
+    <span class="c1">#     raise RuntimeError(</span>
+    <span class="c1">#         f&quot;You are trying to convert data &quot;</span>
+    <span class="c1">#         f&quot;to MNI coordinates for {img_fpath}, &quot;</span>
+    <span class="c1">#         f&quot;but this does not correspond to the &quot;</span>
+    <span class="c1">#         f&quot;original T1.mgz file of FreeSurfer. &quot;</span>
+    <span class="c1">#         f&quot;This is a limitation...&quot;</span>
+    <span class="c1">#     )</span>
+
+    <span class="c1"># read mri voxel of T1.mgz -&gt; MNI tal xfm</span>
+    <span class="n">mri_mni_t</span> <span class="o">=</span> <span class="n">read_talxfm</span><span class="p">(</span><span class="n">subject</span><span class="o">=</span><span class="n">subject</span><span class="p">,</span> <span class="n">subjects_dir</span><span class="o">=</span><span class="n">subjects_dir</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+    <span class="c1"># make sure these are in mm</span>
+    <span class="n">mri_to_mni_aff</span> <span class="o">=</span> <span class="n">mri_mni_t</span><span class="p">[</span><span class="s2">&quot;trans&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1000.0</span>
+
+    <span class="c1"># if reversing MNI, invert affine transform</span>
+    <span class="c1"># else keep the same as read in</span>
+    <span class="k">if</span> <span class="n">revert_mni</span><span class="p">:</span>
+        <span class="n">affine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">mri_to_mni_aff</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">affine</span> <span class="o">=</span> <span class="n">mri_to_mni_aff</span>
+
+    <span class="c1"># first convert to voxels</span>
+    <span class="n">elec_coords</span> <span class="o">=</span> <span class="n">apply_affine</span><span class="p">(</span><span class="n">affine</span><span class="p">,</span> <span class="n">elec_coords</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">elec_coords</span>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2021-2021, seek_localize Developers. Last updated on 2021-02-22.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

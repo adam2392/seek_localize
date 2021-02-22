@@ -1,0 +1,6 @@
+﻿seek\_localize.convert\_coord\_units
+====================================
+
+.. currentmodule:: seek_localize
+
+.. autofunction:: convert_coord_units

@@ -1,6 +1,0 @@
-﻿seek\_localize.convert\_elecs\_coords
-=====================================
-
-.. currentmodule:: seek_localize
-
-.. autofunction:: convert_elecs_coords

@@ -4,15 +4,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>02. Convert Coordinate Frames of Electrodes &#8212; seek_localize 0.1.0 documentation</title>
+    <title>02. Convert Coordinate Frames of Electrodes &#8212; seek_localize 0.2.0dev documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/style.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
@@ -43,7 +43,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           SEEK-localize</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.2.0dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -80,7 +80,7 @@
           
 <div class="navbar-form navbar-right navbar-btn dropdown btn-group-sm" style="margin-left: 20px; margin-top: 5px; margin-bottom: 5px">
   <button type="button" class="btn btn-primary navbar-btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
-    v0.1.0
+    v0.2.0dev
     <span class="caret"></span>
   </button>
 <!--  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">-->
@@ -151,13 +151,14 @@ them over to the T1w image FreeSurfer space.</p>
 
 <span class="kn">from</span> <span class="nn">mne_bids</span> <span class="kn">import</span> <span class="n">BIDSPath</span>
 
-<span class="kn">from</span> <span class="nn">seek_localize</span> <span class="kn">import</span> <a href="../generated/seek_localize.read_dig_bids.html#seek_localize.read_dig_bids" title="seek_localize.read_dig_bids" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-function"><span class="n">read_dig_bids</span></a><span class="p">,</span> <a href="../generated/seek_localize.convert_elecs_coords.html#seek_localize.convert_elecs_coords" title="seek_localize.convert_elecs_coords" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-function"><span class="n">convert_elecs_coords</span></a>
+<span class="kn">from</span> <span class="nn">seek_localize</span> <span class="kn">import</span> <a href="../generated/seek_localize.read_dig_bids.html#seek_localize.read_dig_bids" title="seek_localize.read_dig_bids" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-function"><span class="n">read_dig_bids</span></a><span class="p">,</span> <a href="../generated/seek_localize.convert_coord_units.html#seek_localize.convert_coord_units" title="seek_localize.convert_coord_units" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-function"><span class="n">convert_coord_units</span></a><span class="p">,</span> <a href="../generated/seek_localize.convert_coord_space.html#seek_localize.convert_coord_space" title="seek_localize.convert_coord_space" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-function"><span class="n">convert_coord_space</span></a>
 </pre></div>
 </div>
 <p>We will be using the <em class="xref py py-obj">testing dataset</em>, which
 is already stored in BIDS format and stored with the
 <code class="docutils literal notranslate"><span class="pre">seek-localize</span></code> repository.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/pathlib.html#pathlib.PosixPath" title="pathlib.PosixPath" class="sphx-glr-backref-module-pathlib sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">bids_root</span></a> <span class="o">=</span> <span class="p">(</span><a href="https://docs.python.org/3/library/pathlib.html#pathlib.Path.cwd" title="pathlib.Path.cwd" class="sphx-glr-backref-module-pathlib sphx-glr-backref-type-py-method"><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span></a><span class="p">()</span> <span class="o">/</span> <a href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="pathlib.Path" class="sphx-glr-backref-module-pathlib sphx-glr-backref-type-py-class"><span class="n">Path</span></a><span class="p">(</span><span class="s2">&quot;../data/&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span>
+<a href="https://docs.python.org/3/library/pathlib.html#pathlib.PosixPath" title="pathlib.PosixPath" class="sphx-glr-backref-module-pathlib sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">subjects_dir</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/pathlib.html#pathlib.PosixPath" title="pathlib.PosixPath" class="sphx-glr-backref-module-pathlib sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">bids_root</span></a> <span class="o">/</span> <span class="s2">&quot;derivatives&quot;</span> <span class="o">/</span> <span class="s2">&quot;freesurfer&quot;</span>
 </pre></div>
 </div>
 <p>Now it’s time to get ready for labeling some of the data! First, we need to
@@ -216,128 +217,122 @@ electrode coordinates in (e.g. a T1w image in FreeSurfer space).</p>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Sensors(ch_names=[&quot;L&#39;1&quot;, &quot;L&#39;2&quot;, &quot;L&#39;3&quot;, &quot;L&#39;4&quot;, &quot;L&#39;5&quot;, &quot;L&#39;6&quot;, &quot;L&#39;7&quot;, &quot;L&#39;8&quot;, &quot;L&#39;11&quot;, &quot;L&#39;12&quot;, &quot;L&#39;13&quot;, &quot;L&#39;14&quot;, &quot;N&#39;1&quot;, &quot;N&#39;2&quot;, &quot;N&#39;3&quot;, &quot;N&#39;4&quot;, &quot;N&#39;5&quot;, &quot;N&#39;6&quot;, &quot;N&#39;7&quot;, &quot;L&#39;9&quot;, &quot;L&#39;10&quot;, &quot;N&#39;8&quot;, &quot;N&#39;9&quot;, &quot;N&#39;10&quot;, &quot;N&#39;11&quot;, &quot;N&#39;12&quot;, &quot;F&#39;1&quot;, &quot;F&#39;2&quot;, &quot;F&#39;3&quot;, &quot;F&#39;4&quot;, &quot;F&#39;5&quot;, &quot;F&#39;6&quot;, &quot;F&#39;7&quot;, &quot;F&#39;8&quot;, &quot;F&#39;9&quot;, &quot;F&#39;10&quot;, &quot;F&#39;11&quot;, &quot;F&#39;12&quot;, &quot;F&#39;13&quot;, &quot;F&#39;14&quot;, &quot;O&#39;1&quot;, &quot;O&#39;2&quot;, &quot;O&#39;3&quot;, &quot;O&#39;4&quot;, &quot;O&#39;5&quot;, &quot;O&#39;6&quot;, &quot;O&#39;7&quot;, &quot;O&#39;8&quot;, &quot;O&#39;9&quot;, &quot;O&#39;10&quot;, &quot;O&#39;11&quot;, &quot;O&#39;12&quot;, &quot;O&#39;13&quot;, &quot;O&#39;14&quot;, &quot;O&#39;15&quot;, &quot;O&#39;16&quot;, &quot;G&#39;1&quot;, &quot;G&#39;2&quot;, &quot;G&#39;3&quot;, &quot;G&#39;4&quot;, &quot;G&#39;5&quot;, &quot;G&#39;6&quot;, &quot;G&#39;7&quot;, &quot;G&#39;8&quot;, &quot;G&#39;9&quot;, &quot;G&#39;10&quot;, &quot;G&#39;11&quot;, &quot;G&#39;12&quot;, &quot;G&#39;13&quot;, &quot;G&#39;14&quot;, &quot;G&#39;15&quot;, &quot;G&#39;16&quot;, &quot;X&#39;1&quot;, &quot;X&#39;2&quot;, &quot;X&#39;3&quot;, &quot;X&#39;4&quot;, &quot;X&#39;5&quot;, &quot;X&#39;6&quot;, &quot;X&#39;7&quot;, &quot;X&#39;8&quot;, &quot;X&#39;9&quot;, &quot;X&#39;10&quot;, &quot;X&#39;11&quot;, &quot;X&#39;12&quot;, &quot;X&#39;13&quot;, &quot;X&#39;14&quot;, &quot;X&#39;15&quot;, &quot;X&#39;16&quot;], x=[&#39;-1.095576&#39;, &#39;-3.804778&#39;, &#39;-7.318944&#39;, &#39;-10.587486&#39;, &#39;-13.942345&#39;, &#39;-17.505318&#39;, &#39;-21.141346&#39;, &#39;-24.768636&#39;, &#39;-35.076995&#39;, &#39;-38.717799&#39;, &#39;-41.295015&#39;, &#39;-45.299609&#39;, &#39;0.310365&#39;, &#39;-2.779489&#39;, &#39;-6.232275&#39;, &#39;-9.536342&#39;, &#39;-13.145142&#39;, &#39;-16.482282&#39;, &#39;-20.069954&#39;, &#39;-28.123609&#39;, &#39;-31.415426&#39;, &#39;-23.744426&#39;, &#39;-26.677349&#39;, &#39;-30.366181&#39;, &#39;-33.968939&#39;, &#39;-38.102582&#39;, &#39;0.861862&#39;, &#39;-3.310259&#39;, &#39;-6.687859&#39;, &#39;-10.103678&#39;, &#39;-13.723719&#39;, &#39;-17.402136&#39;, &#39;-21.041273&#39;, &#39;-24.332869&#39;, &#39;-28.005797&#39;, &#39;-31.610378&#39;, &#39;-34.977180&#39;, &#39;-38.321770&#39;, &#39;-42.347067&#39;, &#39;-45.247106&#39;, &#39;-2.619987&#39;, &#39;-6.001861&#39;, &#39;-9.757011&#39;, &#39;-12.702457&#39;, &#39;-16.000612&#39;, &#39;-19.941449&#39;, &#39;-23.292785&#39;, &#39;-26.549290&#39;, &#39;-30.189134&#39;, &#39;-33.504938&#39;, &#39;-36.844992&#39;, &#39;-40.450991&#39;, &#39;-43.396573&#39;, &#39;-46.761809&#39;, &#39;-50.799976&#39;, &#39;-52.358044&#39;, &#39;0.018761&#39;, &#39;-3.112528&#39;, &#39;-6.528509&#39;, &#39;-10.133507&#39;, &#39;-13.435716&#39;, &#39;-17.063573&#39;, &#39;-20.408834&#39;, &#39;-24.001348&#39;, &#39;-27.369889&#39;, &#39;-30.985986&#39;, &#39;-34.257121&#39;, &#39;-37.687867&#39;, &#39;-41.277843&#39;, &#39;-44.616937&#39;, &#39;-48.701198&#39;, &#39;-51.498405&#39;, &#39;-0.416632&#39;, &#39;-2.660382&#39;, &#39;-6.022934&#39;, &#39;-10.101884&#39;, &#39;-14.092396&#39;, &#39;-17.026503&#39;, &#39;-20.661998&#39;, &#39;-23.555413&#39;, &#39;-26.875198&#39;, &#39;-29.802244&#39;, &#39;-32.646110&#39;, &#39;-36.646198&#39;, &#39;-40.097632&#39;, &#39;-43.652207&#39;, &#39;-46.536866&#39;, &#39;-50.232055&#39;], y=[&#39;66.539884&#39;, &#39;67.947332&#39;, &#39;67.799889&#39;, &#39;67.266380&#39;, &#39;68.679315&#39;, &#39;68.924151&#39;, &#39;69.575450&#39;, &#39;70.216901&#39;, &#39;71.398199&#39;, &#39;72.429766&#39;, &#39;72.632320&#39;, &#39;72.962515&#39;, &#39;55.307639&#39;, &#39;55.580637&#39;, &#39;55.840585&#39;, &#39;55.708765&#39;, &#39;56.022641&#39;, &#39;56.661112&#39;, &#39;57.348006&#39;, &#39;70.128234&#39;, &#39;71.136879&#39;, &#39;57.254204&#39;, &#39;58.281536&#39;, &#39;58.192371&#39;, &#39;58.874767&#39;, &#39;59.640912&#39;, &#39;63.898502&#39;, &#39;64.571406&#39;, &#39;65.592659&#39;, &#39;65.049286&#39;, &#39;65.693017&#39;, &#39;65.135075&#39;, &#39;65.785383&#39;, &#39;66.843202&#39;, &#39;67.427854&#39;, &#39;67.660516&#39;, &#39;68.303613&#39;, &#39;68.941184&#39;, &#39;69.579321&#39;, &#39;69.826285&#39;, &#39;43.623528&#39;, &#39;44.705278&#39;, &#39;44.643291&#39;, &#39;45.252072&#39;, &#39;45.935355&#39;, &#39;46.264511&#39;, &#39;46.157549&#39;, &#39;47.194924&#39;, &#39;47.074387&#39;, &#39;47.366476&#39;, &#39;48.015650&#39;, &#39;48.309201&#39;, &#39;49.338923&#39;, &#39;49.220334&#39;, &#39;49.151101&#39;, &#39;49.637330&#39;, &#39;53.647884&#39;, &#39;53.860282&#39;, &#39;55.282611&#39;, &#39;55.532376&#39;, &#39;56.152072&#39;, &#39;56.055837&#39;, &#39;56.679634&#39;, &#39;56.921880&#39;, &#39;57.549149&#39;, &#39;57.797984&#39;, &#39;58.413666&#39;, &#39;58.658298&#39;, &#39;58.900392&#39;, &#39;59.524187&#39;, &#39;59.806767&#39;, &#39;60.370667&#39;, &#39;28.166140&#39;, &#39;28.353301&#39;, &#39;28.632972&#39;, &#39;28.986033&#39;, &#39;28.986742&#39;, &#39;29.234083&#39;, &#39;29.546895&#39;, &#39;30.125634&#39;, &#39;30.065661&#39;, &#39;29.995585&#39;, &#39;30.604097&#39;, &#39;31.289810&#39;, &#39;31.247037&#39;, &#39;31.929346&#39;, &#39;32.208883&#39;, &#39;32.901193&#39;], z=[&#39;35.287211&#39;, &#39;35.308774&#39;, &#39;35.474825&#39;, &#39;36.440106&#39;, &#39;36.434484&#39;, &#39;36.523733&#39;, &#39;36.618872&#39;, &#39;36.678147&#39;, &#39;37.646456&#39;, &#39;37.662103&#39;, &#39;37.804739&#39;, &#39;38.653796&#39;, &#39;56.059407&#39;, &#39;57.002584&#39;, &#39;57.364656&#39;, &#39;58.360146&#39;, &#39;59.303125&#39;, &#39;59.521911&#39;, &#39;60.408980&#39;, &#39;37.574121&#39;, &#39;37.578534&#39;, &#39;61.382683&#39;, &#39;61.560423&#39;, &#39;62.593553&#39;, &#39;63.507398&#39;, &#39;64.751481&#39;, &#39;21.573020&#39;, &#39;21.624713&#39;, &#39;21.649191&#39;, &#39;21.755192&#39;, &#39;21.803671&#39;, &#39;21.900789&#39;, &#39;21.949461&#39;, &#39;22.750460&#39;, &#39;21.936957&#39;, &#39;21.922215&#39;, &#39;21.889212&#39;, &#39;21.897649&#39;, &#39;22.112220&#39;, &#39;22.024732&#39;, &#39;5.812632&#39;, &#39;6.761735&#39;, &#39;7.832460&#39;, &#39;8.090518&#39;, &#39;9.019448&#39;, &#39;9.972084&#39;, &#39;10.932246&#39;, &#39;11.066268&#39;, &#39;12.073564&#39;, &#39;12.975333&#39;, &#39;13.203840&#39;, &#39;14.138261&#39;, &#39;14.303202&#39;, &#39;15.224906&#39;, &#39;15.879254&#39;, &#39;16.078271&#39;, &#39;35.197651&#39;, &#39;35.337854&#39;, &#39;35.345926&#39;, &#39;35.426841&#39;, &#39;35.463624&#39;, &#39;36.323271&#39;, &#39;36.336439&#39;, &#39;36.383149&#39;, &#39;36.391990&#39;, &#39;36.431495&#39;, &#39;36.420977&#39;, &#39;36.460188&#39;, &#39;36.512916&#39;, &#39;36.540439&#39;, &#39;36.684980&#39;, &#39;36.764905&#39;, &#39;50.955763&#39;, &#39;51.929068&#39;, &#39;53.161506&#39;, &#39;54.305472&#39;, &#39;55.980049&#39;, &#39;57.034625&#39;, &#39;58.104272&#39;, &#39;59.101146&#39;, &#39;60.189676&#39;, &#39;61.255322&#39;, &#39;62.205235&#39;, &#39;63.267809&#39;, &#39;64.402526&#39;, &#39;65.398302&#39;, &#39;66.400773&#39;, &#39;67.544440&#39;], coord_system=&#39;other&#39;, coord_unit=&#39;mm&#39;, elecs_fname=BIDSPath(
-root: /home/circleci/project/examples/../data
-datatype: ieeg
-basename: sub-la02_ses-presurgery_acq-seeg_space-fs_electrodes.tsv), coordsystem_fname=BIDSPath(
-root: /home/circleci/project/examples/../data
-datatype: ieeg
-basename: sub-la02_ses-presurgery_acq-seeg_space-fs_coordsystem.json), intended_for=BIDSPath(
-root: /home/circleci/project/examples/../data
-datatype: anat
-basename: sub-la02_ses-presurgery_space-fs_T1w))
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>SETTING COORDINATE SYSTEM AS MRI by default if coordinatesystem is &quot;other&quot;.
+&lt;Sensors | 9 non-empty values
+ ch_names: L&#39;1, L&#39;2, L&#39;3, L&#39;4, L&#39;5, L&#39;6, L&#39;7, L&#39;8, L&#39;11, L&#39;12, L&#39;13, L&#39;14, ...
+ coord_system: mri
+ coord_unit: mm
+ coordsystem_fname: /home/circleci/project/examples/../data/sub-la02/ses-presurgery/ieeg/sub-la02_ses-presurgery_acq-seeg_space-fs_coordsystem.json
+ elecs_fname: /home/circleci/project/examples/../data/sub-la02/ses-presurgery/ieeg/sub-la02_ses-presurgery_acq-seeg_space-fs_electrodes.tsv
+ intended_for: /home/circleci/project/examples/../data/sub-la02/ses-presurgery/anat/sub-la02_ses-presurgery_space-fs_T1w.nii
+ x: 88 items (list)
+ y: 88 items (list)
+ z: 88 items (list)
+&gt;
 </pre></div>
 </div>
 <p>The data already saved was originally written in <code class="docutils literal notranslate"><span class="pre">'mm'</span></code>, so we can
-convert to <code class="docutils literal notranslate"><span class="pre">voxel</span></code> space.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="../generated/seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sensors_vox</span></a> <span class="o">=</span> <a href="../generated/seek_localize.convert_elecs_coords.html#seek_localize.convert_elecs_coords" title="seek_localize.convert_elecs_coords" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-function"><span class="n">convert_elecs_coords</span></a><span class="p">(</span><a href="../generated/seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sensors</span></a><span class="p">,</span> <span class="n">to_coord</span><span class="o">=</span><span class="s2">&quot;voxel&quot;</span><span class="p">)</span>
+convert to <code class="docutils literal notranslate"><span class="pre">voxel</span></code> space denoted by the <code class="docutils literal notranslate"><span class="pre">mri</span></code> coordinate frame.
+This is in-line with how <a class="reference external" href="https://mne.tools/dev/auto_tutorials/source-modeling/plot_source_alignment.html">MNE</a> does things</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="../generated/seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sensors_vox</span></a> <span class="o">=</span> <a href="../generated/seek_localize.convert_coord_units.html#seek_localize.convert_coord_units" title="seek_localize.convert_coord_units" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-function"><span class="n">convert_coord_units</span></a><span class="p">(</span><a href="../generated/seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sensors</span></a><span class="p">,</span> <span class="n">to_unit</span><span class="o">=</span><span class="s2">&quot;voxel&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><a href="../generated/seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sensors_vox</span></a><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Sensors(ch_names=[&quot;L&#39;1&quot;, &quot;L&#39;2&quot;, &quot;L&#39;3&quot;, &quot;L&#39;4&quot;, &quot;L&#39;5&quot;, &quot;L&#39;6&quot;, &quot;L&#39;7&quot;, &quot;L&#39;8&quot;, &quot;L&#39;11&quot;, &quot;L&#39;12&quot;, &quot;L&#39;13&quot;, &quot;L&#39;14&quot;, &quot;N&#39;1&quot;, &quot;N&#39;2&quot;, &quot;N&#39;3&quot;, &quot;N&#39;4&quot;, &quot;N&#39;5&quot;, &quot;N&#39;6&quot;, &quot;N&#39;7&quot;, &quot;L&#39;9&quot;, &quot;L&#39;10&quot;, &quot;N&#39;8&quot;, &quot;N&#39;9&quot;, &quot;N&#39;10&quot;, &quot;N&#39;11&quot;, &quot;N&#39;12&quot;, &quot;F&#39;1&quot;, &quot;F&#39;2&quot;, &quot;F&#39;3&quot;, &quot;F&#39;4&quot;, &quot;F&#39;5&quot;, &quot;F&#39;6&quot;, &quot;F&#39;7&quot;, &quot;F&#39;8&quot;, &quot;F&#39;9&quot;, &quot;F&#39;10&quot;, &quot;F&#39;11&quot;, &quot;F&#39;12&quot;, &quot;F&#39;13&quot;, &quot;F&#39;14&quot;, &quot;O&#39;1&quot;, &quot;O&#39;2&quot;, &quot;O&#39;3&quot;, &quot;O&#39;4&quot;, &quot;O&#39;5&quot;, &quot;O&#39;6&quot;, &quot;O&#39;7&quot;, &quot;O&#39;8&quot;, &quot;O&#39;9&quot;, &quot;O&#39;10&quot;, &quot;O&#39;11&quot;, &quot;O&#39;12&quot;, &quot;O&#39;13&quot;, &quot;O&#39;14&quot;, &quot;O&#39;15&quot;, &quot;O&#39;16&quot;, &quot;G&#39;1&quot;, &quot;G&#39;2&quot;, &quot;G&#39;3&quot;, &quot;G&#39;4&quot;, &quot;G&#39;5&quot;, &quot;G&#39;6&quot;, &quot;G&#39;7&quot;, &quot;G&#39;8&quot;, &quot;G&#39;9&quot;, &quot;G&#39;10&quot;, &quot;G&#39;11&quot;, &quot;G&#39;12&quot;, &quot;G&#39;13&quot;, &quot;G&#39;14&quot;, &quot;G&#39;15&quot;, &quot;G&#39;16&quot;, &quot;X&#39;1&quot;, &quot;X&#39;2&quot;, &quot;X&#39;3&quot;, &quot;X&#39;4&quot;, &quot;X&#39;5&quot;, &quot;X&#39;6&quot;, &quot;X&#39;7&quot;, &quot;X&#39;8&quot;, &quot;X&#39;9&quot;, &quot;X&#39;10&quot;, &quot;X&#39;11&quot;, &quot;X&#39;12&quot;, &quot;X&#39;13&quot;, &quot;X&#39;14&quot;, &quot;X&#39;15&quot;, &quot;X&#39;16&quot;], x=array([128, 131, 134, 137, 141, 144, 148, 152, 162, 166, 168, 172, 127,
-       130, 133, 136, 140, 143, 147, 155, 158, 151, 153, 157, 161, 165,
-       126, 130, 134, 137, 141, 144, 148, 151, 155, 158, 162, 165, 169,
-       172, 129, 133, 137, 140, 143, 147, 150, 153, 157, 160, 164, 167,
-       170, 174, 178, 179, 127, 130, 133, 137, 140, 144, 147, 151, 154,
-       158, 161, 165, 168, 171, 176, 178, 127, 129, 133, 137, 141, 144,
-       147, 150, 154, 157, 159, 163, 167, 170, 173, 177]), y=array([124, 124, 124, 123, 123, 123, 123, 123, 122, 122, 122, 121, 104,
-       103, 102, 101, 100, 100,  99, 122, 122,  98,  98,  97,  96,  95,
-       138, 138, 138, 138, 138, 138, 138, 137, 138, 138, 138, 138, 138,
-       138, 154, 153, 152, 152, 151, 150, 149, 149, 148, 147, 146, 146,
-       145, 144, 144, 144, 124, 124, 124, 124, 124, 123, 123, 123, 123,
-       123, 123, 123, 123, 123, 123, 123, 109, 108, 106, 105, 104, 103,
-       102, 101,  99,  98,  97,  96,  95,  94,  93,  92]), z=array([188, 190, 189, 189, 190, 190, 191, 192, 193, 194, 194, 195, 177,
-       177, 177, 177, 178, 178, 179, 192, 193, 179, 180, 180, 180, 181,
-       185, 186, 187, 187, 187, 187, 187, 188, 189, 189, 190, 191, 191,
-       191, 165, 166, 166, 167, 168, 168, 168, 169, 169, 169, 170, 170,
-       171, 171, 171, 171, 175, 175, 177, 177, 178, 178, 178, 178, 179,
-       179, 180, 180, 180, 181, 181, 182, 150, 150, 150, 151, 151, 151,
-       151, 152, 152, 152, 152, 153, 153, 154, 154, 154]), coord_system=&#39;other&#39;, coord_unit=&#39;voxel&#39;, elecs_fname=BIDSPath(
-root: /home/circleci/project/examples/../data
-datatype: ieeg
-basename: sub-la02_ses-presurgery_acq-seeg_space-fs_electrodes.tsv), coordsystem_fname=BIDSPath(
-root: /home/circleci/project/examples/../data
-datatype: ieeg
-basename: sub-la02_ses-presurgery_acq-seeg_space-fs_coordsystem.json), intended_for=BIDSPath(
-root: /home/circleci/project/examples/../data
-datatype: anat
-basename: sub-la02_ses-presurgery_space-fs_T1w))
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Converting coordinates from mm to voxel using /home/circleci/project/examples/../data/sub-la02/ses-presurgery/anat/sub-la02_ses-presurgery_space-fs_T1w.nii.
+&lt;Sensors | 9 non-empty values
+ ch_names: L&#39;1, L&#39;2, L&#39;3, L&#39;4, L&#39;5, L&#39;6, L&#39;7, L&#39;8, L&#39;11, L&#39;12, L&#39;13, L&#39;14, ...
+ coord_system: mri
+ coord_unit: voxel
+ coordsystem_fname: /home/circleci/project/examples/../data/sub-la02/ses-presurgery/ieeg/sub-la02_ses-presurgery_acq-seeg_space-fs_coordsystem.json
+ elecs_fname: /home/circleci/project/examples/../data/sub-la02/ses-presurgery/ieeg/sub-la02_ses-presurgery_acq-seeg_space-fs_electrodes.tsv
+ intended_for: /home/circleci/project/examples/../data/sub-la02/ses-presurgery/anat/sub-la02_ses-presurgery_space-fs_T1w.nii
+ x: 88 items (ndarray)
+ y: 88 items (ndarray)
+ z: 88 items (ndarray)
+&gt;
 </pre></div>
 </div>
-<p>We could convert it back to <code class="docutils literal notranslate"><span class="pre">mm</span></code>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="../generated/seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sensors_mm</span></a> <span class="o">=</span> <a href="../generated/seek_localize.convert_elecs_coords.html#seek_localize.convert_elecs_coords" title="seek_localize.convert_elecs_coords" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-function"><span class="n">convert_elecs_coords</span></a><span class="p">(</span><a href="../generated/seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sensors_vox</span></a><span class="p">,</span> <span class="n">to_coord</span><span class="o">=</span><span class="s2">&quot;mm&quot;</span><span class="p">)</span>
+<p>We could convert it to <code class="docutils literal notranslate"><span class="pre">mm</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="../generated/seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sensors_mm</span></a> <span class="o">=</span> <a href="../generated/seek_localize.convert_coord_units.html#seek_localize.convert_coord_units" title="seek_localize.convert_coord_units" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-function"><span class="n">convert_coord_units</span></a><span class="p">(</span><a href="../generated/seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sensors_vox</span></a><span class="p">,</span> <span class="n">to_unit</span><span class="o">=</span><span class="s2">&quot;mm&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><a href="../generated/seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sensors_mm</span></a><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Sensors(ch_names=[&quot;L&#39;1&quot;, &quot;L&#39;2&quot;, &quot;L&#39;3&quot;, &quot;L&#39;4&quot;, &quot;L&#39;5&quot;, &quot;L&#39;6&quot;, &quot;L&#39;7&quot;, &quot;L&#39;8&quot;, &quot;L&#39;11&quot;, &quot;L&#39;12&quot;, &quot;L&#39;13&quot;, &quot;L&#39;14&quot;, &quot;N&#39;1&quot;, &quot;N&#39;2&quot;, &quot;N&#39;3&quot;, &quot;N&#39;4&quot;, &quot;N&#39;5&quot;, &quot;N&#39;6&quot;, &quot;N&#39;7&quot;, &quot;L&#39;9&quot;, &quot;L&#39;10&quot;, &quot;N&#39;8&quot;, &quot;N&#39;9&quot;, &quot;N&#39;10&quot;, &quot;N&#39;11&quot;, &quot;N&#39;12&quot;, &quot;F&#39;1&quot;, &quot;F&#39;2&quot;, &quot;F&#39;3&quot;, &quot;F&#39;4&quot;, &quot;F&#39;5&quot;, &quot;F&#39;6&quot;, &quot;F&#39;7&quot;, &quot;F&#39;8&quot;, &quot;F&#39;9&quot;, &quot;F&#39;10&quot;, &quot;F&#39;11&quot;, &quot;F&#39;12&quot;, &quot;F&#39;13&quot;, &quot;F&#39;14&quot;, &quot;O&#39;1&quot;, &quot;O&#39;2&quot;, &quot;O&#39;3&quot;, &quot;O&#39;4&quot;, &quot;O&#39;5&quot;, &quot;O&#39;6&quot;, &quot;O&#39;7&quot;, &quot;O&#39;8&quot;, &quot;O&#39;9&quot;, &quot;O&#39;10&quot;, &quot;O&#39;11&quot;, &quot;O&#39;12&quot;, &quot;O&#39;13&quot;, &quot;O&#39;14&quot;, &quot;O&#39;15&quot;, &quot;O&#39;16&quot;, &quot;G&#39;1&quot;, &quot;G&#39;2&quot;, &quot;G&#39;3&quot;, &quot;G&#39;4&quot;, &quot;G&#39;5&quot;, &quot;G&#39;6&quot;, &quot;G&#39;7&quot;, &quot;G&#39;8&quot;, &quot;G&#39;9&quot;, &quot;G&#39;10&quot;, &quot;G&#39;11&quot;, &quot;G&#39;12&quot;, &quot;G&#39;13&quot;, &quot;G&#39;14&quot;, &quot;G&#39;15&quot;, &quot;G&#39;16&quot;, &quot;X&#39;1&quot;, &quot;X&#39;2&quot;, &quot;X&#39;3&quot;, &quot;X&#39;4&quot;, &quot;X&#39;5&quot;, &quot;X&#39;6&quot;, &quot;X&#39;7&quot;, &quot;X&#39;8&quot;, &quot;X&#39;9&quot;, &quot;X&#39;10&quot;, &quot;X&#39;11&quot;, &quot;X&#39;12&quot;, &quot;X&#39;13&quot;, &quot;X&#39;14&quot;, &quot;X&#39;15&quot;, &quot;X&#39;16&quot;], x=array([ -1,  -4,  -7, -10, -14, -17, -21, -25, -35, -39, -41, -45,   0,
-        -3,  -6,  -9, -13, -16, -20, -28, -31, -24, -26, -30, -34, -38,
-         1,  -3,  -7, -10, -14, -17, -21, -24, -28, -31, -35, -38, -42,
-       -45,  -2,  -6, -10, -13, -16, -20, -23, -26, -30, -33, -37, -40,
-       -43, -47, -51, -52,   0,  -3,  -6, -10, -13, -17, -20, -24, -27,
-       -31, -34, -38, -41, -44, -49, -51,   0,  -2,  -6, -10, -14, -17,
-       -20, -23, -27, -30, -32, -36, -40, -43, -46, -50]), y=array([66, 68, 67, 67, 68, 68, 69, 70, 71, 72, 72, 73, 55, 55, 55, 55, 56,
-       56, 57, 70, 71, 57, 58, 58, 58, 59, 63, 64, 65, 65, 65, 65, 65, 66,
-       67, 67, 68, 69, 69, 69, 43, 44, 44, 45, 46, 46, 46, 47, 47, 47, 48,
-       48, 49, 49, 49, 49, 53, 53, 55, 55, 56, 56, 56, 56, 57, 57, 58, 58,
-       58, 59, 59, 60, 28, 28, 28, 29, 29, 29, 29, 30, 30, 30, 30, 31, 31,
-       32, 32, 32]), z=array([36, 36, 36, 37, 37, 37, 37, 37, 38, 38, 38, 39, 56, 57, 58, 59, 60,
-       60, 61, 38, 38, 62, 62, 63, 64, 65, 22, 22, 22, 22, 22, 22, 22, 23,
-       22, 22, 22, 22, 22, 22,  6,  7,  8,  8,  9, 10, 11, 11, 12, 13, 14,
-       14, 15, 16, 16, 16, 36, 36, 36, 36, 36, 37, 37, 37, 37, 37, 37, 37,
-       37, 37, 37, 37, 51, 52, 54, 55, 56, 57, 58, 59, 61, 62, 63, 64, 65,
-       66, 67, 68]), coord_system=&#39;other&#39;, coord_unit=&#39;mm&#39;, elecs_fname=BIDSPath(
-root: /home/circleci/project/examples/../data
-datatype: ieeg
-basename: sub-la02_ses-presurgery_acq-seeg_space-fs_electrodes.tsv), coordsystem_fname=BIDSPath(
-root: /home/circleci/project/examples/../data
-datatype: ieeg
-basename: sub-la02_ses-presurgery_acq-seeg_space-fs_coordsystem.json), intended_for=BIDSPath(
-root: /home/circleci/project/examples/../data
-datatype: anat
-basename: sub-la02_ses-presurgery_space-fs_T1w))
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>../seek_localize/coordsystem.py:219: RuntimeWarning: Rounding when to_unit is mm and not voxel is not recommended.
+  warn(
+Converting coordinates from voxel to mm using /home/circleci/project/examples/../data/sub-la02/ses-presurgery/anat/sub-la02_ses-presurgery_space-fs_T1w.nii.
+&lt;Sensors | 9 non-empty values
+ ch_names: L&#39;1, L&#39;2, L&#39;3, L&#39;4, L&#39;5, L&#39;6, L&#39;7, L&#39;8, L&#39;11, L&#39;12, L&#39;13, L&#39;14, ...
+ coord_system: mri
+ coord_unit: mm
+ coordsystem_fname: /home/circleci/project/examples/../data/sub-la02/ses-presurgery/ieeg/sub-la02_ses-presurgery_acq-seeg_space-fs_coordsystem.json
+ elecs_fname: /home/circleci/project/examples/../data/sub-la02/ses-presurgery/ieeg/sub-la02_ses-presurgery_acq-seeg_space-fs_electrodes.tsv
+ intended_for: /home/circleci/project/examples/../data/sub-la02/ses-presurgery/anat/sub-la02_ses-presurgery_space-fs_T1w.nii
+ x: 88 items (ndarray)
+ y: 88 items (ndarray)
+ z: 88 items (ndarray)
+&gt;
 </pre></div>
 </div>
-<p>We could convert it back to <code class="docutils literal notranslate"><span class="pre">tkras</span></code>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="../generated/seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sensors_tkras</span></a> <span class="o">=</span> <a href="../generated/seek_localize.convert_elecs_coords.html#seek_localize.convert_elecs_coords" title="seek_localize.convert_elecs_coords" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-function"><span class="n">convert_elecs_coords</span></a><span class="p">(</span><a href="../generated/seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sensors_vox</span></a><span class="p">,</span> <span class="n">to_coord</span><span class="o">=</span><span class="s2">&quot;tkras&quot;</span><span class="p">)</span>
+<p>The data was originally saved according to the <code class="docutils literal notranslate"><span class="pre">mri</span></code> space, intended
+for the <code class="docutils literal notranslate"><span class="pre">T1.mgz</span></code> image in FreeSurfer. One can also use seek_localize to
+transform to standard coordinate spaces, such as <code class="docutils literal notranslate"><span class="pre">tkras</span></code> and <code class="docutils literal notranslate"><span class="pre">mni</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># We could convert it to ``tkras``.</span>
+<a href="../generated/seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sensors_tkras</span></a> <span class="o">=</span> <a href="../generated/seek_localize.convert_coord_space.html#seek_localize.convert_coord_space" title="seek_localize.convert_coord_space" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-function"><span class="n">convert_coord_space</span></a><span class="p">(</span><a href="../generated/seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sensors_vox</span></a><span class="p">,</span> <span class="n">to_frame</span><span class="o">=</span><span class="s2">&quot;tkras&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><a href="../generated/seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sensors_tkras</span></a><span class="p">)</span>
+
+<span class="c1"># We could convert it to ``mni``.</span>
+<a href="../generated/seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sensors_mni</span></a> <span class="o">=</span> <a href="../generated/seek_localize.convert_coord_space.html#seek_localize.convert_coord_space" title="seek_localize.convert_coord_space" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-function"><span class="n">convert_coord_space</span></a><span class="p">(</span>
+    <a href="../generated/seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sensors_vox</span></a><span class="p">,</span> <span class="n">to_frame</span><span class="o">=</span><span class="s2">&quot;mni&quot;</span><span class="p">,</span> <a href="https://docs.python.org/3/library/pathlib.html#pathlib.PosixPath" title="pathlib.PosixPath" class="sphx-glr-backref-module-pathlib sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">subjects_dir</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/pathlib.html#pathlib.PosixPath" title="pathlib.PosixPath" class="sphx-glr-backref-module-pathlib sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">subjects_dir</span></a>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><a href="../generated/seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sensors_mni</span></a><span class="p">)</span>
+
+<span class="c1"># We could convert it to back to ``mri``.</span>
+<a href="../generated/seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sensors_mri</span></a> <span class="o">=</span> <a href="../generated/seek_localize.convert_coord_space.html#seek_localize.convert_coord_space" title="seek_localize.convert_coord_space" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-function"><span class="n">convert_coord_space</span></a><span class="p">(</span><a href="../generated/seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sensors_vox</span></a><span class="p">,</span> <span class="n">to_frame</span><span class="o">=</span><span class="s2">&quot;mri&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><a href="../generated/seek_localize.Sensors.html#seek_localize.Sensors" title="seek_localize.Sensors" class="sphx-glr-backref-module-seek_localize sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">sensors_mri</span></a><span class="p">)</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>../seek_localize/label.py:127: RuntimeWarning: Unable to programmatically get vox2ras TKR, so setting manually. Error: &#39;Nifti1Header&#39; object has no attribute &#39;get_vox2ras_tkr&#39;
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>../seek_localize/coordsystem.py:284: RuntimeWarning: Unable to programmatically get vox2ras TKR from /home/circleci/project/examples/../data/sub-la02/ses-presurgery/anat/sub-la02_ses-presurgery_space-fs_T1w.nii, so setting manually.
   warn(
-Sensors(ch_names=[&quot;L&#39;1&quot;, &quot;L&#39;2&quot;, &quot;L&#39;3&quot;, &quot;L&#39;4&quot;, &quot;L&#39;5&quot;, &quot;L&#39;6&quot;, &quot;L&#39;7&quot;, &quot;L&#39;8&quot;, &quot;L&#39;11&quot;, &quot;L&#39;12&quot;, &quot;L&#39;13&quot;, &quot;L&#39;14&quot;, &quot;N&#39;1&quot;, &quot;N&#39;2&quot;, &quot;N&#39;3&quot;, &quot;N&#39;4&quot;, &quot;N&#39;5&quot;, &quot;N&#39;6&quot;, &quot;N&#39;7&quot;, &quot;L&#39;9&quot;, &quot;L&#39;10&quot;, &quot;N&#39;8&quot;, &quot;N&#39;9&quot;, &quot;N&#39;10&quot;, &quot;N&#39;11&quot;, &quot;N&#39;12&quot;, &quot;F&#39;1&quot;, &quot;F&#39;2&quot;, &quot;F&#39;3&quot;, &quot;F&#39;4&quot;, &quot;F&#39;5&quot;, &quot;F&#39;6&quot;, &quot;F&#39;7&quot;, &quot;F&#39;8&quot;, &quot;F&#39;9&quot;, &quot;F&#39;10&quot;, &quot;F&#39;11&quot;, &quot;F&#39;12&quot;, &quot;F&#39;13&quot;, &quot;F&#39;14&quot;, &quot;O&#39;1&quot;, &quot;O&#39;2&quot;, &quot;O&#39;3&quot;, &quot;O&#39;4&quot;, &quot;O&#39;5&quot;, &quot;O&#39;6&quot;, &quot;O&#39;7&quot;, &quot;O&#39;8&quot;, &quot;O&#39;9&quot;, &quot;O&#39;10&quot;, &quot;O&#39;11&quot;, &quot;O&#39;12&quot;, &quot;O&#39;13&quot;, &quot;O&#39;14&quot;, &quot;O&#39;15&quot;, &quot;O&#39;16&quot;, &quot;G&#39;1&quot;, &quot;G&#39;2&quot;, &quot;G&#39;3&quot;, &quot;G&#39;4&quot;, &quot;G&#39;5&quot;, &quot;G&#39;6&quot;, &quot;G&#39;7&quot;, &quot;G&#39;8&quot;, &quot;G&#39;9&quot;, &quot;G&#39;10&quot;, &quot;G&#39;11&quot;, &quot;G&#39;12&quot;, &quot;G&#39;13&quot;, &quot;G&#39;14&quot;, &quot;G&#39;15&quot;, &quot;G&#39;16&quot;, &quot;X&#39;1&quot;, &quot;X&#39;2&quot;, &quot;X&#39;3&quot;, &quot;X&#39;4&quot;, &quot;X&#39;5&quot;, &quot;X&#39;6&quot;, &quot;X&#39;7&quot;, &quot;X&#39;8&quot;, &quot;X&#39;9&quot;, &quot;X&#39;10&quot;, &quot;X&#39;11&quot;, &quot;X&#39;12&quot;, &quot;X&#39;13&quot;, &quot;X&#39;14&quot;, &quot;X&#39;15&quot;, &quot;X&#39;16&quot;], x=array([129, 132, 135, 138, 142, 145, 149, 153, 163, 167, 169, 173, 128,
-       131, 134, 137, 141, 144, 148, 156, 159, 152, 154, 158, 162, 166,
-       127, 131, 135, 138, 142, 145, 149, 152, 156, 159, 163, 166, 170,
-       173, 130, 134, 138, 141, 144, 148, 151, 154, 158, 161, 165, 168,
-       171, 175, 179, 180, 128, 131, 134, 138, 141, 145, 148, 152, 155,
-       159, 162, 166, 169, 172, 177, 179, 128, 130, 134, 138, 142, 145,
-       148, 151, 155, 158, 160, 164, 168, 171, 174, 178]), y=array([118, 118, 118, 117, 117, 117, 117, 117, 116, 116, 116, 115,  98,
-        97,  96,  95,  94,  94,  93, 116, 116,  92,  92,  91,  90,  89,
-       132, 132, 132, 132, 132, 132, 132, 131, 132, 132, 132, 132, 132,
-       132, 148, 147, 146, 146, 145, 144, 143, 143, 142, 141, 140, 140,
-       139, 138, 138, 138, 118, 118, 118, 118, 118, 117, 117, 117, 117,
-       117, 117, 117, 117, 117, 117, 117, 103, 102, 100,  99,  98,  97,
-        96,  95,  93,  92,  91,  90,  89,  88,  87,  86]), z=array([156, 158, 157, 157, 158, 158, 159, 160, 161, 162, 162, 163, 145,
-       145, 145, 145, 146, 146, 147, 160, 161, 147, 148, 148, 148, 149,
-       153, 154, 155, 155, 155, 155, 155, 156, 157, 157, 158, 159, 159,
-       159, 133, 134, 134, 135, 136, 136, 136, 137, 137, 137, 138, 138,
-       139, 139, 139, 139, 143, 143, 145, 145, 146, 146, 146, 146, 147,
-       147, 148, 148, 148, 149, 149, 150, 118, 118, 118, 119, 119, 119,
-       119, 120, 120, 120, 120, 121, 121, 122, 122, 122]), coord_system=&#39;other&#39;, coord_unit=&#39;tkras&#39;, elecs_fname=BIDSPath(
-root: /home/circleci/project/examples/../data
-datatype: ieeg
-basename: sub-la02_ses-presurgery_acq-seeg_space-fs_electrodes.tsv), coordsystem_fname=BIDSPath(
-root: /home/circleci/project/examples/../data
-datatype: ieeg
-basename: sub-la02_ses-presurgery_acq-seeg_space-fs_coordsystem.json), intended_for=BIDSPath(
-root: /home/circleci/project/examples/../data
-datatype: anat
-basename: sub-la02_ses-presurgery_space-fs_T1w))
+Using Vox2TKRAS affine: [[-1.0, 0.0, 0.0, 128.0], [0.0, 0.0, 1.0, -128.0], [0.0, -1.0, 0.0, 128.0], [0.0, 0.0, 0.0, 1.0]].
+&lt;Sensors | 9 non-empty values
+ ch_names: L&#39;1, L&#39;2, L&#39;3, L&#39;4, L&#39;5, L&#39;6, L&#39;7, L&#39;8, L&#39;11, L&#39;12, L&#39;13, L&#39;14, ...
+ coord_system: tkras
+ coord_unit: mm
+ coordsystem_fname: /home/circleci/project/examples/../data/sub-la02/ses-presurgery/ieeg/sub-la02_ses-presurgery_acq-seeg_space-fs_coordsystem.json
+ elecs_fname: /home/circleci/project/examples/../data/sub-la02/ses-presurgery/ieeg/sub-la02_ses-presurgery_acq-seeg_space-fs_electrodes.tsv
+ intended_for: /home/circleci/project/examples/../data/sub-la02/ses-presurgery/anat/sub-la02_ses-presurgery_space-fs_T1w.nii
+ x: 88 items (ndarray)
+ y: 88 items (ndarray)
+ z: 88 items (ndarray)
+&gt;
+&lt;Sensors | 9 non-empty values
+ ch_names: L&#39;1, L&#39;2, L&#39;3, L&#39;4, L&#39;5, L&#39;6, L&#39;7, L&#39;8, L&#39;11, L&#39;12, L&#39;13, L&#39;14, ...
+ coord_system: mni
+ coord_unit: voxel
+ coordsystem_fname: /home/circleci/project/examples/../data/sub-la02/ses-presurgery/ieeg/sub-la02_ses-presurgery_acq-seeg_space-fs_coordsystem.json
+ elecs_fname: /home/circleci/project/examples/../data/sub-la02/ses-presurgery/ieeg/sub-la02_ses-presurgery_acq-seeg_space-fs_electrodes.tsv
+ intended_for: /home/circleci/project/examples/../data/sub-la02/ses-presurgery/anat/sub-la02_ses-presurgery_space-fs_T1w.nii
+ x: 88 items (ndarray)
+ y: 88 items (ndarray)
+ z: 88 items (ndarray)
+&gt;
+&lt;Sensors | 9 non-empty values
+ ch_names: L&#39;1, L&#39;2, L&#39;3, L&#39;4, L&#39;5, L&#39;6, L&#39;7, L&#39;8, L&#39;11, L&#39;12, L&#39;13, L&#39;14, ...
+ coord_system: mri
+ coord_unit: voxel
+ coordsystem_fname: /home/circleci/project/examples/../data/sub-la02/ses-presurgery/ieeg/sub-la02_ses-presurgery_acq-seeg_space-fs_coordsystem.json
+ elecs_fname: /home/circleci/project/examples/../data/sub-la02/ses-presurgery/ieeg/sub-la02_ses-presurgery_acq-seeg_space-fs_electrodes.tsv
+ intended_for: /home/circleci/project/examples/../data/sub-la02/ses-presurgery/anat/sub-la02_ses-presurgery_space-fs_T1w.nii
+ x: 88 items (ndarray)
+ y: 88 items (ndarray)
+ z: 88 items (ndarray)
+&gt;
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.029 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.179 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-convert-channel-coordframes-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/4098f2b0cab1ee232bc237e75c381190/convert_channel_coordframes.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">convert_channel_coordframes.py</span></code></a></p>
@@ -362,8 +357,8 @@ basename: sub-la02_ses-presurgery_space-fs_T1w))
       
     </p>
     <p>
-        &copy; Copyright 2021-2021, seek_localize Developers. Last updated on 2021-02-08.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.4.3.<br/>
+        &copy; Copyright 2021-2021, seek_localize Developers. Last updated on 2021-02-22.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.1.<br/>
     </p>
   </div>
 </footer>
