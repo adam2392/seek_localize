@@ -102,7 +102,7 @@ print(sensors)
 # This is in-line with how MNE_ does things
 #
 
-sensors_vox = convert_coord_units(sensors, to_unit="mri")
+sensors_vox = convert_coord_units(sensors, to_unit="voxel")
 print(sensors_vox)
 
 ###############################################################################
@@ -123,6 +123,10 @@ print(sensors_tkras)
 # We could convert it to ``mni``.
 sensors_mni = convert_coord_space(sensors_vox, to_frame="mni")
 print(sensors_mni)
+
+# We could convert it to back to ``mri``.
+sensors_mri = convert_coord_space(sensors_vox, to_frame="mri")
+print(sensors_mri)
 
 ###############################################################################
 # .. LINKS

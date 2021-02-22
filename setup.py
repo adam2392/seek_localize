@@ -42,6 +42,7 @@ REQUIRED_PACKAGES = [
     "mne>=0.22.0",
     "mne-bids>=0.6",
     "pybv>=0.4.0",
+    "nptyping"
 ]
 CLASSIFICATION_OF_PACKAGE = [
     # How mature is this project? Common values are
