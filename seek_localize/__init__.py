@@ -11,6 +11,7 @@ from .coordsystem import convert_coord_space, convert_coord_units
 from .io import read_dig_bids
 from .electrodes import Sensors
 from .utils import read_fieldtrip_elecs
+from .bids import write_dig_bids
 
 fs_lut_fpath = os.path.join(
     os.path.dirname(seek_localize.__file__), "templates/FreeSurferColorLUT.txt"
