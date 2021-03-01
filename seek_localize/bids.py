@@ -237,7 +237,7 @@ def write_dig_bids(
     ch_coords: List,
     unit: str,
     coord_system: str,
-    intended_for: Union[str, Path]=None,
+    intended_for: Union[str, Path] = None,
     sizes: List = None,
     groups: List = None,
     hemispheres: List = None,
@@ -285,11 +285,10 @@ def write_dig_bids(
                     f"({len(ch_names)} names)."
                 )
 
-    if intended_for is None and coord_system == 'Other':
-        raise ValueError('IntendedFor must be defined if '
-                         '"coord_system"==Other.')
+    if intended_for is None and coord_system == "Other":
+        raise ValueError("IntendedFor must be defined if " '"coord_system"==Other.')
     if intended_for is None:
-        intended_for = 'n/a'
+        intended_for = "n/a"
 
     # check that filename adheres to BIDS naming convention
     entities = get_entities_from_fname(fname, on_error="raise")
