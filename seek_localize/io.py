@@ -122,7 +122,7 @@ def read_dig_bids(fname, root, intended_for: str = None):
 
     # if units are voxels and coord_system is other, then
     # assume coordinate system 'mri'
-    if coord_system == "other":
+    if coord_system.lower() == "other":
         print(
             "SETTING COORDINATE SYSTEM AS MRI by default if "
             'coordinatesystem is "other".'

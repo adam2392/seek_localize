@@ -43,8 +43,8 @@ _bids_path = BIDSPath(subject=subject, session=session,
     ['mri', 'voxel'],
     ['mri', 'mm'],
     ['tkras', 'mm'],
-    ['mni', 'voxel'],
-    ['mni', 'mm'],
+    ['fsaverage', 'voxel'],
+    ['fsaverage', 'mm'],
     ['tkras', 'voxel'],
 ])
 def test_convert_coordunits(_temp_bids_root, to_frame, to_unit):
@@ -134,7 +134,7 @@ def test_convert_coordunits(_temp_bids_root, to_frame, to_unit):
         np.testing.assert_array_almost_equal(sensors_mm_new.get_coords(),
                                              sensors_mm.get_coords())
 
-    elif to_frame == 'mni':
+    elif to_frame == 'fsaverage':
         # convert to voxels
         sensors_vox = convert_coord_units(sensors=sensors_mm,
                                           to_unit='voxel',

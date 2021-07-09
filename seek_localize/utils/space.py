@@ -190,9 +190,9 @@ if __name__ == "__main__":
     ch_tal_df = pd.read_csv(fpath, index_col=None)
 
     ch_names = ch_tal_df["chanName"].values
-    xyz_coords = np.vstack([ch_tal_df[col] for col in ["x", "y", "z"]]).T
+    mni_coords = np.vstack([ch_tal_df[col] for col in ["x", "y", "z"]]).T
 
-    mni_coords = tal2mni(xyz_coords)
+    # mni_coords = tal2mni(xyz_coords)
     ch_mni_df = ch_tal_df.copy()
     ch_mni_df["x"] = mni_coords[:, 0]
     ch_mni_df["y"] = mni_coords[:, 1]
@@ -215,7 +215,7 @@ if __name__ == "__main__":
         ch_names=ch_names,
         ch_coords=mni_coords,
         unit="mm",
-        coord_system="fsaverage",
+        coord_system="fsaveragetest",
         overwrite=True,
     )
     print(mni_coords)

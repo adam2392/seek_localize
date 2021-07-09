@@ -133,7 +133,7 @@ def convert_coord_space(
         )
 
     # next convert from standardized MRI coordinates -> desired coordinate system
-    if to_frame == "mni":
+    if to_frame == "fsaverage":
         # reverse MNI transform to MRI
         elec_coords = _handle_mni_trans(
             elec_coords=elec_coords,
@@ -211,10 +211,10 @@ def convert_coord_units(
         )
 
     # error check coordinate system
-    if sensors.coord_system not in ["mri"]:
-        raise ValueError(
-            f"Sensor coordinates should be in mri " f"space not {sensors.coord_system}."
-        )
+    # if sensors.coord_system not in ["mri", "mni", ]:
+    #     raise ValueError(
+    #         f"Sensor coordinates should be in mri " f"space not {sensors.coord_system}."
+    #     )
     if round is True and to_unit != "voxel":
         warn(
             f"Rounding when to_unit is {to_unit} " f"and not voxel is not recommended."

@@ -109,6 +109,11 @@ def _coordsystem_json(
     sensor_coord_system_descr = COORD_FRAME_DESCRIPTIONS.get(
         sensor_coord_system.lower(), "n/a"
     )
+    if sensor_coord_system.lower() == 'tkras':
+        sensor_coord_system = 'Other'
+        sensor_coord_system_descr = 'FreeSurfer T1w surface tkras ' \
+                                    'space.'
+
     if sensor_coord_system == "Other" and verbose:
         print(
             "Using the `Other` keyword for the CoordinateSystem field. "
